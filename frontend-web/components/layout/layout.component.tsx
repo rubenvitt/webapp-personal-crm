@@ -242,21 +242,13 @@ export const Layout = (props: { children: ReactNode }) => {
                     </div>
                 </header>
 
-                {/* Main content */}
-                <div className="flex-1 flex items-stretch overflow-hidden">
-                    <main className="flex-1 overflow-y-auto">
-                        {/* Primary column */}
-                        <section
-                            aria-labelledby="primary-heading"
-                            className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
-                        >
-                            <h1 id="primary-heading" className="sr-only">
-                                Photos
-                            </h1>
+                <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
+                    <div className="py-6">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                             {props.children}
-                        </section>
-                    </main>
-                </div>
+                        </div>
+                    </div>
+                </main>
             </div>
         </div>
     )
