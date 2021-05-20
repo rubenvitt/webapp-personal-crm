@@ -1,23 +1,32 @@
-import {SVGProps} from "react";
+import { SVGProps } from "react";
 
 export interface NavElement {
-    href?: string,
-    onClick?: () => void,
-    name: string,
-    active?: boolean,
-    current?: boolean,
-    icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element
+  href?: string;
+  onClick?: () => void;
+  name: string;
+  active?: boolean;
+  current?: boolean;
+  icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element;
 }
 
 export interface Navigation {
-    sidebarNav: NavElement[],
-    userNav: NavElement[],
-    footerNav: NavElement[],
-    setSidebarCurrent: (path: string) => void,
+  sidebarNav: NavElement[];
+  userNav: NavElement[];
+  footerNav: NavElement[];
+  setSidebarCurrent: (path: string) => void;
 }
 
 export interface User {
-    name: string,
-    email: string,
-    imageUrl: string,
+  name: string;
+  email: string;
+  imageUrl: string;
+}
+
+export interface Person {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  imageUrl: string;
+  notification?: string;
 }
