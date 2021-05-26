@@ -1,101 +1,113 @@
-import {CalendarIcon, ViewListIcon} from "@heroicons/react/outline";
-import { CheckIcon, ThumbUpIcon, UserIcon } from '@heroicons/react/solid'
+import { ChatIcon, PhoneIcon, UserGroupIcon } from "@heroicons/react/outline";
+import { LogEntry, LogEntryType } from "../globals/interfaces";
 
-const timeline = [
-    {
-        id: 1,
-        content: 'Telefoniert oder so mit',
-        target: 'Joachim',
-        href: '#',
-        date: 'Sep 20',
-        datetime: '2020-09-20',
-        icon: UserIcon,
-        iconBackground: 'bg-gray-400',
-    },
-    {
-        id: 2,
-        content: 'Advanced to phone screening by',
-        target: 'Bethany Blake',
-        href: '#',
-        date: 'Sep 22',
-        datetime: '2020-09-22',
-        icon: ThumbUpIcon,
-        iconBackground: 'bg-blue-500',
-    },
-    {
-        id: 3,
-        content: 'Completed phone screening with',
-        target: 'Martha Gardner',
-        href: '#',
-        date: 'Sep 28',
-        datetime: '2020-09-28',
-        icon: CheckIcon,
-        iconBackground: 'bg-green-500',
-    },
-    {
-        id: 4,
-        content: 'Advanced to interview by',
-        target: 'Bethany Blake',
-        href: '#',
-        date: 'Sep 30',
-        datetime: '2020-09-30',
-        icon: ThumbUpIcon,
-        iconBackground: 'bg-blue-500',
-    },
-    {
-        id: 5,
-        content: 'Completed interview with',
-        target: 'Katherine Snyder',
-        href: '#',
-        date: 'Oct 4',
-        datetime: '2020-10-04',
-        icon: CheckIcon,
-        iconBackground: 'bg-green-500',
-    },
-]
+const entries: LogEntry[] = [
+  {
+    id: "0",
+    type: LogEntryType.meet,
+    label: "Essengehen",
+    description: "Ich bin mit denen Essen gegangen",
+    dateTimeBegin: "2021-05-26T11:00:00",
+    dateTimeEnd: "2021-05-26T11:00:00",
+    people: ["3", "4", "8"],
+  },
+  {
+    id: "1",
+    type: LogEntryType.meet,
+    label: "Essengehen",
+    description: "Ich bin mit denen Essen gegangen",
+    dateTimeBegin: "2021-05-26T11:00:00",
+    dateTimeEnd: "2021-05-26T11:00:00",
+    people: ["3", "4", "8"],
+  },
+];
 
-export default function Log() {
-    return <div className="flow-root m-12">
-        <ul className="-mb-8">
-            {timeline.map((event, eventIdx) => (
-                <li key={event.id}>
-                    <div className="relative pb-8">
-                        {eventIdx !== timeline.length - 1 ? (
-                            <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
-                        ) : null}
-                        <div className="relative flex space-x-3">
-                            <div>
-                  <span
-                      className={classNames(
-                          event.iconBackground,
-                          'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white'
-                      )}
-                  >
-                    <event.icon className="h-5 w-5 text-white" aria-hidden="true" />
-                  </span>
-                            </div>
-                            <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                <div>
-                                    <p className="text-sm text-gray-500">
-                                        {event.content}{' '}
-                                        <a href={event.href} className="font-medium text-gray-900">
-                                            {event.target}
-                                        </a>
-                                    </p>
-                                </div>
-                                <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                                    <time dateTime={event.datetime}>{event.date}</time>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            ))}
-        </ul>
-    </div>
+function getBackgroundForType(type: LogEntryType) {
+  switch (type) {
+    case LogEntryType.phone:
+      return "bg-blue-500";
+    case LogEntryType.meet:
+      return "bg-orange-500";
+    case LogEntryType.chat:
+      return "bg-green-500";
+  }
 }
 
+function getIconForType(type: LogEntryType) {
+  switch (type) {
+    case LogEntryType.phone:
+      return <PhoneIcon className="h-5 w-5 text-white" aria-hidden="true" />;
+    case LogEntryType.meet:
+      return (
+        <UserGroupIcon className="h-5 w-5 text-white" aria-hidden="true" />
+      );
+    case LogEntryType.chat:
+      return <ChatIcon className="h-5 w-5 text-white" aria-hidden="true" />;
+  }
+}
+
+export default function Log() {
+  return (
+    <div className="flow-root m-12">
+      <ul className="-mb-8">
+        {entries.map((entry, eventIdx) => (
+          <li key={entry.id}>
+            <div className="relative pb-8">
+              {eventIdx !== entries.length - 1 ? (
+                <span
+                  className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                  aria-hidden="true"
+                />
+              ) : null}
+              <div className="relative flex space-x-3">
+                <div>
+                  <span
+                    className={classNames(
+                      getBackgroundForType(entry.type),
+                      "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
+                    )}
+                  >
+                    {getIconForType(entry.type)}
+                  </span>
+                </div>
+                <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                  <div>
+                    <p className="text-sm text-gray-500 inline-block pr-2">
+                      {entry.label}
+                      {" mit "}
+                    </p>
+                    {entry.people.map((person, index) => {
+                      return (
+                        <>
+                          <a
+                            key={person}
+                            href={person}
+                            className="font-medium text-gray-900"
+                          >
+                            {person}
+                          </a>
+                          {entry.people.length - 3 !== index
+                            ? entry.people.length - 2 === index && " und "
+                            : ", "}
+                        </>
+                      );
+                    })}
+                  </div>
+                  <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                    <time dateTime={entry.dateTimeBegin}>
+                      {new Date(entry.dateTimeBegin).toLocaleString()}
+                    </time>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }

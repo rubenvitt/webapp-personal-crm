@@ -30,3 +30,19 @@ export interface Person {
   imageUrl: string;
   notification?: string;
 }
+
+export enum LogEntryType {
+  phone,
+  meet,
+  chat,
+}
+
+export interface LogEntry {
+  id: string;
+  label: string;
+  description: string;
+  type: LogEntryType;
+  dateTimeBegin: string;
+  dateTimeEnd: string;
+  people: string[];
+}
