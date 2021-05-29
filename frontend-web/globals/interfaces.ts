@@ -31,6 +31,11 @@ export interface Person {
   notification?: string;
 }
 
+export interface PersonDetails extends Person {
+  birthday?: string;
+  anrede: Anrede;
+}
+
 export enum LogEntryType {
   phone,
   meet,
@@ -45,4 +50,20 @@ export interface LogEntry {
   dateTimeBegin: string;
   dateTimeEnd: string;
   people: string[];
+}
+
+export enum Anrede {
+  MASCULINE,
+  FEMININE,
+  NEUTRAL,
+}
+
+export interface TimespanDuration {
+  start: string;
+  end?: string;
+}
+
+export enum TimespanType {
+  INACCURATE,
+  ACCURATE,
 }
