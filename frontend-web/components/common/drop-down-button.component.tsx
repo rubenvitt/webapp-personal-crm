@@ -1,25 +1,45 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import {
-  ChevronDownIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/solid";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+import { ActionType } from "../../globals/interfaces";
+import { classNames } from "../../globals/utils";
 
 interface Props {
-  title: string;
+  title: JSX.Element | string;
   className: string;
+  type?: ActionType;
 }
 
 export const DropDownButton: React.FC<Props> = ({
   title,
   children,
   className,
+  type = ActionType.DEFAULT,
 }) => {
+  const getItemColorForType = (aType: ActionType) => {
+    const color = getColorForType(aType);
+    if (aType === ActionType.DEFAULT) {
+      return "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500";
+    }
+    return `bg-${color}-600 hover:bg-${color}-700 focus:ring-${color}-500 text-white border-transparent`;
+  };
+
+  const [color, setColor] = useState(getItemColorForType(type));
+
+  useEffect(() => {
+    setColor(getItemColorForType(type));
+  }, [type]);
+
   return (
     <>
       <Menu as="div" className={className}>
         <div className="flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-          <Menu.Button className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 focus:ring-blue-500">
+          <Menu.Button
+            className={classNames(
+              color,
+              "inline-flex items-center justify-center px-4 py-2 border text-sm font-medium rounded-md shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100"
+            )}
+          >
             {title}
             <ChevronDownIcon
               className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-blue-100"
@@ -47,7 +67,7 @@ export const DropDownButton: React.FC<Props> = ({
 
 interface ItemProps {
   title: string;
-  type?: "DEFAULT" | "DANGER" | "OLD";
+  type?: ActionType;
   icon?: {
     active: React.FC<{ className: string }>;
     inactive?: React.FC<{ className: string }>;
@@ -56,24 +76,17 @@ interface ItemProps {
 
 export const DropDownItem: React.FC<ItemProps> = ({
   title,
-  type = "DEFAULT",
+  type = ActionType.DEFAULT,
   icon,
 }) => {
-  const [color, setColor] = useState("bg-blue-500");
+  const getItemColorForType = (aType: ActionType) => {
+    return "bg-" + getColorForType(aType) + "-500";
+  };
 
-  function getColorForType(type: "DEFAULT" | "DANGER" | "OLD") {
-    switch (type) {
-      case "DEFAULT":
-        return "bg-blue-500";
-      case "DANGER":
-        return "bg-red-500";
-      case "OLD":
-        return "bg-gray-500";
-    }
-  }
+  const [color, setColor] = useState(getItemColorForType(type));
 
   useEffect(() => {
-    setColor(getColorForType(type));
+    setColor(getItemColorForType(type));
   }, [type]);
 
   return (
@@ -102,4 +115,19 @@ export const DropDownItem: React.FC<ItemProps> = ({
 
 export const DropDownGroup: React.FC = ({ children }) => {
   return <div className="p-1">{children}</div>;
+};
+
+const getColorForType = (type: ActionType) => {
+  switch (type) {
+    case ActionType.DANGER:
+      return "red";
+    case ActionType.WARNING:
+      return "yellow";
+    case ActionType.DEFAULT:
+    case ActionType.PRIMARY:
+    case ActionType.INFO:
+      return "blue";
+    case ActionType.ARCHIVE:
+      return "gray";
+  }
 };

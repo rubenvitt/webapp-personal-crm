@@ -10,6 +10,7 @@ const mockPersons: PersonDetails[] = [
     notification: "Geburtstag in 10 Tagen",
     anrede: Anrede.FEMININE,
     birthday: "1997-04-03",
+    lastContact: "2021-05-29",
   },
   {
     id: "002-test",
@@ -19,6 +20,7 @@ const mockPersons: PersonDetails[] = [
     imageUrl: "https://randomuser.me/api/portraits/women/11.jpg",
     anrede: Anrede.FEMININE,
     birthday: "1981-11-13",
+    lastContact: "2020-05-29",
   },
 ];
 

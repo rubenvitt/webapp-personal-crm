@@ -34,6 +34,7 @@ export interface Person {
 export interface PersonDetails extends Person {
   birthday?: string;
   anrede: Anrede;
+  lastContact: string;
 }
 
 export enum LogEntryType {
@@ -66,4 +67,13 @@ export interface TimespanDuration {
 export enum TimespanType {
   INACCURATE,
   ACCURATE,
+}
+
+export enum ActionType {
+  DANGER,
+  WARNING,
+  DEFAULT,
+  INFO,
+  ARCHIVE,
+  PRIMARY,
 }

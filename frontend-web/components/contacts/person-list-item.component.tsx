@@ -3,8 +3,6 @@ import React from "react";
 import { Person } from "../../globals/interfaces";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { findDetailsFor } from "../../services/user-service";
 
 interface Props {
   person: Person;
