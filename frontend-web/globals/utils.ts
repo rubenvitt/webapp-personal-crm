@@ -22,37 +22,64 @@ export const calculateDaysBetween = (aDuration: TimespanDuration) => {
   return Math.floor(end / 86400000) - Math.floor(start / 86400000);
 };
 
-export const calculateTimespanSince = (
-  duration: TimespanDuration,
-  type: TimespanType = TimespanType.INACCURATE,
-  prefix = ""
-) => {
+interface TimespanProps {
+  duration: TimespanDuration;
+  type?: TimespanType;
+  prefix?: string;
+  unit?:
+    | "years"
+    | "weeks"
+    | "days"
+    | "hours"
+    | "minutes"
+    | "seconds"
+    | "milliseconds";
+}
+
+export const calculateTimespanSince = ({
+  duration,
+  type = TimespanType.INACCURATE,
+  prefix = "",
+  unit,
+}: TimespanProps) => {
   const dur =
     (duration.end ? Date.parse(duration.end) : new Date().getTime()) -
     Date.parse(duration.start);
 
-  if (dur < 1000) {
+  if (unit === "milliseconds" || (!unit && dur < 1000)) {
     const number = Math.floor(dur);
     if (type === TimespanType.INACCURATE) return "Gerade eben";
-    return `${prefix} ${number} Millisekunde${number !== 1 ? "n" : ""}`;
-  } else if (dur < 60000) {
+    return `${prefix}${number}${
+      !unit ? ` Millisekunde${number !== 1 ? "n" : ""}` : ""
+    }`;
+  } else if (unit === "seconds" || (!unit && dur < 60000)) {
     const number = Math.floor(dur / 1000);
     if (type === TimespanType.INACCURATE) return "Gerade eben";
-    return `${prefix} ${number} Sekunde${number !== 1 ? "n" : ""}`;
-  } else if (dur < 3600000) {
+    return `${prefix}${number}${
+      !unit ? ` Sekunde${number !== 1 ? "n" : ""}` : ""
+    }`;
+  } else if (unit === "minutes" || (!unit && dur < 3600000)) {
     const number = Math.floor(dur / 60000);
-    return `${prefix} ${number} Minute${number !== 1 ? "n" : ""}`;
-  } else if (dur < 86400000) {
+    return `${prefix}${number}${
+      !unit ? ` Minute${number !== 1 ? "n" : ""}` : ""
+    }`;
+  } else if (unit === "hours" || (!unit && dur < 86400000)) {
     const number = Math.floor(dur / 3600000);
-    return `${prefix} ${number} Stunde${number !== 1 ? "n" : ""}`;
-  } else if (dur < 604800000) {
+    return `${prefix}${number}${
+      !unit ? ` Stunde${number !== 1 ? "n" : ""}` : ""
+    }`;
+  } else if (unit === "days" || (!unit && dur < 604800000)) {
     const number = Math.floor(dur / 86400000);
-    return `${prefix} ${number} Tag${number !== 1 ? "e" : ""}`;
-  } else if (dur < 31536000000) {
+    return `${prefix}${number}${!unit ? ` Tag${number !== 1 ? "e" : ""}` : ""}`;
+  } else if (unit === "weeks" || (!unit && dur < 31536000000)) {
     const number = Math.floor(dur / 604800000);
-    return `${prefix} ${number} Woche${number !== 1 ? "n" : ""}`;
+    return `${prefix}${number}${
+      !unit ? ` Woche${number !== 1 ? "n" : ""}` : ""
+    }`;
   } else {
     const number = Math.floor(dur / 31536000000);
-    return `${prefix} ${number} Jahr${number !== 1 ? "e" : ""}`;
+    return `${prefix}${number}${
+      !unit ? ` Jahr${number !== 1 ? "e" : ""}` : ""
+    }`;
   }
 };

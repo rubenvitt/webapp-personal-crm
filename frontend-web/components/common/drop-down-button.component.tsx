@@ -6,12 +6,14 @@ import { classNames } from "../../globals/utils";
 
 interface Props {
   title: JSX.Element | string;
+  titleText?: string;
   className: string;
   type?: ActionType;
 }
 
 export const DropDownButton: React.FC<Props> = ({
   title,
+  titleText,
   children,
   className,
   type = ActionType.DEFAULT,
@@ -32,9 +34,10 @@ export const DropDownButton: React.FC<Props> = ({
 
   return (
     <>
-      <Menu as="div" className={className}>
+      <Menu as="div" className={classNames("relative", className)}>
         <div className="flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
           <Menu.Button
+            title={titleText}
             className={classNames(
               color,
               "inline-flex items-center justify-center px-4 py-2 border text-sm font-medium rounded-md shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100"

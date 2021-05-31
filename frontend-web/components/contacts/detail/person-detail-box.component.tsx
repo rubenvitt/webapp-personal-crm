@@ -1,10 +1,19 @@
 import React, { useReducer, useRef } from "react";
 import { PersonDetails, TimespanType } from "../../../globals/interfaces";
-import { CheckIcon, ThumbUpIcon, UserIcon } from "@heroicons/react/solid";
+import {
+  CakeIcon,
+  CheckIcon,
+  PlusIcon,
+  ThumbUpIcon,
+  UserGroupIcon,
+  UserIcon,
+  UsersIcon,
+} from "@heroicons/react/solid";
 import { calculateTimespanSince, getPronounFor } from "../../../globals/utils";
 import { PersonDetailActions } from "./person-detail-actions.component";
 import { ContentBox } from "../../common/content-box.component";
 import { Button } from "../../common/button.component";
+import { PersonTagList } from "./person-tag-list.component";
 
 interface Props {
   person: PersonDetails;
@@ -95,9 +104,9 @@ export const PersonBox: React.FC<Props> = ({ person, children }) => {
     return person
       ? getPronounFor(person.anrede) +
           " ist " +
-          calculateTimespanSince({ start: person.birthday }) +
+          calculateTimespanSince({ duration: { start: person.birthday } }) +
           " alt und euer letzter Kontakt liegt etwa " +
-          calculateTimespanSince({ start: person.lastContact }) +
+          calculateTimespanSince({ duration: { start: person.lastContact } }) +
           " zurück."
       : "Lade Details...";
   };
@@ -150,16 +159,58 @@ export const PersonBox: React.FC<Props> = ({ person, children }) => {
 
         <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
           <div className="space-y-6 lg:col-start-1 lg:col-span-2">
+            <div>
+              <PersonTagList
+                className="flex-wrap"
+                tagList={[
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
+                  { color: { bg: "#f38674", text: "#fff" }, title: "Friends" },
+                ]}
+              />
+            </div>
             <ContentBox
               title="Allgemeines"
               subTitle={"Allgemeines zu " + person.name}
             >
-              Hier kommt rein:
-              <br />
-              Zusammenfassung von: Alter, Beziehungen, Geburtstag, letzter
-              Aktivität, Kontaktdaten
+              <dl>
+                <dt>
+                  <CakeIcon className="w-5 h-5 inline pr-2" />
+                  {new Date(person.birthday).toLocaleDateString()} (
+                  {calculateTimespanSince({
+                    duration: { start: person.birthday },
+                    unit: "years",
+                  })}
+                  )
+                </dt>
+                <dt>
+                  <UserGroupIcon className="w-5 h-5 inline pr-2" />
+                  <span className="text-blue-400 cursor-pointer hover:text-blue-500">
+                    3 Beziehungen
+                  </span>
+                </dt>
+                <dt>
+                  <UserGroupIcon className="w-5 h-5 inline pr-2" />
+                  <span className="text-blue-400 cursor-pointer hover:text-blue-500">
+                    Letzter Kontakt{" "}
+                    {calculateTimespanSince({
+                      duration: { start: person.lastContact },
+                      prefix: "vor ",
+                    })}
+                  </span>
+                </dt>
+                <dt>Kontaktdaten</dt>
+              </dl>
             </ContentBox>
-
             <ContentBox
               title="Notizen"
               footer={{
@@ -219,11 +270,11 @@ export const PersonBox: React.FC<Props> = ({ person, children }) => {
                         </div>
                         <div className="mt-2 text-sm space-x-2">
                           <span className="text-gray-500 font-medium">
-                            {calculateTimespanSince(
-                              { start: comment.date },
-                              TimespanType.INACCURATE,
-                              "vor "
-                            )}
+                            {calculateTimespanSince({
+                              duration: { start: comment.date },
+                              type: TimespanType.INACCURATE,
+                              prefix: "vor ",
+                            })}
                           </span>
                         </div>
                       </div>

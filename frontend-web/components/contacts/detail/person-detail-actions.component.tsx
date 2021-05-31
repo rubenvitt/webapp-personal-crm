@@ -31,6 +31,7 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
         Anrufen
       </button>
       <DropDownButton
+        titleText={"Benachrichtigungen"}
         title={<BellIcon className={"w-5 h-5"} />}
         className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
       >
@@ -57,9 +58,10 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
         </DropDownGroup>
       </DropDownButton>
       <DropDownButton
+        titleText={"Bearbeiten"}
         title={<PencilIcon className={"h-5 w-5"} />}
         type={ActionType.PRIMARY}
-        className="relative mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
+        className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
       >
         <DropDownGroup>
           <DropDownItem title={"Eintrag hinzufügen"} />

@@ -77,3 +77,8 @@ export enum ActionType {
   ARCHIVE,
   PRIMARY,
 }
+
+export interface PersonTag {
+  title: string;
+  color: { bg: string; text: string };
+}
