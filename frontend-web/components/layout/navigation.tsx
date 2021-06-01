@@ -14,6 +14,12 @@ export const useNavigationStore = create<Navigation>((set, get) => ({
     { name: "Abmelden", href: "#" },
   ],
   footerNav: [],
+  addItemsNav: [
+    { name: "Kontakt", href: "/contacts/new" },
+    { name: "Termin", href: "/appointments/new" },
+    { name: "Erinnerung", href: "/appointments/new?type=reminder" },
+    { name: "Tagebucheintrag", href: "/log/new" },
+  ],
   sidebarNav: [
     { name: "Dashboard", href: "/", icon: HomeIcon },
     { name: "Kontakte", href: "/contacts", icon: UserGroupIcon },

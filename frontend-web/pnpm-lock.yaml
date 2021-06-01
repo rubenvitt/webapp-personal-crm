@@ -21,6 +21,7 @@ specifiers:
   prettier: ^2.3.0
   pretty-quick: ^3.1.0
   react: 17.0.2
+  react-device-detect: ^1.17.0
   react-dom: 17.0.2
   react-query: ^3.16.0
   tailwindcss: ^2.1.2
@@ -37,6 +38,7 @@ dependencies:
   next: 10.2.2_507781d099a67956587e23f5ac79078b
   postcss: 8.2.15
   react: 17.0.2
+  react-device-detect: 1.17.0_react-dom@17.0.2+react@17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-query: 3.16.0_react-dom@17.0.2+react@17.0.2
   tailwindcss: 2.1.2_797cfc3ceddb49f111b184f6879a433f
@@ -2658,8 +2660,8 @@ packages:
     dev: false
 
   /raw-body/2.4.1:
-    resolution: {integrity: sha512-9WmIKF6mkvA0SLmA2Knm9+qj89e+j1zqgyn8aXGd7+nAduPoqgI9lO57SAZNn/Byzo5P7JhXTyg9PzaJbH73bA==}
-    engines: {node: '>= 0.8'}
+    resolution: { integrity: sha512-9WmIKF6mkvA0SLmA2Knm9+qj89e+j1zqgyn8aXGd7+nAduPoqgI9lO57SAZNn/Byzo5P7JhXTyg9PzaJbH73bA== }
+    engines: { node: '>= 0.8' }
     dependencies:
       bytes: 3.1.0
       http-errors: 1.7.3
@@ -2667,8 +2669,19 @@ packages:
       unpipe: 1.0.0
     dev: false
 
+  /react-device-detect/1.17.0_react-dom@17.0.2+react@17.0.2:
+    resolution: { integrity: sha512-bBblIStwpHmoS281JFIVqeimcN3LhpoP5YKDWzxQdBIUP8S2xPvHDgizLDhUq2ScguLfVPmwfF5y268EEQR60w== }
+    peerDependencies:
+      react: '>= 0.14.0 < 18.0.0'
+      react-dom: '>= 0.14.0 < 18.0.0'
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      ua-parser-js: 0.7.28
+    dev: false
+
   /react-dom/17.0.2_react@17.0.2:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
+    resolution: { integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA== }
     peerDependencies:
       react: 17.0.2
     dependencies:
@@ -3235,18 +3248,22 @@ packages:
     dev: false
 
   /type-fest/0.8.1:
-    resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
-    engines: {node: '>=8'}
+    resolution: { integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA== }
+    engines: { node: '>=8' }
     dev: true
 
   /typescript/4.2.4:
-    resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
-    engines: {node: '>=4.2.0'}
+    resolution: { integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg== }
+    engines: { node: '>=4.2.0' }
     hasBin: true
     dev: true
 
+  /ua-parser-js/0.7.28:
+    resolution: { integrity: sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g== }
+    dev: false
+
   /unbox-primitive/1.0.1:
-    resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}
+    resolution: { integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw== }
     dependencies:
       function-bind: 1.1.1
       has-bigints: 1.0.1

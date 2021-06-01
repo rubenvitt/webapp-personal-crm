@@ -12,6 +12,7 @@ export interface NavElement {
 export interface Navigation {
   sidebarNav: NavElement[];
   userNav: NavElement[];
+  addItemsNav: NavElement[];
   footerNav: NavElement[];
   setSidebarCurrent: (path: string) => void;
 }

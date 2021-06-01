@@ -1,12 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { classNames } from "../../globals/utils";
 
 interface Props {
   asyncAction?: () => Promise<void>;
   action?: () => void;
+  className?: string;
 }
 
-export const Button: React.FC<Props> = ({ children, asyncAction, action }) => {
+export const Button: React.FC<Props> = ({
+  children,
+  asyncAction,
+  action,
+  className,
+}) => {
   const [isLoading, setLoading] = useState(false);
 
   const onClick = useCallback(() => {
@@ -30,6 +36,7 @@ export const Button: React.FC<Props> = ({ children, asyncAction, action }) => {
         isLoading
           ? "bg-blue-200 focus:ring-blue-300"
           : "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500",
+        className,
         "self-end inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
       )}
     >
