@@ -9,7 +9,11 @@ import {
   UserIcon,
   UsersIcon,
 } from "@heroicons/react/solid";
-import { calculateTimespanSince, getPronounFor } from "../../../globals/utils";
+import {
+  calculateTimespanSince,
+  classNames,
+  getPronounFor,
+} from "../../../globals/utils";
 import { PersonDetailActions } from "./person-detail-actions.component";
 import { ContentBox } from "../../common/content-box.component";
 import { Button } from "../../common/button.component";
@@ -17,6 +21,7 @@ import { PersonTagList } from "./person-tag-list.component";
 
 interface Props {
   person: PersonDetails;
+  aside?: JSX.Element;
 }
 
 const eventTypes = {
@@ -67,39 +72,7 @@ const timeline = [
   },
 ];
 
-interface Note {
-  id: number;
-  name?: string;
-  date: string;
-  imageId?: string;
-  body: string;
-}
-
-const notes: Note[] = [
-  {
-    id: 1,
-    name: "Leslie Alexander",
-    date: "2020-05-01",
-    imageId: "1494790108377-be9c29b29330",
-    body: "Ducimus quas delectus ad maxime totam doloribus reiciendis ex. Tempore dolorem maiores. Similique voluptatibus tempore non ut.",
-  },
-  {
-    id: 2,
-    name: "Michael Foster",
-    date: "2020-10-10",
-    imageId: "1519244703995-f4e0f30006d5",
-    body: "Et ut autem. Voluptatem eum dolores sint necessitatibus quos. Quis eum qui dolorem accusantium voluptas voluptatem ipsum. Quo facere iusto quia accusamus veniam id explicabo et aut.",
-  },
-  {
-    id: 3,
-    name: "Dries Vincent",
-    date: "2021-05-18",
-    imageId: "1506794778202-cad84cf45f1d",
-    body: "Expedita consequatur sit ea voluptas quo ipsam recusandae. Ab sint et voluptatem repudiandae voluptatem et eveniet. Nihil quas consequatur autem. Perferendis rerum et.",
-  },
-];
-
-export const PersonBox: React.FC<Props> = ({ person, children }) => {
+export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
   const generateDescriptionFor = (person: PersonDetails) => {
     return person
       ? getPronounFor(person.anrede) +
@@ -110,21 +83,6 @@ export const PersonBox: React.FC<Props> = ({ person, children }) => {
           " zurück."
       : "Lade Details...";
   };
-
-  const commentBoxRef = useRef<HTMLTextAreaElement>();
-
-  const [state, dispatch] = useReducer((notes, action) => {
-    return [
-      ...notes,
-      {
-        id: Math.random(),
-        date: new Date().toISOString(),
-        body: action,
-        name: "",
-        imageId: "",
-      },
-    ];
-  }, notes);
 
   return (
     <div className="min-h-screen">
@@ -158,139 +116,20 @@ export const PersonBox: React.FC<Props> = ({ person, children }) => {
         </div>
 
         <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
-          <div className="space-y-6 lg:col-start-1 lg:col-span-2">
-            <div>
-              <PersonTagList
-                className="flex-wrap"
-                tagList={[
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#c9066d", text: "#fff" }, title: "Family" },
-                  { color: { bg: "#f38674", text: "#fff" }, title: "Friends" },
-                ]}
-              />
-            </div>
-            <ContentBox
-              title="Allgemeines"
-              subTitle={"Allgemeines zu " + person.name}
-            >
-              <dl>
-                <dt>
-                  <CakeIcon className="w-5 h-5 inline pr-2" />
-                  {new Date(person.birthday).toLocaleDateString()} (
-                  {calculateTimespanSince({
-                    duration: { start: person.birthday },
-                    unit: "years",
-                  })}
-                  )
-                </dt>
-                <dt>
-                  <UserGroupIcon className="w-5 h-5 inline pr-2" />
-                  <span className="text-blue-400 cursor-pointer hover:text-blue-500">
-                    3 Beziehungen
-                  </span>
-                </dt>
-                <dt>
-                  <UserGroupIcon className="w-5 h-5 inline pr-2" />
-                  <span className="text-blue-400 cursor-pointer hover:text-blue-500">
-                    Letzter Kontakt{" "}
-                    {calculateTimespanSince({
-                      duration: { start: person.lastContact },
-                      prefix: "vor ",
-                    })}
-                  </span>
-                </dt>
-                <dt>Kontaktdaten</dt>
-              </dl>
-            </ContentBox>
-            <ContentBox
-              title="Notizen"
-              footer={{
-                content: (
-                  <div className="flex space-x-3">
-                    <div className="flex-shrink-0">
-                      <img
-                        className="h-10 w-10 rounded-full"
-                        src={person?.imageUrl}
-                        alt=""
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <form action="#">
-                        <div>
-                          <label htmlFor="comment" className="sr-only">
-                            About
-                          </label>
-                          <textarea
-                            id="comment"
-                            ref={commentBoxRef}
-                            name="comment"
-                            rows={3}
-                            className="shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
-                            placeholder="Add a note"
-                            defaultValue={""}
-                          />
-                        </div>
-                        <div className="mt-3 grid justify-items-end">
-                          <Button
-                            asyncAction={() =>
-                              new Promise((resolve) =>
-                                setTimeout(() => {
-                                  dispatch(commentBoxRef.current.value);
-                                  commentBoxRef.current.value = "";
-                                  resolve();
-                                }, 1000)
-                              )
-                            }
-                          >
-                            Comment
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                ),
-              }}
-            >
-              <ul className="space-y-8">
-                {state.map((comment) => (
-                  <li key={comment.id}>
-                    <div className="flex space-x-3">
-                      <div>
-                        <div className="mt-1 text-sm text-gray-700">
-                          <p>{comment.body}</p>
-                        </div>
-                        <div className="mt-2 text-sm space-x-2">
-                          <span className="text-gray-500 font-medium">
-                            {calculateTimespanSince({
-                              duration: { start: comment.date },
-                              type: TimespanType.INACCURATE,
-                              prefix: "vor ",
-                            })}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </ContentBox>
+          <div
+            className={classNames(
+              aside ? "lg:col-span-2" : "lg:col-span-3",
+              "space-y-6 lg:col-start-1"
+            )}
+          >
+            {children}
           </div>
 
-          <div className="lg:col-start-3 lg:col-span-1 space-y-6">
-            <ContentBox
-              title="Box 2"
-              footer={{ content: "Klick mich hier", action: () => undefined }}
-            />
-          </div>
+          {aside && (
+            <div className="lg:col-start-3 lg:col-span-1 space-y-6">
+              {aside}
+            </div>
+          )}
         </div>
       </main>
     </div>

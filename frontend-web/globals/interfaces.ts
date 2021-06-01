@@ -32,6 +32,7 @@ export interface Person {
 }
 
 export interface PersonDetails extends Person {
+  groups: PersonTag[];
   birthday?: string;
   anrede: Anrede;
   lastContact: string;
@@ -79,6 +80,15 @@ export enum ActionType {
 }
 
 export interface PersonTag {
+  id: string;
   title: string;
   color: { bg: string; text: string };
+}
+
+export interface Note {
+  id: number;
+  name?: string;
+  date: string;
+  imageId?: string;
+  body: string;
 }

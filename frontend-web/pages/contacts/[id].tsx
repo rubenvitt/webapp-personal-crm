@@ -1,8 +1,12 @@
-import { CheckIcon, ThumbUpIcon, UserIcon } from "@heroicons/react/solid";
 import { QueryClient, useQuery } from "react-query";
 import { findAllPersons, findDetailsFor } from "../../services/user-service";
 import { dehydrate } from "react-query/hydration";
 import { PersonBox } from "../../components/contacts/detail/person-detail-box.component";
+import { PersonTagList } from "../../components/contacts/detail/person-tag-list.component";
+import { ContentBox } from "../../components/common/content-box.component";
+import React from "react";
+import { PersonDetailGeneralBox } from "../../components/contacts/detail/boxes/general.box.component";
+import { PersonDetailNotesBox } from "../../components/contacts/detail/boxes/notes.box.component";
 
 export async function getStaticProps({ params }) {
   const queryClient = new QueryClient();
@@ -34,8 +38,32 @@ export async function getStaticPaths() {
 export default ContactDetailPage;
 
 function ContactDetailPage(props: { id; dehydratedState }) {
-  const { data: personDetail } = useQuery(["persons", props.id], () =>
+  const { data: person } = useQuery(["persons", props.id], () =>
     findDetailsFor(props.id)
   );
-  return <>{personDetail && <PersonBox person={personDetail} />}</>;
+
+  return (
+    <>
+      {person && (
+        <PersonBox
+          person={person}
+          aside={
+            <ContentBox
+              title="Box 2"
+              footer={{ content: "Klick mich hier", action: () => undefined }}
+            />
+          }
+        >
+          <PersonTagList
+            withCreation
+            onClick={(personTag) => alert(`clicked ${personTag.title}`)}
+            className="flex-wrap"
+            tagList={person.groups}
+          />
+          <PersonDetailGeneralBox person={person} />
+          <PersonDetailNotesBox person={person} />
+        </PersonBox>
+      )}
+    </>
+  );
 }
