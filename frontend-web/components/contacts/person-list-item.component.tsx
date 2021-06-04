@@ -3,6 +3,7 @@ import React from "react";
 import { Person } from "../../globals/interfaces";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 interface Props {
   person: Person;
@@ -74,14 +75,18 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
             </a>
           </div>
           <div className="-ml-px w-0 flex-1 flex">
-            <a
-              onClick={call}
-              href={`tel:${person.phone}`}
-              className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
-            >
-              <PhoneIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-              <span className="ml-3">Call</span>
-            </a>
+            <Link href={`tel:${person.phone}`}>
+              <a
+                onClick={call}
+                className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
+              >
+                <PhoneIcon
+                  className="w-5 h-5 text-gray-400"
+                  aria-hidden="true"
+                />
+                <span className="ml-3">Call</span>
+              </a>
+            </Link>
           </div>
         </div>
       </div>

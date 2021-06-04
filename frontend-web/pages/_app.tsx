@@ -1,10 +1,9 @@
 import "../styles/globals.css";
 import React from "react";
 import { Layout } from "../components/layout/layout.component";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtoolsPanel } from "react-query/devtools";
-
-const reactQuery = new QueryClient();
+import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { reactQuery } from "../globals/react-query.config";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -12,7 +11,7 @@ function MyApp({ Component, pageProps }) {
       <Layout {...pageProps}>
         <Component {...pageProps} />
       </Layout>
-      <ReactQueryDevtoolsPanel />
+      <ReactQueryDevtools panelProps={{ className: "z-50" }} />
     </QueryClientProvider>
   );
 }

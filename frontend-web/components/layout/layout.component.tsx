@@ -5,6 +5,7 @@ import { SearchIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { useNavigationStore } from "./navigation";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -37,28 +38,28 @@ export const Layout = (props: { children: ReactNode }) => {
           </div>
           <div className="flex-1 mt-6 w-full px-2 space-y-1">
             {sidebarNav.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={classNames(
-                  item.current
-                    ? "bg-indigo-800 text-white"
-                    : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
-                  "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
-                )}
-                aria-current={item.current ? "page" : undefined}
-              >
-                <item.icon
+              <Link href={item.href} key={item.name}>
+                <a
                   className={classNames(
                     item.current
-                      ? "text-white"
-                      : "text-indigo-300 group-hover:text-white",
-                    "h-6 w-6"
+                      ? "bg-indigo-800 text-white"
+                      : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
+                    "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                   )}
-                  aria-hidden="true"
-                />
-                <span className="mt-2">{item.name}</span>
-              </a>
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  <item.icon
+                    className={classNames(
+                      item.current
+                        ? "text-white"
+                        : "text-indigo-300 group-hover:text-white",
+                      "h-6 w-6"
+                    )}
+                    aria-hidden="true"
+                  />
+                  <span className="mt-2">{item.name}</span>
+                </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -129,28 +130,28 @@ export const Layout = (props: { children: ReactNode }) => {
                   <nav className="h-full flex flex-col">
                     <div className="space-y-1">
                       {sidebarNav.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-indigo-800 text-white"
-                              : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
-                            "group py-2 px-3 rounded-md flex items-center text-sm font-medium"
-                          )}
-                          aria-current={item.current ? "page" : undefined}
-                        >
-                          <item.icon
+                        <Link key={item.name} href={item.href}>
+                          <a
                             className={classNames(
                               item.current
-                                ? "text-white"
-                                : "text-indigo-300 group-hover:text-white",
-                              "mr-3 h-6 w-6"
+                                ? "bg-indigo-800 text-white"
+                                : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
+                              "group py-2 px-3 rounded-md flex items-center text-sm font-medium"
                             )}
-                            aria-hidden="true"
-                          />
-                          <span>{item.name}</span>
-                        </a>
+                            aria-current={item.current ? "page" : undefined}
+                          >
+                            <item.icon
+                              className={classNames(
+                                item.current
+                                  ? "text-white"
+                                  : "text-indigo-300 group-hover:text-white",
+                                "mr-3 h-6 w-6"
+                              )}
+                              aria-hidden="true"
+                            />
+                            <span>{item.name}</span>
+                          </a>
+                        </Link>
                       ))}
                     </div>
                   </nav>
@@ -231,15 +232,16 @@ export const Layout = (props: { children: ReactNode }) => {
                           {userNav.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700"
-                                  )}
-                                >
-                                  {item.name}
-                                </a>
+                                <Link href={item.href}>
+                                  <a
+                                    className={classNames(
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    )}
+                                  >
+                                    {item.name}
+                                  </a>
+                                </Link>
                               )}
                             </Menu.Item>
                           ))}
@@ -275,15 +277,16 @@ export const Layout = (props: { children: ReactNode }) => {
                           {addItemsNav.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700"
-                                  )}
-                                >
-                                  {item.name}
-                                </a>
+                                <Link href={item.href}>
+                                  <a
+                                    className={classNames(
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    )}
+                                  >
+                                    {item.name}
+                                  </a>
+                                </Link>
                               )}
                             </Menu.Item>
                           ))}

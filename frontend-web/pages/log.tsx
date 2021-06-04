@@ -1,4 +1,6 @@
 import { ChatIcon, PhoneIcon, UserGroupIcon } from "@heroicons/react/outline";
+import Link from "next/dist/client/link";
+import React from "react";
 import { LogEntry, LogEntryType } from "../globals/interfaces";
 
 const entries: LogEntry[] = [
@@ -79,13 +81,11 @@ export default function Log() {
                     {entry.people.map((person, index) => {
                       return (
                         <>
-                          <a
-                            key={person}
-                            href={person}
-                            className="font-medium text-gray-900"
-                          >
-                            {person}
-                          </a>
+                          <Link href={person} key={person}>
+                            <a className="font-medium text-gray-900">
+                              {person}
+                            </a>
+                          </Link>
                           {entry.people.length - 3 !== index
                             ? entry.people.length - 2 === index && " und "
                             : ", "}

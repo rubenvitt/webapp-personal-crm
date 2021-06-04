@@ -1,6 +1,7 @@
 import React, { useReducer, useRef } from "react";
 import { Person, PersonTag } from "../../../globals/interfaces";
 import { classNames } from "../../../globals/utils";
+import { TrashIcon } from "@heroicons/react/solid";
 
 interface Props {
   tagList: PersonTag[];
@@ -41,10 +42,13 @@ export const PersonTagList: React.FC<Props> = ({
             className={classNames(
               onClick &&
                 "hover:ring-2 hover:ring-gray-500 hover:ring-opacity-50 hover:ring-offset-1 hover:ring-offset-gray-200 cursor-pointer",
-              "inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+              "inline-flex group items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
             )}
           >
             {tag.title}
+            <span className="pl-2 hidden group-hover:inline">
+              <TrashIcon className="w-4 h-4" />
+            </span>
           </span>
         );
       })}
