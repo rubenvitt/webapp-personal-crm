@@ -1,9 +1,10 @@
-import { MailIcon, PhoneIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Person } from "../../globals/interfaces";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelopeOpen, faPhoneAlt } from "@fortawesome/pro-solid-svg-icons";
 
 interface Props {
   person: Person;
@@ -70,7 +71,11 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
               onClick={writeMail}
               className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
             >
-              <MailIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+              <FontAwesomeIcon
+                icon={faEnvelopeOpen}
+                className="w-5 h-5 text-gray-400"
+                aria-hidden="true"
+              />
               <span className="ml-3">Email</span>
             </a>
           </div>
@@ -80,7 +85,8 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
                 onClick={call}
                 className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
               >
-                <PhoneIcon
+                <FontAwesomeIcon
+                  icon={faPhoneAlt}
                   className="w-5 h-5 text-gray-400"
                   aria-hidden="true"
                 />

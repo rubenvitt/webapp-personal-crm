@@ -1,8 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
 import { ActionType } from "../../globals/interfaces";
 import { classNames } from "../../globals/utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/pro-light-svg-icons";
+import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 
 interface Props {
   title: JSX.Element | string;
@@ -44,7 +46,8 @@ export const DropDownButton: React.FC<Props> = ({
             )}
           >
             {title}
-            <ChevronDownIcon
+            <FontAwesomeIcon
+              icon={faChevronDown}
               className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-blue-100"
               aria-hidden="true"
             />
@@ -59,7 +62,7 @@ export const DropDownButton: React.FC<Props> = ({
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="z-10 absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="z-10 absolute top-10 origin-top-right w-56 mt-2 bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             {children}
           </Menu.Items>
         </Transition>
@@ -72,8 +75,8 @@ interface ItemProps {
   title: string;
   type?: ActionType;
   icon?: {
-    active: React.FC<{ className: string }>;
-    inactive?: React.FC<{ className: string }>;
+    active: { icon: IconDefinition; className: string } | IconDefinition;
+    inactive?: { icon: IconDefinition; className: string } | IconDefinition;
   };
 }
 
@@ -102,11 +105,32 @@ export const DropDownItem: React.FC<ItemProps> = ({
         >
           {icon ? (
             active ? (
-              <icon.active className="w-5 h-5 mr-2" />
+              <FontAwesomeIcon
+                icon={
+                  ((icon.active as { className?: string }).className
+                    ? icon.active.icon
+                    : icon.active) as IconDefinition
+                }
+                className="w-5 h-5 mr-2"
+              />
             ) : icon.inactive ? (
-              <icon.inactive className="w-5 h-5 mr-2" />
+              <FontAwesomeIcon
+                icon={
+                  ((icon.inactive as { className?: string }).className
+                    ? icon.inactive.icon
+                    : icon.inactive) as IconDefinition
+                }
+                className="w-5 h-5 mr-2"
+              />
             ) : (
-              <icon.active className="w-5 h-5 mr-2" />
+              <FontAwesomeIcon
+                icon={
+                  ((icon.active as { className?: string }).className
+                    ? icon.active.icon
+                    : icon.active) as IconDefinition
+                }
+                className="w-5 h-5 mr-2"
+              />
             )
           ) : undefined}
           {title}

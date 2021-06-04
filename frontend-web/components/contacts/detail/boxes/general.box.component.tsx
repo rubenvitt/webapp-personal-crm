@@ -1,8 +1,9 @@
-import { CakeIcon, UserGroupIcon } from "@heroicons/react/solid";
 import { calculateTimespanSince } from "../../../../globals/utils";
 import { ContentBox } from "../../../common/content-box.component";
 import React from "react";
 import { PersonDetails } from "../../../../globals/interfaces";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBirthdayCake, faUsers } from "@fortawesome/pro-regular-svg-icons";
 
 interface Props {
   person: PersonDetails;
@@ -17,7 +18,11 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
     >
       <dl>
         <dt>
-          <CakeIcon className="w-5 h-5 inline pr-2" />
+          <FontAwesomeIcon
+            icon={faBirthdayCake}
+            className="inline pr-2"
+            size="lg"
+          />
           {new Date(person.birthday).toLocaleDateString()} (
           {calculateTimespanSince({
             duration: { start: person.birthday },
@@ -26,13 +31,13 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
           )
         </dt>
         <dt>
-          <UserGroupIcon className="w-5 h-5 inline pr-2" />
+          <FontAwesomeIcon icon={faUsers} className="inline pr-2" size="lg" />
           <span className="text-blue-400 cursor-pointer hover:text-blue-500">
             3 Beziehungen
           </span>
         </dt>
         <dt>
-          <UserGroupIcon className="w-5 h-5 inline pr-2" />
+          <FontAwesomeIcon icon={faUsers} className="inline pr-2" size="lg" />
           <span className="text-blue-400 cursor-pointer hover:text-blue-500">
             Letzter Kontakt{" "}
             {calculateTimespanSince({

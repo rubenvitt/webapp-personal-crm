@@ -7,6 +7,13 @@ import {
   UserGroupIcon,
   ViewListIcon,
 } from "@heroicons/react/outline";
+import {
+  faCalendar,
+  faCog,
+  faList,
+  faTachometer,
+  faUsers,
+} from "@fortawesome/pro-regular-svg-icons";
 
 export const useNavigationStore = create<Navigation>((set, get) => ({
   userNav: [
@@ -21,11 +28,11 @@ export const useNavigationStore = create<Navigation>((set, get) => ({
     { name: "Tagebucheintrag", href: "/log/new" },
   ],
   sidebarNav: [
-    { name: "Dashboard", href: "/", icon: HomeIcon },
-    { name: "Kontakte", href: "/contacts", icon: UserGroupIcon },
-    { name: "Termine", href: "/appointments", icon: CalendarIcon },
-    { name: "Tagebuch", href: "/log", icon: ViewListIcon },
-    { name: "Einstellungen", href: "/settings", icon: CogIcon },
+    { name: "Dashboard", href: "/", icon: faTachometer },
+    { name: "Kontakte", href: "/contacts", icon: faUsers },
+    { name: "Termine", href: "/appointments", icon: faCalendar },
+    { name: "Tagebuch", href: "/log", icon: faList },
+    { name: "Einstellungen", href: "/settings", icon: faCog },
   ],
   setSidebarCurrent: (path) => {
     const navElements = get().sidebarNav;

@@ -1,23 +1,22 @@
 import React from "react";
 import { ActionType, PersonDetails } from "../../../globals/interfaces";
 import {
-  ArchiveIcon,
-  BellIcon,
-  MinusIcon,
-  PencilAltIcon,
-  PencilIcon,
-  PlusIcon,
-  StarIcon,
-  TrashIcon,
-  XIcon,
-} from "@heroicons/react/solid";
-import {
   DropDownButton,
   DropDownGroup,
   DropDownItem,
 } from "../../common/drop-down-button.component";
-import { BellIcon as BellIconOutline } from "@heroicons/react/outline";
-import { Button } from "../../common/button.component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArchive,
+  faBell as fasBell,
+  faBells,
+  faEdit,
+  faPencil,
+  faPlus,
+  faTimes,
+  faTrash,
+} from "@fortawesome/pro-solid-svg-icons";
+import { faBell as farBell } from "@fortawesome/pro-regular-svg-icons";
 
 interface Props {
   person: PersonDetails;
@@ -34,34 +33,34 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
       </button>
       <DropDownButton
         titleText={"Benachrichtigungen"}
-        title={<BellIcon className={"w-5 h-5"} />}
+        title={<FontAwesomeIcon icon={faBells} />}
         className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
       >
         <DropDownGroup>
-          <DropDownItem title={"erstellen"} icon={{ active: PlusIcon }} />
+          <DropDownItem title={"erstellen"} icon={{ active: faPlus }} />
         </DropDownGroup>
         <DropDownGroup>
           <DropDownItem
             title={"Geburtstag"}
-            icon={{ active: XIcon, inactive: BellIcon }}
+            icon={{ active: faTimes, inactive: fasBell }}
           />
           <DropDownItem
             title={"Jahrestag"}
-            icon={{ active: XIcon, inactive: BellIcon }}
+            icon={{ active: faTimes, inactive: fasBell }}
           />
           <DropDownItem
             title={"Geschenk"}
-            icon={{ active: PlusIcon, inactive: BellIconOutline }}
+            icon={{ active: faPlus, inactive: farBell }}
           />
           <DropDownItem
             title={"Kontakt halten"}
-            icon={{ active: PlusIcon, inactive: BellIconOutline }}
+            icon={{ active: faPlus, inactive: farBell }}
           />
         </DropDownGroup>
       </DropDownButton>
       <DropDownButton
         titleText={"Bearbeiten"}
-        title={<PencilIcon className={"h-5 w-5"} />}
+        title={<FontAwesomeIcon icon={faPencil} />}
         type={ActionType.PRIMARY}
         className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
       >
@@ -71,19 +70,16 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
           <DropDownItem title={"Erinnerung erstellen"} />
         </DropDownGroup>
         <DropDownGroup>
-          <DropDownItem
-            title={"Bearbeiten"}
-            icon={{ active: PencilIcon, inactive: PencilAltIcon }}
-          />
+          <DropDownItem title={"Bearbeiten"} icon={{ active: faEdit }} />
           <DropDownItem
             title={"Archivieren"}
             type={ActionType.ARCHIVE}
-            icon={{ active: ArchiveIcon }}
+            icon={{ active: faArchive }}
           />
           <DropDownItem
             title={"Löschen"}
             type={ActionType.DANGER}
-            icon={{ active: TrashIcon }}
+            icon={{ active: faTrash }}
           />
         </DropDownGroup>
       </DropDownButton>

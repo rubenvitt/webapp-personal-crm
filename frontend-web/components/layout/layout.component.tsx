@@ -1,11 +1,13 @@
-import { Fragment, ReactNode, useEffect, useState } from "react";
+import React, { Fragment, ReactNode, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { MenuAlt2Icon, PlusIcon, XIcon } from "@heroicons/react/outline";
+import { PlusIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { useNavigationStore } from "./navigation";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -48,12 +50,13 @@ export const Layout = (props: { children: ReactNode }) => {
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  <item.icon
+                  <FontAwesomeIcon
+                    icon={item.icon}
                     className={classNames(
                       item.current
                         ? "text-white"
                         : "text-indigo-300 group-hover:text-white",
-                      "h-6 w-6"
+                      "h-6 w-6 text-xl"
                     )}
                     aria-hidden="true"
                   />
@@ -108,12 +111,14 @@ export const Layout = (props: { children: ReactNode }) => {
                   <div className="absolute top-1 right-0 -mr-14 p-1">
                     <button
                       type="button"
-                      className="h-12 w-12 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white"
+                      className="h-12 w-12 group rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <XIcon
+                      <FontAwesomeIcon
+                        icon={faTimes}
                         className="h-6 w-6 text-white"
                         aria-hidden="true"
+                        size="2x"
                       />
                       <span className="sr-only">Close sidebar</span>
                     </button>
@@ -143,12 +148,13 @@ export const Layout = (props: { children: ReactNode }) => {
                             )}
                             aria-current={item.current ? "page" : undefined}
                           >
-                            <item.icon
+                            <FontAwesomeIcon
+                              icon={item.icon}
                               className={classNames(
                                 item.current
                                   ? "text-white"
                                   : "text-indigo-300 group-hover:text-white",
-                                "mr-3 h-6 w-6"
+                                "mr-3 h-6 w-6 text-lg"
                               )}
                               aria-hidden="true"
                             />
@@ -178,7 +184,12 @@ export const Layout = (props: { children: ReactNode }) => {
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
-              <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
+              <FontAwesomeIcon
+                icon={faBars}
+                className="h-6 w-6"
+                aria-hidden="true"
+                size="2x"
+              />
             </button>
             <div className="flex-1 flex justify-between px-4 sm:px-6">
               <div className="flex-1 flex">

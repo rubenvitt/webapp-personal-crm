@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 
 export interface NavElement {
   href?: string;
@@ -6,7 +6,7 @@ export interface NavElement {
   name: string;
   active?: boolean;
   current?: boolean;
-  icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+  icon?: IconDefinition;
 }
 
 export interface Navigation {
