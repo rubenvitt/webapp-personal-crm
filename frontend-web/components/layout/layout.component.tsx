@@ -132,6 +132,7 @@ export const Layout = (props: { children: ReactNode }) => {
                       {sidebarNav.map((item) => (
                         <Link key={item.name} href={item.href}>
                           <a
+                            onClick={() => setMobileMenuOpen(false)}
                             className={classNames(
                               item.current
                                 ? "bg-indigo-800 text-white"
