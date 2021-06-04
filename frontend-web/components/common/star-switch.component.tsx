@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as farStar } from "@fortawesome/pro-regular-svg-icons";
 import { faStar as fasStar } from "@fortawesome/pro-solid-svg-icons";
 import React, { useState } from "react";
-import { classNames } from "../../../../globals/utils";
+import { classNames } from "../../globals/utils";
 
 interface Props {
   mutate: () => Promise<void>;

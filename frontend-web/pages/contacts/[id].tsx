@@ -7,6 +7,7 @@ import { ContentBox } from "../../components/common/content-box.component";
 import React from "react";
 import { PersonDetailGeneralBox } from "../../components/contacts/detail/boxes/general.box.component";
 import { PersonDetailNotesBox } from "../../components/contacts/detail/boxes/notes.box.component";
+import { PersonContactBox } from "../../components/contacts/detail/boxes/contact.box.component";
 
 export async function getStaticProps({ params }) {
   const queryClient = new QueryClient();
@@ -61,6 +62,7 @@ function ContactDetailPage(props: { id; dehydratedState }) {
             tagList={person.groups}
           />
           <PersonDetailGeneralBox person={person} />
+          <PersonContactBox person={person} />
           <PersonDetailNotesBox person={person} />
         </PersonBox>
       )}

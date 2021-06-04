@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button } from "./button.component";
 import { classNames } from "../../globals/utils";
 import { isMobile } from "react-device-detect";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/pro-regular-svg-icons";
+import { ActionType } from "../../globals/interfaces";
 
 interface Props {
   title?: string | JSX.Element;
@@ -12,7 +15,9 @@ interface Props {
   };
   edit?: {
     onEditAction: () => void;
-    content: string | JSX.Element;
+    submitAction: () => Promise<void>;
+    editContent?: string | JSX.Element;
+    submitContent?: string | JSX.Element;
   };
 }
 
@@ -29,6 +34,7 @@ export const ContentBox: React.FC<Props> = ({
   }, []);
 
   const [isHover, setHover] = useState(false);
+  const [isEdit, setEdit] = useState(false);
 
   return (
     <section
@@ -53,17 +59,37 @@ export const ContentBox: React.FC<Props> = ({
                   </p>
                 )}
               </div>
-              {edit && (
-                <Button
-                  className={classNames(
-                    !isHover && !isMobile && "sm:hidden",
-                    "block"
-                  )}
-                  action={edit.onEditAction}
-                >
-                  {edit.content}
-                </Button>
-              )}
+              <div>
+                {edit &&
+                  (!isEdit ? (
+                    <Button
+                      key={"0"}
+                      className={classNames(
+                        !isHover && !isMobile && "sm:hidden",
+                        "block"
+                      )}
+                      action={() => {
+                        setEdit(true);
+                        edit.onEditAction();
+                      }}
+                    >
+                      {edit.editContent ?? "Bearbeiten"}
+                    </Button>
+                  ) : (
+                    <Button
+                      key={"1"}
+                      type={ActionType.SUCCESS}
+                      className={classNames("block")}
+                      action={() => {
+                        edit.submitAction().then(() => setEdit(false));
+                      }}
+                    >
+                      {edit.submitContent ?? (
+                        <FontAwesomeIcon className={"text-lg"} icon={faCheck} />
+                      )}
+                    </Button>
+                  ))}
+              </div>
             </div>
           </header>
         )}

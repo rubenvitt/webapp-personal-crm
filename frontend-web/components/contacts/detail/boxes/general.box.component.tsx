@@ -14,7 +14,10 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
     <ContentBox
       title="Allgemeines"
       subTitle={"Allgemeines zu " + person.name}
-      edit={{ content: "Bearbeiten", onEditAction: () => undefined }}
+      edit={{
+        onEditAction: () => undefined,
+        submitAction: () => Promise.resolve(),
+      }}
     >
       <dl>
         <dt>

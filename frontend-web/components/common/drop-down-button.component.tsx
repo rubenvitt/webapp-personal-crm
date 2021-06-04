@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ActionType } from "../../globals/interfaces";
-import { classNames } from "../../globals/utils";
+import { classNames, getColorForType } from "../../globals/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/pro-light-svg-icons";
 import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
@@ -142,19 +142,4 @@ export const DropDownItem: React.FC<ItemProps> = ({
 
 export const DropDownGroup: React.FC = ({ children }) => {
   return <div className="p-1">{children}</div>;
-};
-
-const getColorForType = (type: ActionType) => {
-  switch (type) {
-    case ActionType.DANGER:
-      return "red";
-    case ActionType.WARNING:
-      return "yellow";
-    case ActionType.DEFAULT:
-    case ActionType.PRIMARY:
-    case ActionType.INFO:
-      return "blue";
-    case ActionType.ARCHIVE:
-      return "gray";
-  }
 };

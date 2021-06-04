@@ -1,4 +1,9 @@
-import { Anrede, TimespanDuration, TimespanType } from "./interfaces";
+import {
+  ActionType,
+  Anrede,
+  TimespanDuration,
+  TimespanType,
+} from "./interfaces";
 
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -12,6 +17,23 @@ export const getPronounFor = (anAnrede: Anrede) => {
       return "Sie";
     case Anrede.NEUTRAL:
       return "Diese Person";
+  }
+};
+
+export const getColorForType = (type: ActionType) => {
+  switch (type) {
+    case ActionType.DANGER:
+      return "red";
+    case ActionType.WARNING:
+      return "yellow";
+    case ActionType.DEFAULT:
+    case ActionType.PRIMARY:
+    case ActionType.INFO:
+      return "blue";
+    case ActionType.ARCHIVE:
+      return "gray";
+    case ActionType.SUCCESS:
+      return "green";
   }
 };
 

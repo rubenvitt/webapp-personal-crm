@@ -11,9 +11,14 @@ function MyApp({ Component, pageProps }) {
       <Layout {...pageProps}>
         <Component {...pageProps} />
       </Layout>
+      <Element />
       <ReactQueryDevtools panelProps={{ className: "z-50" }} />
     </QueryClientProvider>
   );
 }
 
 export default MyApp;
+
+const Element = () => {
+  return <div className="bg-green-600" />;
+};

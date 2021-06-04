@@ -6,7 +6,7 @@ import {
   getPronounFor,
 } from "../../../globals/utils";
 import { PersonDetailActions } from "./person-detail-actions.component";
-import { StarSwitch } from "./general/star-switch.component";
+import { StarSwitch } from "../../common/star-switch.component";
 
 interface Props {
   person: PersonDetails;

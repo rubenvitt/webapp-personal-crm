@@ -78,6 +78,7 @@ export enum ActionType {
   INFO,
   ARCHIVE,
   PRIMARY,
+  SUCCESS,
 }
 
 export interface PersonTag {
