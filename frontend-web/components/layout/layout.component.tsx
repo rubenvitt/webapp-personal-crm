@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
+import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -199,7 +200,8 @@ export const Layout = (props: { children: ReactNode }) => {
                   </label>
                   <div className="relative w-full text-gray-400 focus-within:text-gray-600">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-                      <SearchIcon
+                      <FontAwesomeIcon
+                        icon={faSearch}
                         className="flex-shrink-0 h-5 w-5"
                         aria-hidden="true"
                       />
@@ -270,7 +272,13 @@ export const Layout = (props: { children: ReactNode }) => {
                     <>
                       <div>
                         <Menu.Button className="flex bg-indigo-600 p-1 rounded-full items-center justify-center text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                          <PlusIcon className="h-6 w-6" aria-hidden="true" />
+                          <div className="h-6 w-6 flex items-center flex-col">
+                            <FontAwesomeIcon
+                              icon={faPlus}
+                              className="h-6 w-6 text-lg block"
+                              aria-hidden="true"
+                            />
+                          </div>
                           <span className="sr-only">Add items</span>
                         </Menu.Button>
                       </div>
