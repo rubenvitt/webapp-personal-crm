@@ -119,13 +119,15 @@ export const Layout = (props: { children: ReactNode }) => {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="flex-shrink-0 px-4 flex items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
+                <div className="flex-shrink-0 px-4 relative flex items-center w-full h-16">
+                  <Image
+                    layout={"fill"}
+                    objectFit={"fill"}
+                    src="/logo.svg"
                     alt="Workflow"
                   />
                 </div>
+                <div className="border-b border-white border-1 pb-4 mx-4" />
                 <div className="mt-5 flex-1 h-0 px-2 overflow-y-auto">
                   <nav className="h-full flex flex-col">
                     <div className="space-y-1">
