@@ -1,6 +1,3 @@
-import { UserGroupIcon } from "@heroicons/react/outline";
-import { MailIcon, PhoneIcon } from "@heroicons/react/solid";
-import { Person } from "../../globals/interfaces";
 import { PersonListItem } from "../../components/contacts/person-list-item.component";
 import { useQuery } from "react-query";
 import { findAllPersons } from "../../services/user-service";

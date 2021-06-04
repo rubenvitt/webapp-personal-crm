@@ -1,11 +1,12 @@
-import {
-  CalendarIcon,
-  LocationMarkerIcon,
-  UsersIcon,
-} from "@heroicons/react/solid";
 import Link from "next/link";
 import React from "react";
 import { LogEntry, LogEntryType } from "../globals/interfaces";
+import {
+  faCalendarDay,
+  faMapMarker,
+  faUsers,
+} from "@fortawesome/pro-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const appointments: LogEntry[] = [
   {
@@ -41,14 +42,16 @@ export default function Appointments() {
                   <div className="mt-2 sm:flex sm:justify-between">
                     <div className="sm:flex">
                       <p className="flex items-center text-sm text-gray-500">
-                        <UsersIcon
+                        <FontAwesomeIcon
+                          icon={faUsers}
                           className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                           aria-hidden="true"
                         />
                         {appointment.description}
                       </p>
                       <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                        <LocationMarkerIcon
+                        <FontAwesomeIcon
+                          icon={faMapMarker}
                           className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                           aria-hidden="true"
                         />
@@ -56,7 +59,8 @@ export default function Appointments() {
                       </p>
                     </div>
                     <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                      <CalendarIcon
+                      <FontAwesomeIcon
+                        icon={faCalendarDay}
                         className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                         aria-hidden="true"
                       />

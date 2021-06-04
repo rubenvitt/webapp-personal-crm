@@ -1,7 +1,12 @@
-import { ChatIcon, PhoneIcon, UserGroupIcon } from "@heroicons/react/outline";
 import Link from "next/dist/client/link";
 import React from "react";
 import { LogEntry, LogEntryType } from "../globals/interfaces";
+import {
+  faComments,
+  faPhone,
+  faUsers,
+} from "@fortawesome/pro-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const entries: LogEntry[] = [
   {
@@ -38,13 +43,11 @@ function getBackgroundForType(type: LogEntryType) {
 function getIconForType(type: LogEntryType) {
   switch (type) {
     case LogEntryType.phone:
-      return <PhoneIcon className="h-5 w-5 text-white" aria-hidden="true" />;
+      return faPhone;
     case LogEntryType.meet:
-      return (
-        <UserGroupIcon className="h-5 w-5 text-white" aria-hidden="true" />
-      );
+      return faUsers;
     case LogEntryType.chat:
-      return <ChatIcon className="h-5 w-5 text-white" aria-hidden="true" />;
+      return faComments;
   }
 }
 
@@ -69,7 +72,11 @@ export default function Log() {
                       "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
                     )}
                   >
-                    {getIconForType(entry.type)}
+                    <FontAwesomeIcon
+                      icon={getIconForType(entry.type)}
+                      className="h-5 w-5 text-white"
+                      aria-hidden="true"
+                    />
                   </span>
                 </div>
                 <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">

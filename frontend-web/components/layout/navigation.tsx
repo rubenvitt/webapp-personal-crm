@@ -1,13 +1,6 @@
 import { Navigation } from "../../globals/interfaces";
 import create from "zustand";
 import {
-  CalendarIcon,
-  CogIcon,
-  HomeIcon,
-  UserGroupIcon,
-  ViewListIcon,
-} from "@heroicons/react/outline";
-import {
   faCalendar,
   faCog,
   faList,

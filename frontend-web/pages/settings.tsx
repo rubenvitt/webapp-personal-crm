@@ -1,15 +1,16 @@
-import {
-  BellIcon,
-  CogIcon,
-  CreditCardIcon,
-  KeyIcon,
-  UserCircleIcon,
-  ViewGridAddIcon,
-} from "@heroicons/react/outline";
 import React, { useState } from "react";
 import { RadioGroup, Switch } from "@headlessui/react";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBell,
+  faCodeBranch,
+  faCog,
+  faCreditCard,
+  faKey,
+  faUserCircle,
+} from "@fortawesome/pro-regular-svg-icons";
 
 const user = {
   name: "Tina Bergen",
@@ -18,12 +19,12 @@ const user = {
     "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80",
 };
 const subNavigation = [
-  { name: "Profil", href: "#", icon: UserCircleIcon, current: false },
-  { name: "Account", href: "#", icon: CogIcon, current: true },
-  { name: "Passwort & Sicherheit", href: "#", icon: KeyIcon, current: false },
-  { name: "Benachrichtigungen", href: "#", icon: BellIcon, current: false },
-  { name: "Pläne & Zahlung", href: "#", icon: CreditCardIcon, current: false },
-  { name: "Integrationen", href: "#", icon: ViewGridAddIcon, current: false },
+  { name: "Profil", href: "#", icon: faUserCircle, current: false },
+  { name: "Account", href: "#", icon: faCog, current: true },
+  { name: "Passwort & Sicherheit", href: "#", icon: faKey, current: false },
+  { name: "Benachrichtigungen", href: "#", icon: faBell, current: false },
+  { name: "Pläne & Zahlung", href: "#", icon: faCreditCard, current: false },
+  { name: "Integrationen", href: "#", icon: faCodeBranch, current: false },
 ];
 const plans = [
   {
@@ -83,7 +84,8 @@ export default function Settings() {
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >
-                    <item.icon
+                    <FontAwesomeIcon
+                      icon={item.icon}
                       className={classNames(
                         item.current
                           ? "text-orange-500"
