@@ -7,6 +7,7 @@ import {
   PencilAltIcon,
   PencilIcon,
   PlusIcon,
+  StarIcon,
   TrashIcon,
   XIcon,
 } from "@heroicons/react/solid";
@@ -16,6 +17,7 @@ import {
   DropDownItem,
 } from "../../common/drop-down-button.component";
 import { BellIcon as BellIconOutline } from "@heroicons/react/outline";
+import { Button } from "../../common/button.component";
 
 interface Props {
   person: PersonDetails;

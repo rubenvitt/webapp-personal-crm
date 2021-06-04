@@ -6,6 +6,9 @@ import {
   getPronounFor,
 } from "../../../globals/utils";
 import { PersonDetailActions } from "./person-detail-actions.component";
+import { StarIcon as StarIconOutline } from "@heroicons/react/outline";
+import { StarIcon as StarIconSolid } from "@heroicons/react/solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   person: PersonDetails;
@@ -43,9 +46,23 @@ export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
               </div>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {person?.name}
-              </h1>
+              <div className={"flex items-center"}>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {person?.name}
+                </h1>
+                lala
+                <FontAwesomeIcon icon={["fab", "apple"]} />
+                <p className="text-2xl p-2 group text-yellow-500 cursor-pointer">
+                  <FontAwesomeIcon
+                    icon={{ iconName: "star", prefix: "far" }}
+                    size="lg"
+                  />
+                  <StarIconOutline className={"h-5 w-5 group-hover:hidden"} />
+                  <StarIconSolid
+                    className={"h-5 w-5 hidden group-hover:block"}
+                  />
+                </p>
+              </div>
               <p className="text-sm font-medium text-gray-500">
                 {generateDescriptionFor(person)}
               </p>
