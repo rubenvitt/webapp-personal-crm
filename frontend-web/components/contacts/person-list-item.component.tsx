@@ -16,6 +16,7 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
   const showProfile = () => {
     router.push(`${router.pathname}/${person.id}`);
   };
+
   return (
     <li
       key={person.id}
