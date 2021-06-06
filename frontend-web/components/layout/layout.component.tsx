@@ -1,7 +1,5 @@
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { PlusIcon } from "@heroicons/react/outline";
-import { SearchIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { useNavigationStore } from "./navigation";
 import { useRouter } from "next/router";
@@ -9,6 +7,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
 import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
+import Avatar from "react-avatar";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -224,10 +223,13 @@ export const Layout = (props: { children: ReactNode }) => {
                       <div>
                         <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                           <span className="sr-only">Open user menu</span>
-                          <img
-                            className="h-8 w-8 rounded-full"
+                          <Avatar
+                            className="h-2 w-2 rounded-full"
+                            size="36"
+                            round
                             src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
-                            alt=""
+                            maxInitials={2}
+                            alt={"Your profile picture"}
                           />
                         </Menu.Button>
                       </div>

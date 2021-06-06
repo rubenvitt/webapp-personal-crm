@@ -16,7 +16,7 @@ const entries: LogEntry[] = [
     description: "Ich bin mit denen Essen gegangen",
     dateTimeBegin: "2021-05-26T11:00:00",
     dateTimeEnd: "2021-05-26T11:00:00",
-    people: ["3", "4", "8"],
+    people: ["001-test", "002-test"],
   },
   {
     id: "1",
@@ -25,7 +25,7 @@ const entries: LogEntry[] = [
     description: "Ich bin mit denen Essen gegangen",
     dateTimeBegin: "2021-05-26T11:00:00",
     dateTimeEnd: "2021-05-26T11:00:00",
-    people: ["3", "4", "8"],
+    people: ["001-test"],
   },
 ];
 
@@ -88,7 +88,7 @@ export default function Log() {
                     {entry.people.map((person, index) => {
                       return (
                         <>
-                          <Link href={person} key={person}>
+                          <Link href={"/contacts/" + person} key={person}>
                             <a className="font-medium text-gray-900">
                               {person}
                             </a>

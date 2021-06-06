@@ -13,11 +13,7 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
   return (
     <ContentBox
       title="Allgemeines"
-      subTitle={"Allgemeines zu " + person.name}
-      edit={{
-        onEditAction: () => undefined,
-        submitAction: () => Promise.resolve(),
-      }}
+      subTitle={"Allgemeines zu " + person.displayName}
     >
       <dl>
         <dt>
@@ -51,8 +47,8 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
         </dt>
         <div>
           <h3>Kontaktdaten</h3>
-          <dt>Telefonummer: {person.primaryPhone.number}</dt>
-          <dt>Email: {person.primaryMail.address}</dt>
+          <dt>Telefonnummer: {person.primaryPhone.value}</dt>
+          <dt>Email: {person.primaryMail.value}</dt>
         </div>
       </dl>
     </ContentBox>

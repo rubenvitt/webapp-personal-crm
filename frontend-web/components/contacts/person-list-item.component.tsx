@@ -1,10 +1,10 @@
 import React from "react";
 import { Person } from "../../globals/interfaces";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelopeOpen, faPhone } from "@fortawesome/pro-solid-svg-icons";
+import Avatar from "react-avatar";
 
 interface Props {
   person: Person;
@@ -35,15 +35,18 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
         onClick={showProfile}
       >
         <div className="w-32 h-32 relative flex-shrink-0 mx-auto">
-          <Image
+          <Avatar
             className="rounded-full"
+            round
+            alt="Profile Picture"
+            name={person.displayName}
+            maxInitials={2}
+            title={person.displayName}
             src={person.imageUrl}
-            layout="fill"
-            alt="Profile picture"
           />
         </div>
         <h3 className="mt-6 text-gray-900 text-sm font-medium">
-          {person.name}
+          {person.displayName}
         </h3>
         <dl className="mt-1 flex flex-col align-bottom">
           <dt className="mt-3 text-gray-500 text-sm">Letzter Kontakt:</dt>
@@ -57,7 +60,7 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
       <div>
         <div className="-mt-px flex divide-x divide-gray-200">
           <div className="w-0 flex-1 flex">
-            <Link href={`mailto:${person.primaryMail.address}`}>
+            <Link href={`mailto:${person.primaryMail.value}`}>
               <a className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
                 <FontAwesomeIcon
                   icon={faEnvelopeOpen}
@@ -69,7 +72,7 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
             </Link>
           </div>
           <div className="-ml-px w-0 flex-1 flex">
-            <Link href={`tel:${person.primaryPhone.number}`}>
+            <Link href={`tel:${person.primaryPhone.value}`}>
               <a className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                 <FontAwesomeIcon
                   icon={faPhone}

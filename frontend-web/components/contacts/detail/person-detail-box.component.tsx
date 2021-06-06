@@ -7,6 +7,7 @@ import {
 } from "../../../globals/utils";
 import { PersonDetailActions } from "./person-detail-actions.component";
 import { StarSwitch } from "../../common/star-switch.component";
+import Avatar from "react-avatar";
 
 interface Props {
   person: PersonDetails;
@@ -32,10 +33,13 @@ export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
           <div className="flex items-center space-x-5">
             <div className="flex-shrink-0">
               <div className="relative">
-                <img
+                <Avatar
                   className="h-16 w-16 rounded-full"
+                  round
+                  name={person.displayName}
                   src={person.imageUrl}
-                  alt={person.name + " profile picture"}
+                  maxInitials={2}
+                  alt={person.displayName + "profile picture"}
                 />
                 <span
                   className="absolute inset-0 shadow-inner rounded-full"
@@ -46,7 +50,7 @@ export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
             <div>
               <div className={"flex items-center"}>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {person?.name}
+                  {person?.displayName}
                 </h1>
                 <StarSwitch mutate={() => Promise.resolve()} />
               </div>

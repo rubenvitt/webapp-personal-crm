@@ -39,26 +39,45 @@ export enum MailType {
   CUSTOM,
 }
 
-export interface PersonPhone {
-  number: string;
-  type: PhoneType;
-  customType?: string;
-  id: string;
+export enum AddressType {
+  PRIVATE,
+  WORK,
+  CUSTOM,
 }
 
-export interface PersonMail {
-  address: string;
-  type: MailType;
+export interface PersonCommunicationChannel {
+  value: string | unknown;
   customType?: string;
   id: string;
+  type: PhoneType | MailType | AddressType | unknown;
+}
+
+export interface PersonPhone extends PersonCommunicationChannel {
+  type: PhoneType;
+}
+
+export interface PersonMail extends PersonCommunicationChannel {
+  type: MailType;
+}
+
+export interface Address {
+  street: string;
+  zip: string;
+  city: string;
+  country: string;
+}
+
+export interface PersonAddress extends PersonCommunicationChannel {
+  value: Address;
+  type: AddressType;
 }
 
 export interface Person {
   id: string;
-  name: string;
+  displayName: string;
   primaryMail: PersonMail;
   primaryPhone: PersonPhone;
-  imageUrl: string;
+  imageUrl?: string;
   notification?: string;
 }
 
@@ -69,6 +88,7 @@ export interface PersonDetails extends Person {
   lastContact: string;
   mails: PersonMail[];
   phones: PersonPhone[];
+  addresses: PersonAddress[];
 }
 
 export enum LogEntryType {

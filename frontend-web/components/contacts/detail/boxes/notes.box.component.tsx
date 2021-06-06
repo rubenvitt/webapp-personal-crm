@@ -7,6 +7,7 @@ import {
 } from "../../../../globals/interfaces";
 import { ContentBox } from "../../../common/content-box.component";
 import React, { useReducer, useRef } from "react";
+import Avatar from "react-avatar";
 
 interface Props {
   person: PersonDetails;
@@ -59,10 +60,13 @@ export const PersonDetailNotesBox: React.FC<Props> = ({ person }) => {
         content: (
           <div className="flex space-x-3">
             <div className="flex-shrink-0">
-              <img
+              <Avatar
                 className="h-10 w-10 rounded-full"
+                round
+                name={person.displayName}
                 src={person?.imageUrl}
-                alt=""
+                maxInitials={2}
+                alt={person.displayName + "profile picture"}
               />
             </div>
             <div className="min-w-0 flex-1">

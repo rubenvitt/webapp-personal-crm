@@ -14,9 +14,9 @@ const appointments: LogEntry[] = [
     type: LogEntryType.meet,
     label: "Essengehen",
     description: "Ich bin mit denen Essen gegangen",
-    dateTimeBegin: "2021-05-026T11:00:00",
-    dateTimeEnd: "2021-05-026T11:00:00",
-    people: ["3", "4", "8"],
+    dateTimeBegin: "2021-05-26T11:00:00",
+    dateTimeEnd: "2021-05-26T11:00:00",
+    people: ["001-test", "002-test"],
   },
 ];
 
@@ -65,11 +65,8 @@ export default function Appointments() {
                         aria-hidden="true"
                       />
                       <p>
-                        Closing on{" "}
                         <time dateTime={appointment.dateTimeBegin}>
-                          {Date.parse(
-                            appointment.dateTimeBegin
-                          ).toLocaleString()}
+                          {new Date(appointment.dateTimeBegin).toLocaleString()}
                         </time>
                       </p>
                     </div>

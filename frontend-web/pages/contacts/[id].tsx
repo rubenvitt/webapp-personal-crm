@@ -50,8 +50,11 @@ function ContactDetailPage(props: { id; dehydratedState }) {
           person={person}
           aside={
             <ContentBox
-              title="Box 2"
-              footer={{ content: "Klick mich hier", action: () => undefined }}
+              title="Aktivitäten"
+              footer={{
+                content: `Alle Aktivitäten mit ${person.displayName} anzeigen`,
+                action: () => undefined,
+              }}
             />
           }
         >

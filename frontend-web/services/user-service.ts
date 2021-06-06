@@ -1,4 +1,5 @@
 import {
+  AddressType,
   Anrede,
   MailType,
   Person,
@@ -9,42 +10,64 @@ import {
 const mockPersons: PersonDetails[] = [
   {
     id: "001-test",
-    name: "Jane Cooper",
+    displayName: "Jane Cooper",
     primaryMail: {
       id: "001-test-mail01",
-      address: "janecooper@primary.example.com",
+      value: "janecooper@primary.example.com",
       type: MailType.PRIVATE,
     },
     mails: [
       {
         id: "001-test-mail01",
-        address: "janecooper@primary.example.com",
+        value: "janecooper@primary.example.com",
         type: MailType.PRIVATE,
       },
       {
         id: "001-test-mail02",
-        address: "janecooper@not-primary.example.com",
+        value: "janecooper@not-primary.example.com",
         type: MailType.WORK,
       },
     ],
     primaryPhone: {
       id: "001-test-phone01",
       type: PhoneType.MOBILE_PRIVATE,
-      number: "+49123321123",
+      value: "+49123321123",
     },
     phones: [
       {
         id: "001-test-phone01",
         type: PhoneType.MOBILE_PRIVATE,
-        number: "+49123321123",
+        value: "+49123321123",
       },
       {
         id: "001-test-phone02",
         type: PhoneType.MOBILE_WORK,
-        number: "+4912371235612",
+        value: "+4912371235612",
       },
     ],
-    imageUrl: "https://randomuser.me/api/portraits/women/28.jpg",
+    addresses: [
+      {
+        id: "001-test-address01",
+        type: AddressType.PRIVATE,
+        value: {
+          city: "Test City",
+          country: "Test country",
+          zip: "123231",
+          street: "Test street",
+        },
+      },
+      {
+        id: "001-test-address02",
+        type: AddressType.PRIVATE,
+        value: {
+          city: "Test City",
+          country: "Test country",
+          zip: "123231",
+          street: "Test street",
+        },
+      },
+    ],
+    //imageUrl: "https://randomuser.me/api/portraits/women/28.jpg",
     notification: "Geburtstag in 10 Tagen",
     anrede: Anrede.FEMININE,
     birthday: "1997-04-03",
@@ -60,42 +83,64 @@ const mockPersons: PersonDetails[] = [
   },
   {
     id: "002-test",
-    name: "Jane Cooper " + new Date(),
+    displayName: "Jane Cooper " + new Date(),
     primaryMail: {
       id: "002-test-mail01",
-      address: "janecooper@primary.example.com",
+      value: "janecooper@primary.example.com",
       type: MailType.PRIVATE,
     },
     mails: [
       {
         id: "002-test-mail01",
-        address: "janecooper@primary.example.com",
+        value: "janecooper@primary.example.com",
         type: MailType.PRIVATE,
       },
       {
         id: "002-test-mail02",
-        address: "janecooper@not-primary.example.com",
+        value: "janecooper@not-primary.example.com",
         type: MailType.WORK,
       },
     ],
     primaryPhone: {
       id: "002-test-phone01",
       type: PhoneType.MOBILE_PRIVATE,
-      number: "+49123321123",
+      value: "+49123321123",
     },
     phones: [
       {
         id: "002-test-phone01",
         type: PhoneType.MOBILE_PRIVATE,
-        number: "+49123321123",
+        value: "+49123321123",
       },
       {
         id: "002-test-phone02",
         type: PhoneType.MOBILE_WORK,
-        number: "+4912371235612",
+        value: "+4912371235612",
       },
     ],
-    imageUrl: "https://randomuser.me/api/portraits/women/11.jpg",
+    addresses: [
+      {
+        id: "002-test-address01",
+        type: AddressType.PRIVATE,
+        value: {
+          city: "Test City",
+          country: "Test country",
+          zip: "123231",
+          street: "Test street",
+        },
+      },
+      {
+        id: "002-test-address02",
+        type: AddressType.PRIVATE,
+        value: {
+          city: "Test City",
+          country: "Test country",
+          zip: "123231",
+          street: "Test street",
+        },
+      },
+    ],
+    //imageUrl: "https://randomuser.me/api/portraits/women/11.jpg",
     anrede: Anrede.FEMININE,
     birthday: "1981-11-13",
     lastContact: "2020-05-29",
@@ -113,7 +158,7 @@ const mockPersons: PersonDetails[] = [
 export const findAllPersons: () => Promise<Person[]> = async () => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      mockPersons[1].name = "Jane Cooper" + new Date();
+      mockPersons[1].displayName = "Jane Cooper" + new Date();
       resolve(mockPersons);
     }, 100);
   });
