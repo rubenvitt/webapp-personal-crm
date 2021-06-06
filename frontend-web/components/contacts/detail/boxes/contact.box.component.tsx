@@ -31,7 +31,7 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
       }}
     >
       <dl className="flex space-y-4 flex-col">
-        <dt className="border-b pb-4">
+        <dt className="border-b pb-4 border-gray-200">
           <EditRadio<PersonPhone>
             isEdit={isEdit}
             label="Telefonnummern:"
@@ -43,7 +43,7 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
             }}
           />
         </dt>
-        <dt className="border-b pb-4">
+        <dt className="border-b pb-4 border-gray-200">
           <EditRadio<PersonMail>
             isEdit={isEdit}
             values={person.mails}

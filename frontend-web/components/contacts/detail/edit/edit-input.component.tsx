@@ -30,6 +30,7 @@ interface RadioProps<T> {
   label: string;
   CustomEditInput?: React.FC<InputProps<T>>;
   inputOptions?: InputOptions;
+  onChange?: (value: string) => void;
 }
 
 export const EditRadio: <T extends PersonCommunicationChannel>(
@@ -40,13 +41,21 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
   label,
   CustomEditInput,
   inputOptions,
+  onChange,
 }) => {
   const [selectedId, setSelectedId] = useState(values?.[0].id);
 
+  const onChangeValue = (value) => {
+    onChange?.(value);
+    setSelectedId(value);
+  };
+
   return (
     <>
-      <RadioGroup value={selectedId} onChange={setSelectedId}>
-        <RadioGroup.Label>{label}</RadioGroup.Label>
+      <RadioGroup value={selectedId} onChange={onChangeValue}>
+        <RadioGroup.Label className="text-md leading-6 font-semibold text-gray-900">
+          {label}
+        </RadioGroup.Label>
         <ul className={classNames(isEdit ? "space-y-2" : "")}>
           {values?.map((element) => {
             return (
