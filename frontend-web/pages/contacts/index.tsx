@@ -10,7 +10,7 @@ export default function Index() {
         {isLoading && "Loading"}
         {persons &&
           persons.map((person) => (
-            <PersonListItem key={person.email} person={person} />
+            <PersonListItem key={person.id} person={person} />
           ))}
       </ul>
     </div>
