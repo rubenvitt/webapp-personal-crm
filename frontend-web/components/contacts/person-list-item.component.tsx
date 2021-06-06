@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelopeOpen, faPhoneAlt } from "@fortawesome/pro-solid-svg-icons";
+import { faEnvelopeOpen, faPhone } from "@fortawesome/pro-solid-svg-icons";
 
 interface Props {
   person: Person;
@@ -16,20 +16,9 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
   const showProfile = () => {
     router.push(`${router.pathname}/${person.id}`);
   };
-
-  const call = () => {
-    router.push("tel:" + person.phone);
-    return false;
-  };
-
-  const writeMail = () => {
-    router.push("mailto:" + person.email);
-    return false;
-  };
-
   return (
     <li
-      key={person.email}
+      key={person.id}
       className="col-span-1 cursor-pointer flex flex-col text-center rounded-lg shadow divide-y divide-gray-200 hover:bg-lightgray-300 bg-white hover:bg-gray-50"
     >
       {person.notification && (
@@ -67,26 +56,22 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
       <div>
         <div className="-mt-px flex divide-x divide-gray-200">
           <div className="w-0 flex-1 flex">
-            <a
-              onClick={writeMail}
-              className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
-            >
-              <FontAwesomeIcon
-                icon={faEnvelopeOpen}
-                className="w-5 h-5 text-gray-400"
-                aria-hidden="true"
-              />
-              <span className="ml-3">Email</span>
-            </a>
+            <Link href={`mailto:${person.primaryMail.address}`}>
+              <a className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                <FontAwesomeIcon
+                  icon={faEnvelopeOpen}
+                  className="w-5 h-5 text-gray-400"
+                  aria-hidden="true"
+                />
+                <span className="ml-3">Email</span>
+              </a>
+            </Link>
           </div>
           <div className="-ml-px w-0 flex-1 flex">
-            <Link href={`tel:${person.phone}`}>
-              <a
-                onClick={call}
-                className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
-              >
+            <Link href={`tel:${person.primaryPhone.number}`}>
+              <a className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                 <FontAwesomeIcon
-                  icon={faPhoneAlt}
+                  icon={faPhone}
                   className="w-5 h-5 text-gray-400"
                   aria-hidden="true"
                 />

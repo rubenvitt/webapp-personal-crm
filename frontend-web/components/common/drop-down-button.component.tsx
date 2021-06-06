@@ -36,7 +36,11 @@ export const DropDownButton: React.FC<Props> = ({
 
   return (
     <>
-      <Menu as="div" className={classNames("relative", className)}>
+      <Menu
+        onChange={(event) => console.log("onchange", event)}
+        as="div"
+        className={classNames("relative", className)}
+      >
         <div className="flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
           <Menu.Button
             title={titleText}

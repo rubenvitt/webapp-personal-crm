@@ -51,8 +51,8 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
         </dt>
         <div>
           <h3>Kontaktdaten</h3>
-          <dt>Telefonummer: {person.phone}</dt>
-          <dt>Email: {person.email}</dt>
+          <dt>Telefonummer: {person.primaryPhone.number}</dt>
+          <dt>Email: {person.primaryMail.address}</dt>
         </div>
       </dl>
     </ContentBox>

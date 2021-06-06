@@ -1,11 +1,49 @@
-import { Anrede, Person, PersonDetails } from "../globals/interfaces";
+import {
+  Anrede,
+  MailType,
+  Person,
+  PersonDetails,
+  PhoneType,
+} from "../globals/interfaces";
 
 const mockPersons: PersonDetails[] = [
   {
     id: "001-test",
     name: "Jane Cooper",
-    email: "janecooper@example.com",
-    phone: "+49123321123",
+    primaryMail: {
+      id: "001-test-mail01",
+      address: "janecooper@primary.example.com",
+      type: MailType.PRIVATE,
+    },
+    mails: [
+      {
+        id: "001-test-mail01",
+        address: "janecooper@primary.example.com",
+        type: MailType.PRIVATE,
+      },
+      {
+        id: "001-test-mail02",
+        address: "janecooper@not-primary.example.com",
+        type: MailType.WORK,
+      },
+    ],
+    primaryPhone: {
+      id: "001-test-phone01",
+      type: PhoneType.MOBILE_PRIVATE,
+      number: "+49123321123",
+    },
+    phones: [
+      {
+        id: "001-test-phone01",
+        type: PhoneType.MOBILE_PRIVATE,
+        number: "+49123321123",
+      },
+      {
+        id: "001-test-phone02",
+        type: PhoneType.MOBILE_WORK,
+        number: "+4912371235612",
+      },
+    ],
     imageUrl: "https://randomuser.me/api/portraits/women/28.jpg",
     notification: "Geburtstag in 10 Tagen",
     anrede: Anrede.FEMININE,
@@ -23,8 +61,40 @@ const mockPersons: PersonDetails[] = [
   {
     id: "002-test",
     name: "Jane Cooper " + new Date(),
-    email: "janecooper@example.com",
-    phone: "+49123321123",
+    primaryMail: {
+      id: "002-test-mail01",
+      address: "janecooper@primary.example.com",
+      type: MailType.PRIVATE,
+    },
+    mails: [
+      {
+        id: "002-test-mail01",
+        address: "janecooper@primary.example.com",
+        type: MailType.PRIVATE,
+      },
+      {
+        id: "002-test-mail02",
+        address: "janecooper@not-primary.example.com",
+        type: MailType.WORK,
+      },
+    ],
+    primaryPhone: {
+      id: "002-test-phone01",
+      type: PhoneType.MOBILE_PRIVATE,
+      number: "+49123321123",
+    },
+    phones: [
+      {
+        id: "002-test-phone01",
+        type: PhoneType.MOBILE_PRIVATE,
+        number: "+49123321123",
+      },
+      {
+        id: "002-test-phone02",
+        type: PhoneType.MOBILE_WORK,
+        number: "+4912371235612",
+      },
+    ],
     imageUrl: "https://randomuser.me/api/portraits/women/11.jpg",
     anrede: Anrede.FEMININE,
     birthday: "1981-11-13",

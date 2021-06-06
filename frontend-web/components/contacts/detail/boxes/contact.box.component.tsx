@@ -1,10 +1,11 @@
 import { PersonDetails } from "../../../../globals/interfaces";
 import { ContentBox } from "../../../common/content-box.component";
-import { useEffect, useState } from "react";
-import { PhoneEditInput } from "../edit/phone-edit.input.component";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/pro-solid-svg-icons";
-import { MailEditInput } from "../edit/mail-edit.input.component";
+import React, { useEffect, useState } from "react";
+import { PhoneEditInput, PhoneEditRadio } from "../edit/phone-edit.component";
+import {
+  MailEditInput,
+  MailEditRadio,
+} from "../edit/mail-edit.input.component";
 
 interface Props {
   person: PersonDetails;
@@ -29,28 +30,10 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
     >
       <dl>
         <dt>
-          Telefonnummern:
-          <ul>
-            <li>
-              <PhoneEditInput
-                isEdit={isEdit}
-                initialPhoneNumber={person.phone}
-                onChange={() => undefined}
-              />
-            </li>
-          </ul>
+          <PhoneEditRadio isEdit={isEdit} phones={person.phones} />
         </dt>
         <dt>
-          Mailadressen:
-          <ul>
-            <li>
-              <MailEditInput
-                initialMailAddress={person.email}
-                onChange={() => undefined}
-                isEdit={isEdit}
-              />
-            </li>
-          </ul>
+          <MailEditRadio isEdit={isEdit} mails={person.mails} />
         </dt>
         <dt>
           Adressen:

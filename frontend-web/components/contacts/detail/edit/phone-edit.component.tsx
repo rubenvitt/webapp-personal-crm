@@ -1,58 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { TextInput } from "../../../common/input.component";
-import { PersonMail } from "../../../../globals/interfaces";
+import { PersonPhone } from "../../../../globals/interfaces";
 import { RadioGroup } from "@headlessui/react";
 import { classNames } from "../../../../globals/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown as fasCrown } from "@fortawesome/pro-solid-svg-icons";
 import {
   faCircle,
   faCrown as farCrown,
 } from "@fortawesome/pro-regular-svg-icons";
+import { faCrown as fasCrown } from "@fortawesome/pro-solid-svg-icons";
 
 interface InputProps {
-  initialMailAddress: PersonMail;
-  onChange: (mail: string) => undefined;
+  initialPhoneNumber: PersonPhone;
+  onChange: (phone: string) => undefined;
   isEdit: boolean;
 }
 
 interface RadioProps {
   isEdit: boolean;
-  mails: PersonMail[];
+  phones: PersonPhone[];
 }
 
-export const MailEditRadio: React.FC<RadioProps> = ({ isEdit, mails }) => {
-  const [selectedMail, setSelectedMail] = useState(mails[0].id);
+export const PhoneEditRadio: React.FC<RadioProps> = ({ isEdit, phones }) => {
+  const [selectedPhone, setSelectedPhone] = useState(phones[0].id);
   return (
     <>
       <RadioGroup
-        value={selectedMail}
-        onChange={(value) => setSelectedMail(value)}
+        value={selectedPhone}
+        onChange={(value) => setSelectedPhone(value)}
       >
-        <RadioGroup.Label>E-Mail Adressen</RadioGroup.Label>
+        <RadioGroup.Label>Telefonnummern</RadioGroup.Label>
         <div className="space-y-2">
-          {mails.map((mail) => {
+          {phones.map((phone) => {
             return (
               <li
-                key={mail.id}
+                key={phone.id}
                 className={classNames(
-                  isEdit && selectedMail === mail.id && "border-indigo-500",
+                  isEdit && selectedPhone === phone.id && "border-indigo-500",
                   "flex justify-between items-center px-3 py-1 border-2 border-transparent rounded-md"
                 )}
               >
-                <MailEditInput
+                <PhoneEditInput
                   isEdit={isEdit}
-                  initialMailAddress={mail}
+                  initialPhoneNumber={phone}
                   onChange={() => undefined}
                 />
                 <RadioGroup.Option
-                  key={mail.id}
-                  value={mail.id}
+                  key={phone.id}
+                  value={phone.id}
                   className={({ active }) =>
                     classNames(
-                      !isEdit ? "" : "relative block",
+                      !isEdit ? "" : "relative block cursor-pointer",
                       active ? "" : "",
-                      "rounded-lg px-4 py-4 cursor-pointer focus:outline-none"
+                      "rounded-lg px-4 py-4 focus:outline-none"
                     )
                   }
                 >
@@ -78,27 +78,26 @@ export const MailEditRadio: React.FC<RadioProps> = ({ isEdit, mails }) => {
   );
 };
 
-const MailEditInput: React.FC<InputProps> = ({
-  initialMailAddress,
+const PhoneEditInput: React.FC<InputProps> = ({
+  initialPhoneNumber,
   isEdit,
 }) => {
-  const [mail, setMail] = useState<string>(initialMailAddress.address);
+  const [phone, setPhone] = useState<string>(initialPhoneNumber.number);
 
-  useEffect(() => setMail(initialMailAddress.address), [isEdit]);
+  useEffect(() => setPhone(initialPhoneNumber.number), [isEdit]);
 
   return (
     <div className="flex grid grid-cols-4">
       {isEdit ? (
         <TextInput
-          autocomplete="email"
-          inputType="email"
+          autocomplete="tel"
           className="col-span-2"
-          title={"E-Mail"}
+          title={"Telefonnummer"}
           showLabel={false}
-          initialValue={initialMailAddress.address}
+          initialValue={initialPhoneNumber.number}
         />
       ) : (
-        <p className="col-span-4">{mail}</p>
+        <p className="col-span-4">{phone}</p>
       )}
     </div>
   );

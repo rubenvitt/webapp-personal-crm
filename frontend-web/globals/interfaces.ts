@@ -23,11 +23,41 @@ export interface User {
   imageUrl: string;
 }
 
+export enum PhoneType {
+  MOBILE,
+  MOBILE_PRIVATE,
+  MOBILE_WORK,
+  PHONE,
+  PHONE_PRIVATE,
+  PHONE_WORK,
+  CUSTOM,
+}
+
+export enum MailType {
+  PRIVATE,
+  WORK,
+  CUSTOM,
+}
+
+export interface PersonPhone {
+  number: string;
+  type: PhoneType;
+  customType?: string;
+  id: string;
+}
+
+export interface PersonMail {
+  address: string;
+  type: MailType;
+  customType?: string;
+  id: string;
+}
+
 export interface Person {
   id: string;
   name: string;
-  email: string;
-  phone: string;
+  primaryMail: PersonMail;
+  primaryPhone: PersonPhone;
   imageUrl: string;
   notification?: string;
 }
@@ -37,6 +67,8 @@ export interface PersonDetails extends Person {
   birthday?: string;
   anrede: Anrede;
   lastContact: string;
+  mails: PersonMail[];
+  phones: PersonPhone[];
 }
 
 export enum LogEntryType {
