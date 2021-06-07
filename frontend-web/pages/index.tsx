@@ -1,12 +1,14 @@
-import Head from "next/head";
 import { useQuery } from "react-query";
-import { findAllPersons } from "../services/user-service";
+import { findAllPersons } from "../services/person-service";
+import { getCurrentUser } from "../services/account-service";
 
 export default function Dashboard() {
-  const { data: persons, isLoading } = useQuery("persons", findAllPersons);
+  const { data: persons } = useQuery("persons", findAllPersons);
+  const { data: currentUser } = useQuery("user", getCurrentUser);
 
   return (
     <>
+      <p>Hallo {currentUser?.name}!</p>
       <ul>
         <li>Overview last contacts</li>
         <li>Overview appointments</li>

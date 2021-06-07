@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
 import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
 import Avatar from "react-avatar";
+import { useQuery } from "react-query";
+import { getCurrentUser } from "../../services/account-service";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -18,6 +20,7 @@ export const Layout = (props: { children: ReactNode }) => {
   const { sidebarNav, userNav, addItemsNav, setSidebarCurrent } =
     useNavigationStore();
   const router = useRouter();
+  let { data: currentUser } = useQuery("user", getCurrentUser);
 
   useEffect(() => {
     console.log("Set sidebar current to", router.pathname);
@@ -227,8 +230,9 @@ export const Layout = (props: { children: ReactNode }) => {
                             className="h-2 w-2 rounded-full"
                             size="36"
                             round
-                            src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
                             maxInitials={2}
+                            src={currentUser?.imageUrl}
+                            name={currentUser?.name}
                             alt={"Your profile picture"}
                           />
                         </Menu.Button>

@@ -1,16 +1,12 @@
 import React from "react";
-import { Person } from "../../globals/interfaces";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelopeOpen, faPhone } from "@fortawesome/pro-solid-svg-icons";
 import Avatar from "react-avatar";
+import { ItemProps } from "./person-list.component";
 
-interface Props {
-  person: Person;
-}
-
-export const PersonListItem: React.FC<Props> = ({ person }) => {
+export const PersonListItem: React.FC<ItemProps> = ({ person }) => {
   const router = useRouter();
 
   const showProfile = () => {
@@ -18,10 +14,7 @@ export const PersonListItem: React.FC<Props> = ({ person }) => {
   };
 
   return (
-    <li
-      key={person.id}
-      className="col-span-1 cursor-pointer flex flex-col text-center rounded-lg shadow divide-y divide-gray-200 hover:bg-lightgray-300 bg-white hover:bg-gray-50"
-    >
+    <li className="col-span-1 cursor-pointer flex flex-col text-center rounded-lg shadow divide-y divide-gray-200 hover:bg-lightgray-300 bg-white hover:bg-gray-50">
       {person.notification && (
         <div
           onClick={showProfile}

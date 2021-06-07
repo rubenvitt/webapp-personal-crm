@@ -11,6 +11,7 @@ const mockPersons: PersonDetails[] = [
   {
     id: "001-test",
     displayName: "Jane Cooper",
+    isFavorite: true,
     primaryMail: {
       id: "001-test-mail01",
       value: "janecooper@primary.example.com",
@@ -89,6 +90,7 @@ const mockPersons: PersonDetails[] = [
       value: "janecooper@primary.example.com",
       type: MailType.PRIVATE,
     },
+    isFavorite: false,
     mails: [
       {
         id: "002-test-mail01",
@@ -160,6 +162,14 @@ export const findAllPersons: () => Promise<Person[]> = async () => {
     setTimeout(() => {
       mockPersons[1].displayName = "Jane Cooper" + new Date();
       resolve(mockPersons);
+    }, 100);
+  });
+};
+
+export const findAllFavoritePersons: () => Promise<Person[]> = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(mockPersons.filter((person) => person.isFavorite));
     }, 100);
   });
 };

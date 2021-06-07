@@ -12,12 +12,6 @@ import {
   faUserCircle,
 } from "@fortawesome/pro-regular-svg-icons";
 
-const user = {
-  name: "Tina Bergen",
-  email: "tina@bergen.me",
-  imageUrl:
-    "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80",
-};
 const subNavigation = [
   { name: "Profil", href: "#", icon: faUserCircle, current: false },
   { name: "Account", href: "#", icon: faCog, current: true },

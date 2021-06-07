@@ -1,18 +1,37 @@
-import { PersonListItem } from "../../components/contacts/person-list-item.component";
+import { PersonListItem } from "../../components/contacts/list/person-list-item.component";
 import { useQuery } from "react-query";
-import { findAllPersons } from "../../services/user-service";
+import {
+  findAllFavoritePersons,
+  findAllPersons,
+} from "../../services/person-service";
+import { PersonList } from "../../components/contacts/list/person-list.component";
+import { PersonListItemFavorite } from "../../components/contacts/list/person-list-item.favorite.component";
 
 export default function Index() {
-  const { data: persons, isLoading } = useQuery("persons", findAllPersons);
+  const { data: persons, isLoading: loadingPersons } = useQuery(
+    "persons",
+    findAllPersons
+  );
+  const { data: favoritePersons, isLoading: loadingFavorites } = useQuery(
+    "persons.favorite",
+    findAllFavoritePersons
+  );
   return (
     <div className="">
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {isLoading && "Loading"}
-        {persons &&
-          persons.map((person) => (
-            <PersonListItem key={person.id} person={person} />
-          ))}
-      </ul>
+      <PersonList
+        persons={favoritePersons}
+        loading={loadingFavorites}
+        title="Favoriten"
+        className={"mb-5"}
+        Item={PersonListItemFavorite}
+      />
+      <PersonList
+        persons={persons}
+        loading={loadingPersons}
+        title={"Alle Kontakte"}
+        className={"border-none"}
+        Item={PersonListItem}
+      />
     </div>
   );
 }

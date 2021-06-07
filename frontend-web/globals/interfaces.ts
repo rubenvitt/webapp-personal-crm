@@ -18,9 +18,10 @@ export interface Navigation {
 }
 
 export interface User {
+  id: string;
   name: string;
-  email: string;
-  imageUrl: string;
+  hashedMail: string;
+  imageUrl?: string;
 }
 
 export enum PhoneType {
@@ -82,6 +83,7 @@ export interface Person {
 }
 
 export interface PersonDetails extends Person {
+  isFavorite: boolean;
   groups: PersonTag[];
   birthday?: string;
   anrede: Anrede;

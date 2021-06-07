@@ -1,5 +1,5 @@
 import { QueryClient, useQuery } from "react-query";
-import { findAllPersons, findDetailsFor } from "../../services/user-service";
+import { findAllPersons, findDetailsFor } from "../../services/person-service";
 import { dehydrate } from "react-query/hydration";
 import { PersonBox } from "../../components/contacts/detail/person-detail-box.component";
 import { PersonTagList } from "../../components/contacts/detail/person-tag-list.component";

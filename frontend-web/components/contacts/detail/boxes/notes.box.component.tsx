@@ -7,7 +7,6 @@ import {
 } from "../../../../globals/interfaces";
 import { ContentBox } from "../../../common/content-box.component";
 import React, { useReducer, useRef } from "react";
-import Avatar from "react-avatar";
 
 interface Props {
   person: PersonDetails;
@@ -37,7 +36,7 @@ const notes: Note[] = [
   },
 ];
 
-export const PersonDetailNotesBox: React.FC<Props> = ({ person }) => {
+export const PersonDetailNotesBox: React.FC<Props> = ({}) => {
   const commentBoxRef = useRef<HTMLTextAreaElement>();
 
   const [state, dispatch] = useReducer((notes, action) => {
@@ -59,16 +58,6 @@ export const PersonDetailNotesBox: React.FC<Props> = ({ person }) => {
       footer={{
         content: (
           <div className="flex space-x-3">
-            <div className="flex-shrink-0">
-              <Avatar
-                className="h-10 w-10 rounded-full"
-                round
-                name={person.displayName}
-                src={person?.imageUrl}
-                maxInitials={2}
-                alt={person.displayName + "profile picture"}
-              />
-            </div>
             <div className="min-w-0 flex-1">
               <form action="#">
                 <div>
@@ -81,7 +70,7 @@ export const PersonDetailNotesBox: React.FC<Props> = ({ person }) => {
                     name="comment"
                     rows={3}
                     className="shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
-                    placeholder="Add a note"
+                    placeholder="Notiz hinzufügen"
                     defaultValue={""}
                   />
                 </div>
