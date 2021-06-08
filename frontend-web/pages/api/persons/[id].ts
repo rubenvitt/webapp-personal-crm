@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { mockPersons } from "../../../mocks/mocks.data";
+import { apiFindPersonDetailsFor } from "../../../api-functions/persons";
 
 export default async function findPersonDetails(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let personDetails = mockPersons.find((a) => a.id === req.query.id);
+  let personDetails = apiFindPersonDetailsFor(req.query.id as string);
   if (personDetails) {
     res.status(200).json(personDetails);
   } else {

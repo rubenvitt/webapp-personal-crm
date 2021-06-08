@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { mockPersons } from "../../../mocks/mocks.data";
+import { apiFindAllPersons } from "../../../api-functions/persons";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json(mockPersons);
+  res.status(200).json(apiFindAllPersons());
 }
