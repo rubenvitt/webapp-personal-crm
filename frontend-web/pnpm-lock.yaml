@@ -18,6 +18,7 @@ specifiers:
   '@typescript-eslint/parser': ^4.26.0
   autoprefixer: ^10.2.6
   axios: ^0.21.1
+  cors: ^2.8.5
   eslint: ^7.27.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^3.4.0
@@ -50,6 +51,7 @@ dependencies:
   '@tailwindcss/forms': 0.3.3_tailwindcss@2.1.4
   '@tailwindcss/typography': 0.4.1_tailwindcss@2.1.4
   axios: 0.21.1
+  cors: 2.8.5
   next: 10.2.3_c8cdd86752aa86fb2b6e32ae91115ebe
   postcss: 8.3.0
   react: 17.0.2
@@ -970,6 +972,14 @@ packages:
 
   /core-util-is/1.0.2:
     resolution: { integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac= }
+    dev: false
+
+  /cors/2.8.5:
+    resolution: { integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g== }
+    engines: { node: '>= 0.10' }
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
     dev: false
 
   /create-ecdh/4.0.4:
@@ -3507,6 +3517,11 @@ packages:
   /v8-compile-cache/2.3.0:
     resolution: { integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA== }
     dev: true
+
+  /vary/1.1.2:
+    resolution: { integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw= }
+    engines: { node: '>= 0.8' }
+    dev: false
 
   /vm-browserify/1.1.2:
     resolution: { integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ== }

@@ -8,6 +8,8 @@ import React from "react";
 import { PersonDetailGeneralBox } from "../../components/contacts/detail/boxes/general.box.component";
 import { PersonDetailNotesBox } from "../../components/contacts/detail/boxes/notes.box.component";
 import { PersonContactBox } from "../../components/contacts/detail/boxes/contact.box.component";
+import { LogList } from "../../components/log/log-list.component";
+import { findLogItemsFor } from "../../services/log-service";
 
 export async function getStaticProps({ params }) {
   const queryClient = new QueryClient();
@@ -43,6 +45,10 @@ function ContactDetailPage(props: { id; dehydratedState }) {
     findDetailsFor(props.id)
   );
 
+  const { data: logEntries } = useQuery(["persons.log", props.id], () =>
+    findLogItemsFor(props.id)
+  );
+
   return (
     <>
       {person && (
@@ -55,7 +61,9 @@ function ContactDetailPage(props: { id; dehydratedState }) {
                 content: `Alle Aktivitäten mit ${person.displayName} anzeigen`,
                 action: () => undefined,
               }}
-            />
+            >
+              <LogList logEntries={logEntries} />
+            </ContentBox>
           }
         >
           <PersonTagList
