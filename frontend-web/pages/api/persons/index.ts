@@ -1,6 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { apiFindAllPersons } from "../../../api-functions/persons";
+import nextConnect from "next-connect";
+import dbConnect from "../../../api-functions/dbConnect";
+import { Person } from "../../../models/Person";
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json(apiFindAllPersons());
-}
+const handler = nextConnect();
+handler.get(async (req, res) => {
+  await dbConnect();
+
+  const persons = await Person.find({});
+  res.json(persons);
+});
+
+export default handler;
