@@ -1,6 +1,72 @@
 import { TextInput } from "../../components/common/input.component";
+import { useMutation } from "react-query";
+import { reactQuery } from "../../globals/react-query.config";
+import { createPerson } from "../../services/person-service";
+import React, { SyntheticEvent, useReducer } from "react";
+import { useRouter } from "next/router";
+import { IdOnly } from "../../globals/interfaces";
+
+interface FormType {
+  gender: string;
+  givenName: string;
+  familyName: string;
+  nickName: string;
+}
+
+const EMPTY_FORM_VALUE: FormType = {
+  gender: "",
+  givenName: "",
+  familyName: "",
+  nickName: "",
+};
 
 export default function NewContactPage() {
+  const reducer = (
+    state: FormType,
+    action: {
+      name: "gender" | "givenName" | "reset" | "familyName" | "nickName";
+      value?: string;
+    }
+  ) => {
+    if (action.name === "reset") {
+      return EMPTY_FORM_VALUE;
+    }
+    return {
+      ...state,
+      [action.name]: action.value,
+    };
+  };
+
+  const { push } = useRouter();
+
+  const [formData, dispatch] = useReducer(reducer, EMPTY_FORM_VALUE);
+
+  const { isLoading, mutate } = useMutation<IdOnly, unknown, FormType>(
+    "create-contacts",
+    (element) => {
+      console.log("going to create person", element);
+      return createPerson({
+        firstName: element.givenName,
+        displayName: element.givenName + " " + element.familyName,
+        lastName: element.familyName,
+      });
+    },
+    {
+      onSuccess: async (value) => {
+        await reactQuery.invalidateQueries("persons").then(() => {
+          push("/contacts/" + value.id);
+        });
+      },
+    }
+  );
+
+  const createContact = (event: SyntheticEvent) => {
+    event.preventDefault();
+    if (!isLoading) {
+      mutate(formData);
+    }
+  };
+
   return (
     <form className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
       <section aria-labelledby="payment_details_heading">
@@ -21,29 +87,59 @@ export default function NewContactPage() {
 
             <div className="mt-6 grid grid-cols-4 lg:grid-cols-6 gap-6">
               <TextInput
+                disabled={isLoading}
+                onChange={(aValue) => {
+                  dispatch({
+                    value: aValue,
+                    name: "givenName",
+                  });
+                }}
                 className="col-span-6 sm:col-span-2"
                 title={"Vorname"}
                 autocomplete={"given-name"}
               />
               <TextInput
+                disabled={isLoading}
+                onChange={(aValue) => {
+                  dispatch({
+                    value: aValue,
+                    name: "familyName",
+                  });
+                }}
                 className="col-span-6 sm:col-span-2"
                 title={"Nachname"}
                 autocomplete={"family-name"}
               />
               <TextInput
+                disabled={isLoading}
+                onChange={(aValue) => {
+                  dispatch({
+                    value: aValue,
+                    name: "nickName",
+                  });
+                }}
                 className="col-span-6 sm:col-span-2"
                 title={"Spitzname"}
                 autocomplete={"nickname"}
               />
               <TextInput
+                disabled={isLoading}
+                onChange={(aValue) => {
+                  dispatch({
+                    value: aValue,
+                    name: "gender",
+                  });
+                }}
                 className="col-span-6 sm:col-span-2"
                 title={"Geschlecht"}
-                autocomplete={"sex"}
+                autocomplete={"gender"}
               />
             </div>
           </div>
           <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
             <button
+              disabled={isLoading}
+              onClick={createContact}
               type="submit"
               className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             >

@@ -1,4 +1,9 @@
-import { Person, PersonDetails } from "../globals/interfaces";
+import {
+  CreatePerson,
+  IdOnly,
+  Person,
+  PersonDetails,
+} from "../globals/interfaces";
 import axios from "../axios";
 
 export const findAllPersons: () => Promise<Person[]> = async () => {
@@ -22,3 +27,12 @@ export const findDetailsFor: (aPersonId: string) => Promise<PersonDetails> = (
     .get("/api/persons/" + aPersonId)
     .then((value) => value.data)
     .catch(() => undefined);
+
+export const createPerson: (aPerson: CreatePerson) => Promise<IdOnly> = async (
+  aPerson
+) => {
+  return axios
+    .post<IdOnly>("/api/persons/create", aPerson)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};

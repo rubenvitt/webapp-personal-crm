@@ -1,9 +1,16 @@
-import { mockPersons } from "../mocks/mocks.data";
+import { CreatePerson } from "../globals/interfaces";
+import { Person as PersonModel } from "../models/Person";
 
-export function apiFindPersonDetailsFor(aPersonId: string) {
-  return mockPersons.find((a) => a.id === aPersonId);
+export async function apiFindPersonDetailsFor(aPersonId: string) {
+  return PersonModel.findOne({
+    _id: aPersonId,
+  });
 }
 
-export function apiFindAllPersons(): any {
-  return mockPersons;
+export function apiFindAllPersons() {
+  return PersonModel.find({});
+}
+
+export async function apiCreatePerson(aPerson: CreatePerson) {
+  return await PersonModel.create(aPerson);
 }

@@ -8,6 +8,8 @@ interface Props {
   autocomplete?: string;
   initialValue?: string;
   inputType?: string;
+  onChange?: (aValue: string) => void;
+  disabled?: boolean;
 }
 
 export const TextInput: React.FC<Props> = ({
@@ -17,6 +19,8 @@ export const TextInput: React.FC<Props> = ({
   showLabel = true,
   initialValue,
   inputType = "text",
+  onChange,
+  disabled = false,
 }) => {
   const [id] = useState(String(Math.random()));
 
@@ -25,6 +29,12 @@ export const TextInput: React.FC<Props> = ({
   useEffect(() => {
     setValue(initialValue);
   }, []);
+
+  if (onChange) {
+    useEffect(() => {
+      onChange(value);
+    }, [value]);
+  }
 
   return (
     <div className={className}>
@@ -41,9 +51,12 @@ export const TextInput: React.FC<Props> = ({
         type={inputType}
         name={id}
         id={id}
+        disabled={disabled}
         autoComplete={autocomplete}
         value={value}
-        onChange={(event) => setValue(event.currentTarget.value)}
+        onChange={(event) => {
+          setValue(event.currentTarget.value);
+        }}
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
       />
     </div>

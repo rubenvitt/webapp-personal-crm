@@ -73,6 +73,16 @@ export interface PersonAddress extends PersonCommunicationChannel {
   type: AddressType;
 }
 
+export interface CreatePerson {
+  firstName: string;
+  lastName: string;
+  displayName: string;
+}
+
+export interface IdOnly {
+  id: string;
+}
+
 export interface Person {
   id: string;
   displayName: string;
