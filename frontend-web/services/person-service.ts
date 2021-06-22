@@ -22,11 +22,7 @@ export const findAllFavoritePersons: () => Promise<Person[]> = async () => {
 
 export const findDetailsFor: (aPersonId: string) => Promise<PersonDetails> = (
   aPersonId
-) =>
-  axios
-    .get("/api/persons/" + aPersonId)
-    .then((value) => value.data)
-    .catch(() => undefined);
+) => axios.get("/api/persons/" + aPersonId).then((value) => value.data);
 
 export const createPerson: (aPerson: CreatePerson) => Promise<IdOnly> = async (
   aPerson

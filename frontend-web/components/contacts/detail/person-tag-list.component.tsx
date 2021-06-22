@@ -1,7 +1,6 @@
 import React, { useReducer, useRef } from "react";
 import { PersonTag } from "../../../globals/interfaces";
 import { classNames } from "../../../globals/utils";
-import { TrashIcon } from "@heroicons/react/solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/pro-solid-svg-icons";
 
@@ -13,7 +12,7 @@ interface Props {
 }
 
 export const PersonTagList: React.FC<Props> = ({
-  tagList,
+  tagList = [],
   className,
   withCreation,
   onClick,

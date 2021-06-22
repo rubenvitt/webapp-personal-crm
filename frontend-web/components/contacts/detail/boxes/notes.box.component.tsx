@@ -36,7 +36,7 @@ const notes: Note[] = [
   },
 ];
 
-export const PersonDetailNotesBox: React.FC<Props> = ({}) => {
+export const PersonDetailNotesBox: React.FC<Props> = () => {
   const commentBoxRef = useRef<HTMLTextAreaElement>();
 
   const [state, dispatch] = useReducer((notes, action) => {

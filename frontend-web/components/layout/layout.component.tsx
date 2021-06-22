@@ -20,7 +20,7 @@ export const Layout = (props: { children: ReactNode }) => {
   const { sidebarNav, userNav, addItemsNav, setSidebarCurrent } =
     useNavigationStore();
   const router = useRouter();
-  let { data: currentUser } = useQuery("user", getCurrentUser);
+  const { data: currentUser } = useQuery("user", getCurrentUser);
 
   useEffect(() => {
     console.log("Set sidebar current to", router.pathname);

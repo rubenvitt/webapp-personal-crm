@@ -45,11 +45,15 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
             })}
           </span>
         </dt>
-        <div>
-          <h3>Kontaktdaten</h3>
-          <dt>Telefonnummer: {person.primaryPhone.value}</dt>
-          <dt>Email: {person.primaryMail.value}</dt>
-        </div>
+        {(person.primaryMail || person.primaryPhone) && (
+          <div>
+            <h3>Kontaktdaten</h3>
+            {person.primaryPhone && (
+              <dt>Telefonnummer: {person.primaryPhone.value}</dt>
+            )}
+            {person.primaryMail && <dt>Email: {person.primaryMail.value}</dt>}
+          </div>
+        )}
       </dl>
     </ContentBox>
   );

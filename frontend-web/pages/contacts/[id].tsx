@@ -10,6 +10,8 @@ import { PersonDetailNotesBox } from "../../components/contacts/detail/boxes/not
 import { PersonContactBox } from "../../components/contacts/detail/boxes/contact.box.component";
 import { LogList } from "../../components/log/log-list.component";
 import { findLogItemsFor } from "../../services/log-service";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
 export async function getStaticProps({ params }) {
   const queryClient = new QueryClient();
@@ -28,12 +30,14 @@ export async function getStaticProps({ params }) {
 export async function getStaticPaths() {
   const queryClient = new QueryClient();
   const people = await queryClient.fetchQuery(["persons"], findAllPersons);
+
   return {
-    paths: people.map((value) => ({
-      params: {
-        id: value.id,
-      },
-    })),
+    paths:
+      people?.map((value) => ({
+        params: {
+          id: value._id,
+        },
+      })) ?? [],
     fallback: true,
   };
 }
@@ -41,10 +45,18 @@ export async function getStaticPaths() {
 export default ContactDetailPage;
 
 function ContactDetailPage(props: { id; dehydratedState }) {
-  const { data: person } = useQuery(["persons", props.id], () =>
-    findDetailsFor(props.id)
+  const { push } = useRouter();
+  const { data: person } = useQuery(
+    ["persons", props.id],
+    () => findDetailsFor(props.id),
+    {
+      onError: (err: AxiosError) => {
+        if (err.isAxiosError && err.response?.status === 404) {
+          push("/contacts");
+        }
+      },
+    }
   );
-
   const { data: logEntries } = useQuery(["persons.log", props.id], () =>
     findLogItemsFor(props.id)
   );

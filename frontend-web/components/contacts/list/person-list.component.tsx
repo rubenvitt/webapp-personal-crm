@@ -30,7 +30,7 @@ export const PersonList: React.FC<Props> = ({
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {loading && "Loading"}
         {persons &&
-          persons.map((person) => <Item key={person.id} person={person} />)}
+          persons.map((person) => <Item key={person._id} person={person} />)}
       </ul>
     </div>
   );

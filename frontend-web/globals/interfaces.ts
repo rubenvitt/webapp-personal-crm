@@ -84,7 +84,7 @@ export interface IdOnly {
 }
 
 export interface Person {
-  id: string;
+  _id: string;
   displayName: string;
   primaryMail: PersonMail;
   primaryPhone: PersonPhone;

@@ -1,10 +1,14 @@
 import { CreatePerson } from "../globals/interfaces";
 import { Person as PersonModel } from "../models/Person";
+import { Types } from "mongoose";
 
 export async function apiFindPersonDetailsFor(aPersonId: string) {
-  return PersonModel.findOne({
-    _id: aPersonId,
-  });
+  try {
+    return PersonModel.findById(Types.ObjectId(aPersonId));
+  } catch (e) {
+    console.log("error", e);
+    return null;
+  }
 }
 
 export function apiFindAllPersons() {

@@ -10,7 +10,7 @@ export const PersonListItem: React.FC<ItemProps> = ({ person }) => {
   const router = useRouter();
 
   const showProfile = () => {
-    router.push(`${router.pathname}/${person.id}`);
+    router.push(`${router.pathname}/${person._id}`);
   };
 
   return (

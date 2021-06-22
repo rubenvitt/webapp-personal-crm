@@ -47,7 +47,11 @@ export const LogList: React.FC<Props> = ({ logEntries }) => {
     <>
       <ul className="-mb-8">
         {logEntries?.map((entry, index) => (
-          <LogListItem entry={entry} isLast={logEntries.length - 1 === index} />
+          <LogListItem
+            key={entry.id}
+            entry={entry}
+            isLast={logEntries.length - 1 === index}
+          />
         ))}
       </ul>
     </>
