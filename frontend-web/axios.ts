@@ -1,11 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL:
-    process.env.API_HOST ||
-    process.env.VERCEL_URL ||
-    process.env.NEXT_PUBLIC_VERCEL_URL ||
-    "http://localhost:3000",
+  baseURL: "/",
 });
 
 export default instance;
