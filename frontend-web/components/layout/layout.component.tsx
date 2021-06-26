@@ -200,7 +200,7 @@ export const Layout = (props: { children: ReactNode }) => {
                   <label htmlFor="search_field" className="sr-only">
                     Search everything
                   </label>
-                  <div className="relative w-full text-gray-400 focus-within:text-gray-600">
+                  <div className="hidden relative w-full text-gray-400 focus-within:text-gray-600">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
                       <FontAwesomeIcon
                         icon={faSearch}

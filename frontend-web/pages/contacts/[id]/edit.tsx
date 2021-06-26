@@ -1,9 +1,10 @@
-import { QueryClient } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 import {
   findAllPersons,
   findDetailsFor,
 } from "../../../services/person-service";
 import { dehydrate } from "react-query/hydration";
+import { EditPersonForm } from "../../../components/contacts/detail/edit/edit-form.component";
 
 export default EditPersonPage;
 
@@ -37,6 +38,8 @@ export async function getStaticPaths() {
 }
 
 function EditPersonPage({ id }) {
-  console.log(id);
-  return <>Hey, {id}</>;
+  const { data, isLoading } = useQuery(["persons", id], () =>
+    findDetailsFor(id)
+  );
+  return <>{isLoading ? <>Loading</> : <EditPersonForm person={data} />}</>;
 }

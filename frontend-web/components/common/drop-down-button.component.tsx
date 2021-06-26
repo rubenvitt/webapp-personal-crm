@@ -9,7 +9,7 @@ import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 interface Props {
   title: JSX.Element | string;
   titleText?: string;
-  className: string;
+  className?: string;
   type?: ActionType;
 }
 
@@ -82,12 +82,14 @@ interface ItemProps {
     active: { icon: IconDefinition; className: string } | IconDefinition;
     inactive?: { icon: IconDefinition; className: string } | IconDefinition;
   };
+  onClick?: () => void;
 }
 
 export const DropDownItem: React.FC<ItemProps> = ({
   title,
   type = ActionType.DEFAULT,
   icon,
+  onClick,
 }) => {
   const getItemColorForType = (aType: ActionType) => {
     return "bg-" + getColorForType(aType) + "-500";
@@ -100,7 +102,7 @@ export const DropDownItem: React.FC<ItemProps> = ({
   }, [type]);
 
   return (
-    <Menu.Item>
+    <Menu.Item onClick={onClick}>
       {({ active }) => (
         <button
           className={`${

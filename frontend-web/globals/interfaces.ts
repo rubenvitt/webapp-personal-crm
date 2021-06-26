@@ -73,10 +73,14 @@ export interface PersonAddress extends PersonCommunicationChannel {
   type: AddressType;
 }
 
-export interface CreatePerson {
-  firstName: string;
-  lastName: string;
+export interface RichName {
+  firstName?: string;
+  lastName?: string;
+  nickName?: string;
   displayName: string;
+}
+
+export interface CreatePerson extends RichName {
   gender?: string;
   anrede: string;
 }
@@ -94,7 +98,7 @@ export interface Person {
   notification?: string;
 }
 
-export interface PersonDetails extends Person {
+export interface PersonDetails extends Person, RichName {
   isFavorite: boolean;
   groups: PersonTag[];
   birthday?: string;

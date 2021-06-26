@@ -7,9 +7,9 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("try to get details for person with query:", req.query);
   const personDetails = await apiFindPersonDetailsFor(req.query.id as string);
   if (personDetails) {
-    res.status(200).json(personDetails);
+    await res.status(200).json(personDetails);
   } else {
-    res
+    await res
       .status(404)
       .json({ status: "Person with id " + req.query.id + " not found" });
   }

@@ -5,11 +5,6 @@ import { createPerson } from "../../services/person-service";
 import React, { SyntheticEvent, useReducer } from "react";
 import { useRouter } from "next/router";
 import { IdOnly } from "../../globals/interfaces";
-import { Listbox } from "@headlessui/react";
-import {
-  DropDownGroup,
-  DropDownItem,
-} from "../../components/common/drop-down-button.component";
 import { GenderInput } from "../../components/common/form/gender.input.component";
 
 interface FormType {
@@ -139,6 +134,7 @@ export default function NewContactPage() {
                 autocomplete={"nickname"}
               />
               <GenderInput
+                className={"col-span-6 sm:col-span-4"}
                 disabled={isLoading}
                 onChange={(aValue) => {
                   dispatch({

@@ -7,6 +7,7 @@ import { CheckIcon } from "@heroicons/react/solid";
 interface Props {
   disabled: boolean;
   onChange: (value: { gender: string; anrede: string }) => void;
+  className?: string;
 }
 
 function getShortValueFor(aValue: string) {
@@ -22,7 +23,11 @@ function getShortValueFor(aValue: string) {
     : aValue;
 }
 
-export const GenderInput: React.FC<Props> = ({ disabled, onChange }) => {
+export const GenderInput: React.FC<Props> = ({
+  disabled,
+  onChange,
+  className,
+}) => {
   const [isOpen, setOpen] = useState(false);
   const [genderValue, setGenderValue] = useState("");
   const [anredeValue, setAnredeValue] = useState("");
@@ -45,7 +50,7 @@ export const GenderInput: React.FC<Props> = ({ disabled, onChange }) => {
   }, [genderValue]);
 
   return (
-    <div className={"col-span-6 sm:col-span-4 grid grid-cols-4 gap-6"}>
+    <div className={classNames(className, "grid grid-cols-4 gap-6")}>
       <div
         className={"col-span-4 sm:col-span-2 relative"}
         onFocus={() => setOpen(true)}
