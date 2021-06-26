@@ -10,6 +10,10 @@ interface Props {
   inputType?: string;
   onChange?: (aValue: string) => void;
   disabled?: boolean;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  value?: string;
+  placeholder?: string;
 }
 
 export const TextInput: React.FC<Props> = ({
@@ -21,19 +25,26 @@ export const TextInput: React.FC<Props> = ({
   inputType = "text",
   onChange,
   disabled = false,
+  onBlur,
+  onFocus,
+  value,
+  placeholder,
 }) => {
   const [id] = useState(String(Math.random()));
 
-  const [value, setValue] = useState(initialValue);
+  const [internalValue, setInternalValue] = useState(initialValue);
+  useEffect(() => {
+    if (value) setInternalValue(value);
+  }, [value]);
 
   useEffect(() => {
-    setValue(initialValue);
+    setInternalValue(initialValue);
   }, []);
 
   if (onChange) {
     useEffect(() => {
-      onChange(value);
-    }, [value]);
+      onChange(internalValue);
+    }, [internalValue]);
   }
 
   return (
@@ -53,9 +64,12 @@ export const TextInput: React.FC<Props> = ({
         id={id}
         disabled={disabled}
         autoComplete={autocomplete}
-        value={value}
+        value={internalValue}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        placeholder={placeholder}
         onChange={(event) => {
-          setValue(event.currentTarget.value);
+          setInternalValue(event.currentTarget.value);
         }}
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
       />

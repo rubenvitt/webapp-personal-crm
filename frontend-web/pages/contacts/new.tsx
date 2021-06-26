@@ -5,9 +5,16 @@ import { createPerson } from "../../services/person-service";
 import React, { SyntheticEvent, useReducer } from "react";
 import { useRouter } from "next/router";
 import { IdOnly } from "../../globals/interfaces";
+import { Listbox } from "@headlessui/react";
+import {
+  DropDownGroup,
+  DropDownItem,
+} from "../../components/common/drop-down-button.component";
+import { GenderInput } from "../../components/common/form/gender.input.component";
 
 interface FormType {
   gender: string;
+  anrede: string;
   givenName: string;
   familyName: string;
   nickName: string;
@@ -15,6 +22,7 @@ interface FormType {
 
 const EMPTY_FORM_VALUE: FormType = {
   gender: "",
+  anrede: "",
   givenName: "",
   familyName: "",
   nickName: "",
@@ -24,7 +32,13 @@ export default function NewContactPage() {
   const reducer = (
     state: FormType,
     action: {
-      name: "gender" | "givenName" | "reset" | "familyName" | "nickName";
+      name:
+        | "gender"
+        | "givenName"
+        | "reset"
+        | "familyName"
+        | "nickName"
+        | "anrede";
       value?: string;
     }
   ) => {
@@ -49,6 +63,8 @@ export default function NewContactPage() {
         firstName: element.givenName,
         displayName: element.givenName + " " + element.familyName,
         lastName: element.familyName,
+        gender: element.gender,
+        anrede: element.anrede,
       });
     },
     {
@@ -122,17 +138,18 @@ export default function NewContactPage() {
                 title={"Spitzname"}
                 autocomplete={"nickname"}
               />
-              <TextInput
+              <GenderInput
                 disabled={isLoading}
                 onChange={(aValue) => {
                   dispatch({
-                    value: aValue,
+                    value: aValue.gender,
                     name: "gender",
                   });
+                  dispatch({
+                    value: aValue.anrede,
+                    name: "anrede",
+                  });
                 }}
-                className="col-span-6 sm:col-span-2"
-                title={"Geschlecht"}
-                autocomplete={"gender"}
               />
             </div>
           </div>

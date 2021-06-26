@@ -17,7 +17,10 @@ interface Props {
 export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
   const generateDescriptionFor = (person: PersonDetails) => {
     return person
-      ? `${getPronounFor(person.anrede)} ist ${calculateTimespanSince({
+      ? `${getPronounFor(
+          person.anrede,
+          person.gender
+        )} ist ${calculateTimespanSince({
           duration: { start: person.birthday },
         })} alt und euer letzter Kontakt liegt etwa ${calculateTimespanSince({
           duration: { start: person.lastContact },

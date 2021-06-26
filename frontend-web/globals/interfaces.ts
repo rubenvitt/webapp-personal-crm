@@ -77,6 +77,8 @@ export interface CreatePerson {
   firstName: string;
   lastName: string;
   displayName: string;
+  gender?: string;
+  anrede: string;
 }
 
 export interface IdOnly {
@@ -96,7 +98,8 @@ export interface PersonDetails extends Person {
   isFavorite: boolean;
   groups: PersonTag[];
   birthday?: string;
-  anrede: Anrede;
+  anrede: string;
+  gender: string;
   lastContact: string;
   mails: PersonMail[];
   phones: PersonPhone[];
@@ -117,12 +120,6 @@ export interface LogEntry {
   dateTimeBegin: string;
   dateTimeEnd: string;
   people: string[];
-}
-
-export enum Anrede {
-  MASCULINE,
-  FEMININE,
-  NEUTRAL,
 }
 
 export interface TimespanDuration {

@@ -1,21 +1,19 @@
-import {
-  ActionType,
-  Anrede,
-  TimespanDuration,
-  TimespanType,
-} from "./interfaces";
+import { ActionType, TimespanDuration, TimespanType } from "./interfaces";
 
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const getPronounFor = (anAnrede: Anrede) => {
-  switch (anAnrede) {
-    case Anrede.MASCULINE:
+export const getPronounFor = (anAnrede: string, aGender: string) => {
+  if (anAnrede) return anAnrede;
+  switch (aGender) {
+    case "masculine":
+    case "m":
       return "Er";
-    case Anrede.FEMININE:
+    case "feminine":
+    case "f":
       return "Sie";
-    case Anrede.NEUTRAL:
+    default:
       return "Diese Person";
   }
 };

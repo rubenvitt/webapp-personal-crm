@@ -1,5 +1,8 @@
 import { CreatePerson } from "../globals/interfaces";
-import { Person as PersonModel } from "../models/Person";
+import {
+  Person as PersonModel,
+  PersonCreate as PersonCreateModel,
+} from "../models/Person";
 import { Types } from "mongoose";
 
 export async function apiFindPersonDetailsFor(aPersonId: string) {
@@ -12,9 +15,9 @@ export async function apiFindPersonDetailsFor(aPersonId: string) {
 }
 
 export function apiFindAllPersons() {
-  return PersonModel.find({});
+  return PersonModel.find({}, { displayName: 1 });
 }
 
 export async function apiCreatePerson(aPerson: CreatePerson) {
-  return await PersonModel.create(aPerson);
+  return await PersonCreateModel.create(aPerson);
 }

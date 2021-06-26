@@ -51,32 +51,38 @@ export const PersonListItem: React.FC<ItemProps> = ({ person }) => {
         </dl>
       </div>
       <div>
-        <div className="-mt-px flex divide-x divide-gray-200">
-          <div className="w-0 flex-1 flex">
-            <Link href={`mailto:${person.primaryMail?.value}`}>
-              <a className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                <FontAwesomeIcon
-                  icon={faEnvelopeOpen}
-                  className="w-5 h-5 text-gray-400"
-                  aria-hidden="true"
-                />
-                <span className="ml-3">Email</span>
-              </a>
-            </Link>
+        {(person.primaryPhone || person.primaryMail) && (
+          <div className="-mt-px flex divide-x divide-gray-200">
+            {person.primaryMail && (
+              <div className="w-0 flex-1 flex">
+                <Link href={`mailto:${person.primaryMail?.value}`}>
+                  <a className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                    <FontAwesomeIcon
+                      icon={faEnvelopeOpen}
+                      className="w-5 h-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                    <span className="ml-3">Email</span>
+                  </a>
+                </Link>
+              </div>
+            )}
+            {person.primaryPhone && (
+              <div className="-ml-px w-0 flex-1 flex">
+                <Link href={`tel:${person.primaryPhone?.value}`}>
+                  <a className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                    <FontAwesomeIcon
+                      icon={faPhone}
+                      className="w-5 h-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                    <span className="ml-3">Call</span>
+                  </a>
+                </Link>
+              </div>
+            )}
           </div>
-          <div className="-ml-px w-0 flex-1 flex">
-            <Link href={`tel:${person.primaryPhone?.value}`}>
-              <a className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                <FontAwesomeIcon
-                  icon={faPhone}
-                  className="w-5 h-5 text-gray-400"
-                  aria-hidden="true"
-                />
-                <span className="ml-3">Call</span>
-              </a>
-            </Link>
-          </div>
-        </div>
+        )}
       </div>
     </li>
   );
