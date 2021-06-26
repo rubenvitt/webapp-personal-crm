@@ -310,7 +310,7 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
                 Notifications
               </h3>
               <p className="mt-1 text-sm text-gray-500">
-                Decide which communications you'd like to receive and how.
+                Decide which communications you&apos;d like to receive and how.
               </p>
             </div>
             <div className="mt-5 md:mt-0 md:col-span-2">
