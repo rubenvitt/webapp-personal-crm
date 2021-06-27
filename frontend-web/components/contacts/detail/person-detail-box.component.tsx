@@ -17,7 +17,7 @@ interface Props {
 
 export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
   const generateDescriptionFor = (person: PersonDetails) => {
-    let ageFromBirthday = calculateAgeFromBirthday(person.birthday);
+    const ageFromBirthday = calculateAgeFromBirthday(person.birthday);
     return person
       ? (ageFromBirthday
           ? `${getPronounFor(
