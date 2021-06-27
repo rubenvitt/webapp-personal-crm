@@ -7,6 +7,7 @@ interface Props {
   className: string;
   values: Element[];
   value?: Element;
+  initialValue?: Element;
   onChange: (element: Element) => void;
   title?: string;
   buttonClasses?: string;
@@ -21,6 +22,7 @@ export const SimpleDropDown: React.FC<Props> = ({
   className,
   values,
   value = values[0],
+  initialValue = values[0],
   onChange,
   title,
   buttonClasses = "rounded-md",
@@ -30,6 +32,10 @@ export const SimpleDropDown: React.FC<Props> = ({
   useEffect(() => {
     setSelected(value);
   }, [value]);
+
+  useEffect(() => {
+    setSelected(initialValue);
+  }, [initialValue]);
 
   return (
     <div className={classNames(className)}>

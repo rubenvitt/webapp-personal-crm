@@ -8,7 +8,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
 
   const filters = req.query.filter;
-  console.log("using filter", filters);
+  console.log("find all persons with filters:", filters);
   if (filters === "favorites") {
     apiFindAllPersons().then((value) => {
       res.json([value[0], value[1], value[13], value[2]].filter((it) => it));

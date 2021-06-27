@@ -43,7 +43,6 @@ export function nameFor(aMonth: Month) {
 }
 
 export function daysFor(aMonth: Month) {
-  console.log("Try to get days for", aMonth);
   switch (aMonth) {
     case Month.JANUARY:
     case Month.MARCH:

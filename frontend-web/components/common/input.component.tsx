@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Ref, useEffect, useState } from "react";
 import { classNames } from "../../globals/utils";
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
   onFocus?: () => void;
   value?: string;
   placeholder?: string;
+  inputRef?: Ref<HTMLInputElement>;
 }
 
 export const TextInput: React.FC<Props> = ({
@@ -29,6 +30,7 @@ export const TextInput: React.FC<Props> = ({
   onFocus,
   value,
   placeholder,
+  inputRef,
 }) => {
   const [id] = useState(String(Math.random()));
 
@@ -59,6 +61,7 @@ export const TextInput: React.FC<Props> = ({
         {title}
       </label>
       <input
+        ref={inputRef}
         type={inputType}
         name={id}
         id={id}

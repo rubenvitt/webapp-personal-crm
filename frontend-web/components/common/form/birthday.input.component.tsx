@@ -1,8 +1,8 @@
 import { classNames } from "../../../globals/utils";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { SimpleDropDown } from "../simple-drop-down.component";
 import { Birthday, DateType } from "../../../globals/interfaces";
 import { daysFor, Month, nameFor } from "../../../globals/month";
+import { SelectInput } from "./select.input.component";
 
 interface Props {
   disabled?: boolean;
@@ -79,7 +79,7 @@ export const BirthdayInput: React.FC<Props> = ({
     }, [dateValue, dateType]);
   }
 
-  const [month, setMonth] = useState("1");
+  const [month, setMonth] = useState("JANUARY");
 
   const yearInputRef = useRef<HTMLInputElement>();
   const monthInputRef = useRef<HTMLSelectElement>();
@@ -96,35 +96,34 @@ export const BirthdayInput: React.FC<Props> = ({
           Geburtstag
         </label>
         <div className="mt-1 relative flex focus-within:z-10">
-          <SimpleDropDown
-            value={{
-              id: dateType,
-              label: labelFor(dateType),
-            }}
-            buttonClasses={classNames(
-              dateType === DateType.UNKNOWN
-                ? "rounded-md w-full"
-                : "rounded-l-md",
-              "bg-gray-50 hover:bg-gray-100"
-            )}
-            className={classNames(
-              dateType === DateType.UNKNOWN && "w-full",
-              "relative inline-flex items-center space-x-2 text-sm font-medium"
-            )}
-            values={Object.keys(DateType).map((element) => {
-              return {
-                id: element,
-                label: labelFor(DateType[element]),
-              };
-            })}
+          <SelectInput
+            id={"dateType"}
             onChange={(element) => {
-              console.log("dispatch:", element.id);
               dispatch({
                 name: "dateType",
-                value: element.id,
+                value: element,
               });
             }}
-          />
+            showLabel={false}
+            rounded={dateType === DateType.UNKNOWN}
+            className={classNames(
+              dateType === DateType.UNKNOWN ? "w-full" : "rounded-l-md",
+              "text-sm font-medium"
+            )}
+            buttonClassName={classNames(
+              dateType !== DateType.UNKNOWN && "rounded-l-md",
+              "bg-gray-50 hover:bg-gray-100"
+            )}
+          >
+            {Object.keys(DateType).map((element) => {
+              return (
+                <option key={element} value={element}>
+                  {labelFor(DateType[element])}
+                </option>
+              );
+            })}
+          </SelectInput>
+
           {(dateType === DateType.EXACT || dateType === DateType.AGE) && (
             <input
               ref={dateInputRef}
