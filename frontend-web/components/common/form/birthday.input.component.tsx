@@ -145,7 +145,7 @@ export const BirthdayInput: React.FC<Props> = ({
               autoComplete={"bday"}
               placeholder={placeholder}
               onChange={(event) => {
-                let valid = event.currentTarget.reportValidity();
+                const valid = event.currentTarget.reportValidity();
                 if (valid) {
                   dispatch({
                     name: "dateValue",
@@ -163,7 +163,7 @@ export const BirthdayInput: React.FC<Props> = ({
                 id="month"
                 onChange={(event) => {
                   setMonth(Month[event.currentTarget.value]);
-                  let valid =
+                  const valid =
                     event.currentTarget.reportValidity() &&
                     ((dateType === DateType.MONTH_DAY &&
                       dayInputRef.current.reportValidity()) ||
@@ -189,7 +189,7 @@ export const BirthdayInput: React.FC<Props> = ({
                 {Object.keys(Month)
                   .filter((k) => Number.isNaN(+k))
                   .map((monthName) => {
-                    let month = Month[monthName];
+                    const month = Month[monthName];
                     return (
                       <option key={month} value={month}>
                         {nameFor(month)}
@@ -202,7 +202,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   ref={dayInputRef}
                   id="day"
                   onChange={(event) => {
-                    let valid =
+                    const valid =
                       event.currentTarget.reportValidity() &&
                       monthInputRef.current.reportValidity();
                     if (valid) {
