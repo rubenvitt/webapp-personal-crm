@@ -1,4 +1,7 @@
-import { calculateTimespanSince } from "../../../../globals/utils";
+import {
+  calculateAgeFromBirthday,
+  calculateTimespanSince,
+} from "../../../../globals/utils";
 import { ContentBox } from "../../../common/content-box.component";
 import React from "react";
 import { PersonDetails } from "../../../../globals/interfaces";
@@ -22,12 +25,8 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
             className="inline pr-2"
             size="lg"
           />
-          {new Date(person.birthday).toLocaleDateString()} (
-          {calculateTimespanSince({
-            duration: { start: person.birthday },
-            unit: "years",
-          })}
-          )
+          {new Date(person.birthday.dateValue).toLocaleDateString()} (
+          {calculateAgeFromBirthday(person.birthday)})
         </dt>
         <dt>
           <FontAwesomeIcon icon={faUsers} className="inline pr-2" size="lg" />

@@ -74,6 +74,7 @@ export const calculateAgeFromBirthday = (birthday: Birthday) => {
         duration: {
           start: birthday.dateValue,
         },
+        unit: "years",
       });
     case DateType.AGE:
       return (
