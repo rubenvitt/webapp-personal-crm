@@ -6,9 +6,10 @@ import { classNames } from "../../globals/utils";
 interface Props {
   className: string;
   values: Element[];
-  value: Element;
+  value?: Element;
   onChange: (element: Element) => void;
-  title: string;
+  title?: string;
+  buttonClasses?: string;
 }
 
 interface Element {
@@ -22,6 +23,7 @@ export const SimpleDropDown: React.FC<Props> = ({
   value = values[0],
   onChange,
   title,
+  buttonClasses = "rounded-md",
 }) => {
   const [selected, setSelected] = useState<Element>();
 
@@ -30,7 +32,7 @@ export const SimpleDropDown: React.FC<Props> = ({
   }, [value]);
 
   return (
-    <div className={className}>
+    <div className={classNames(className)}>
       <Listbox
         value={selected}
         onChange={(element) => {
@@ -40,11 +42,18 @@ export const SimpleDropDown: React.FC<Props> = ({
       >
         {({ open }) => (
           <>
-            <Listbox.Label className="block text-sm font-medium text-gray-700">
-              {title}
-            </Listbox.Label>
-            <div className="mt-1 relative">
-              <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            {title && (
+              <Listbox.Label className="block text-sm font-medium text-gray-700">
+                {title}
+              </Listbox.Label>
+            )}
+            <div className={"w-full"}>
+              <Listbox.Button
+                className={classNames(
+                  buttonClasses,
+                  "bg-white w-full border border-gray-300 shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                )}
+              >
                 <span className="block truncate">{selected?.label}</span>
                 <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                   <SelectorIcon
@@ -71,7 +80,7 @@ export const SimpleDropDown: React.FC<Props> = ({
                       className={({ active }) =>
                         classNames(
                           active ? "text-white bg-indigo-600" : "text-gray-900",
-                          "cursor-default select-none relative py-2 pl-3 pr-9"
+                          "cursor-default select-none py-2 pl-3 pr-9"
                         )
                       }
                       value={item}

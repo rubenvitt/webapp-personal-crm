@@ -3,6 +3,7 @@ import { TextInput } from "../../../common/input.component";
 import { GenderInput } from "../../../common/form/gender.input.component";
 import React from "react";
 import { SimpleDropDown } from "../../../common/simple-drop-down.component";
+import { BirthdayInput } from "../../../common/form/birthday.input.component";
 
 interface Props {
   person: PersonDetails;
@@ -11,7 +12,7 @@ interface Props {
 export const EditPersonForm: React.FC<Props> = ({ person }) => {
   return (
     <>
-      <div className="space-y-6">
+      <form className="space-y-6">
         <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
@@ -19,8 +20,7 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
                 Generelle Informationen
               </h3>
               <p className="mt-1 text-sm text-gray-500">
-                This information will be displayed publicly so be careful what
-                you share.
+                Allgemeine Informationen über den Kontakt
               </p>
             </div>
             <div className="mt-5 md:mt-0 md:col-span-2">
@@ -62,6 +62,12 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
                     disabled={false}
                     onChange={() => undefined}
                     className={"col-span-4 sm:col-span-4"}
+                  />
+                  <BirthdayInput
+                    className={"col-span-4 sm:col-span-2"}
+                    onChange={(e) => {
+                      console.log("event", e);
+                    }}
                   />
                 </div>
 
@@ -309,9 +315,7 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
               <h3 className="text-lg font-medium leading-6 text-gray-900">
                 Notifications
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Decide which communications you&apos;d like to receive and how.
-              </p>
+              <p className="mt-1 text-sm text-gray-500">lala</p>
             </div>
             <div className="mt-5 md:mt-0 md:col-span-2">
               <form className="space-y-6" action="#" method="POST">
@@ -460,7 +464,7 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
             Save
           </button>
         </div>
-      </div>
+      </form>
     </>
   );
 };

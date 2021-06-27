@@ -110,6 +110,19 @@ export interface PersonDetails extends Person, RichName {
   addresses: PersonAddress[];
 }
 
+export enum DateType {
+  EXACT = "EXACT",
+  MONTH_DAY = "MONTH_DAY",
+  MONTH = "MONTH",
+  AGE = "AGE",
+  UNKNOWN = "UNKNOWN",
+}
+
+export interface Birthday {
+  dateType: DateType;
+  dateValue?: string;
+}
+
 export enum LogEntryType {
   phone,
   meet,
