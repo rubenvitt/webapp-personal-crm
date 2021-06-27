@@ -58,7 +58,7 @@ const useFormStore = create<FormType>((set, get) => ({
     _id: "",
     anrede: "",
     nickName: "",
-    birthday: "",
+    birthday: { dateType: DateType.UNKNOWN },
     firstName: "",
     gender: "",
     lastName: "",
