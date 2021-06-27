@@ -74,7 +74,7 @@ export const GenderInput: React.FC<Props> = ({
             }}
             title={"Geschlecht"}
             autocomplete={"gender"}
-            value={value.gender}
+            value={value?.gender}
           />
           <Transition
             show={isOpen}
@@ -108,7 +108,7 @@ export const GenderInput: React.FC<Props> = ({
         className={"col-span-4 sm:col-span-2"}
         title={"Anrede"}
         placeholder={"z.B.: 'Sie' geht im Wald"}
-        value={value.anrede}
+        value={value?.anrede}
         onChange={(aValue) => {
           setAnredeValue(aValue);
         }}
