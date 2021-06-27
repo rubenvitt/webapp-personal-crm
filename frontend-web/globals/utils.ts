@@ -1,4 +1,10 @@
-import { ActionType, TimespanDuration, TimespanType } from "./interfaces";
+import {
+  ActionType,
+  Birthday,
+  DateType,
+  TimespanDuration,
+  TimespanType,
+} from "./interfaces";
 
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -55,6 +61,31 @@ interface TimespanProps {
     | "seconds"
     | "milliseconds";
 }
+
+export const calculateAgeFromBirthday = (birthday: Birthday) => {
+  if (!birthday) {
+    return null;
+  }
+
+  switch (birthday.dateType) {
+    case DateType.EXACT:
+    case DateType.MONTH:
+      return calculateTimespanSince({
+        duration: {
+          start: birthday.dateValue,
+        },
+      });
+    case DateType.AGE:
+      return (
+        birthday.dateValue +
+        " Jahr" +
+        (Number(birthday.dateValue) > 1 ? "e" : "")
+      );
+    case DateType.UNKNOWN:
+    case DateType.MONTH_DAY:
+      return null;
+  }
+};
 
 export const calculateTimespanSince = ({
   duration,

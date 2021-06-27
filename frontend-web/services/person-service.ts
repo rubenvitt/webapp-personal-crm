@@ -3,6 +3,7 @@ import {
   IdOnly,
   Person,
   PersonDetails,
+  UpdatePerson,
 } from "../globals/interfaces";
 import axios from "../axios";
 
@@ -29,6 +30,15 @@ export const createPerson: (aPerson: CreatePerson) => Promise<IdOnly> = async (
 ) => {
   return axios
     .post<IdOnly>("/api/persons/create", aPerson)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
+export const updatePerson: (aPerson: UpdatePerson) => Promise<IdOnly> = async (
+  aPerson
+) => {
+  return axios
+    .put<IdOnly>("/api/persons/" + aPerson._id, aPerson)
     .then((value) => value.data)
     .catch(() => undefined);
 };

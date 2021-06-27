@@ -15,6 +15,7 @@ interface Props {
   value?: string;
   placeholder?: string;
   inputRef?: Ref<HTMLInputElement>;
+  required?: boolean;
 }
 
 export const TextInput: React.FC<Props> = ({
@@ -31,6 +32,7 @@ export const TextInput: React.FC<Props> = ({
   value,
   placeholder,
   inputRef,
+  required,
 }) => {
   const [id] = useState(String(Math.random()));
 
@@ -41,6 +43,7 @@ export const TextInput: React.FC<Props> = ({
 
   useEffect(() => {
     setInternalValue(initialValue);
+    onChange(initialValue);
   }, []);
 
   if (onChange) {
@@ -59,11 +62,13 @@ export const TextInput: React.FC<Props> = ({
         )}
       >
         {title}
+        {required && <span className="text-red-500">*</span>}
       </label>
       <input
         ref={inputRef}
         type={inputType}
         name={id}
+        required={required}
         id={id}
         disabled={disabled}
         autoComplete={autocomplete}

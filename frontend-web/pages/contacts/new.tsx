@@ -65,7 +65,7 @@ export default function NewContactPage() {
     {
       onSuccess: async (value) => {
         await reactQuery.invalidateQueries("persons").then(() => {
-          push("/contacts/" + value.id);
+          push("/contacts/" + value._id);
         });
       },
     }

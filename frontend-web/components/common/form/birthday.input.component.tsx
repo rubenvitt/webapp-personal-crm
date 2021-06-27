@@ -8,9 +8,10 @@ interface Props {
   disabled?: boolean;
   initialValue?: Birthday;
   value?: Birthday;
-  onChange?: (string) => void;
+  onChange?: (element: Birthday) => void;
   placeholder?: string;
   className?: string;
+  required?: boolean;
 }
 
 const labelFor = (aDateType: DateType) => {
@@ -35,6 +36,7 @@ export const BirthdayInput: React.FC<Props> = ({
   onChange,
   placeholder,
   className,
+  required,
 }) => {
   const reducer = (
     state: Birthday,
@@ -94,6 +96,7 @@ export const BirthdayInput: React.FC<Props> = ({
           className={classNames("block", "text-sm font-medium text-gray-700")}
         >
           Geburtstag
+          {required && <span className="text-red-500">*</span>}
         </label>
         <div className="mt-1 relative flex flex-col focus-within:z-10">
           <SelectInput
@@ -102,6 +105,37 @@ export const BirthdayInput: React.FC<Props> = ({
               dispatch({
                 name: "dateType",
                 value: element,
+              });
+              dispatch({
+                name: "dateValue",
+                value: (() => {
+                  switch (element) {
+                    case DateType.MONTH_DAY:
+                      return (
+                        monthInputRef.current?.reportValidity() &&
+                        dayInputRef.current?.reportValidity() &&
+                        monthInputRef.current?.value +
+                          "-" +
+                          dayInputRef.current?.value
+                      );
+                    case DateType.UNKNOWN:
+                      return undefined;
+                    case DateType.AGE:
+                    case DateType.EXACT:
+                      return (
+                        dateInputRef.current?.reportValidity() &&
+                        dateInputRef.current?.value
+                      );
+                    case DateType.MONTH:
+                      return (
+                        yearInputRef.current?.reportValidity() &&
+                        monthInputRef.current?.reportValidity() &&
+                        yearInputRef.current?.value +
+                          "-" +
+                          monthInputRef.current?.value
+                      );
+                  }
+                })(),
               });
             }}
             showLabel={false}
@@ -145,12 +179,10 @@ export const BirthdayInput: React.FC<Props> = ({
               placeholder={placeholder}
               onChange={(event) => {
                 const valid = event.currentTarget.reportValidity();
-                if (valid) {
-                  dispatch({
-                    name: "dateValue",
-                    value: event.currentTarget.value,
-                  });
-                }
+                dispatch({
+                  name: "dateValue",
+                  value: valid && event.currentTarget.value,
+                });
               }}
               className="inline-flex flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
             />
@@ -168,22 +200,21 @@ export const BirthdayInput: React.FC<Props> = ({
                       dayInputRef.current.reportValidity()) ||
                       (DateType.MONTH &&
                         yearInputRef.current.reportValidity()));
-                  if (valid) {
-                    dispatch({
-                      name: "dateValue",
-                      value:
-                        dateType === DateType.MONTH_DAY
-                          ? event.currentTarget.value +
-                            "-" +
-                            dayInputRef.current.value
-                          : yearInputRef.current.value +
-                            "-" +
-                            event.currentTarget.value,
-                    });
-                  }
+                  dispatch({
+                    name: "dateValue",
+                    value:
+                      valid &&
+                      (dateType === DateType.MONTH_DAY
+                        ? event.currentTarget.value +
+                          "-" +
+                          dayInputRef.current.value
+                        : yearInputRef.current.value +
+                          "-" +
+                          event.currentTarget.value),
+                  });
                 }}
                 value={Month[month]}
-                className="flex-1 border rounded-bl-md border-gray-300 shadow-sm px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                className="flex-1 border rounded-bl-md border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
               >
                 {Object.keys(Month)
                   .filter((k) => Number.isNaN(+k))
@@ -204,17 +235,16 @@ export const BirthdayInput: React.FC<Props> = ({
                     const valid =
                       event.currentTarget.reportValidity() &&
                       monthInputRef.current.reportValidity();
-                    if (valid) {
-                      dispatch({
-                        name: "dateValue",
-                        value:
-                          monthInputRef.current.value +
+                    dispatch({
+                      name: "dateValue",
+                      value:
+                        valid &&
+                        monthInputRef.current.value +
                           "-" +
                           event.currentTarget.value,
-                      });
-                    }
+                    });
                   }}
-                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                 >
                   {Array.from(
                     { length: daysFor(Month[month]) },
@@ -235,22 +265,21 @@ export const BirthdayInput: React.FC<Props> = ({
                     const valid =
                       event.currentTarget.reportValidity() &&
                       monthInputRef.current.reportValidity();
-                    if (valid) {
-                      dispatch({
-                        name: "dateValue",
-                        value:
-                          event.currentTarget.value +
+                    dispatch({
+                      name: "dateValue",
+                      value:
+                        valid &&
+                        event.currentTarget.value +
                           "-" +
                           monthInputRef.current.value,
-                      });
-                    }
+                    });
                   }}
                   id="year"
                   type="number"
                   required
                   max={new Date().getFullYear()}
                   min={new Date().getFullYear() - 150}
-                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                 />
               )}
             </div>

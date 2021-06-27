@@ -1,6 +1,7 @@
 import React from "react";
 import { PersonDetails } from "../../../globals/interfaces";
 import {
+  calculateAgeFromBirthday,
   calculateTimespanSince,
   classNames,
   getPronounFor,
@@ -16,15 +17,17 @@ interface Props {
 
 export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
   const generateDescriptionFor = (person: PersonDetails) => {
+    let ageFromBirthday = calculateAgeFromBirthday(person.birthday);
     return person
-      ? `${getPronounFor(
-          person.anrede,
-          person.gender
-        )} ist ${calculateTimespanSince({
-          duration: { start: person.birthday },
-        })} alt und euer letzter Kontakt liegt etwa ${calculateTimespanSince({
-          duration: { start: person.lastContact },
-        })} zurück.`
+      ? (ageFromBirthday
+          ? `${getPronounFor(
+              person.anrede,
+              person.gender
+            )} ist ${ageFromBirthday} alt und euer`
+          : "Euer") +
+          `  letzter Kontakt liegt etwa ${calculateTimespanSince({
+            duration: { start: person.lastContact },
+          })} zurück.`
       : "Lade Details...";
   };
 

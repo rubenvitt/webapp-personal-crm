@@ -8,6 +8,8 @@ interface Props {
   disabled: boolean;
   onChange: (value: { gender: string; anrede: string }) => void;
   className?: string;
+  required?: boolean;
+  value?: { gender: string; anrede: string };
 }
 
 function getShortValueFor(aValue: string) {
@@ -27,6 +29,8 @@ export const GenderInput: React.FC<Props> = ({
   disabled,
   onChange,
   className,
+  required,
+  value,
 }) => {
   const [isOpen, setOpen] = useState(false);
   const [genderValue, setGenderValue] = useState("");
@@ -70,7 +74,7 @@ export const GenderInput: React.FC<Props> = ({
             }}
             title={"Geschlecht"}
             autocomplete={"gender"}
-            value={genderValue}
+            value={value.gender}
           />
           <Transition
             show={isOpen}
@@ -100,10 +104,11 @@ export const GenderInput: React.FC<Props> = ({
         </Listbox>
       </div>
       <TextInput
+        required={!anredeValue && required}
         className={"col-span-4 sm:col-span-2"}
         title={"Anrede"}
         placeholder={"z.B.: 'Sie' geht im Wald"}
-        value={anredeValue}
+        value={value.anrede}
         onChange={(aValue) => {
           setAnredeValue(aValue);
         }}

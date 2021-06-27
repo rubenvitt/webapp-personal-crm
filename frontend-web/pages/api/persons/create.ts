@@ -9,7 +9,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
   apiCreatePerson(req.body).then((value) => {
     res.json({
-      id: value["id"],
+      _id: value["id"],
     });
   });
 });
