@@ -95,7 +95,7 @@ export const BirthdayInput: React.FC<Props> = ({
         >
           Geburtstag
         </label>
-        <div className="mt-1 relative flex focus-within:z-10">
+        <div className="mt-1 relative flex flex-col focus-within:z-10">
           <SelectInput
             id={"dateType"}
             onChange={(element) => {
@@ -107,11 +107,11 @@ export const BirthdayInput: React.FC<Props> = ({
             showLabel={false}
             rounded={dateType === DateType.UNKNOWN}
             className={classNames(
-              dateType === DateType.UNKNOWN ? "w-full" : "rounded-l-md",
-              "text-sm font-medium"
+              dateType !== DateType.UNKNOWN && "rounded-t-md",
+              "text-sm flex-1 font-medium"
             )}
             buttonClassName={classNames(
-              dateType !== DateType.UNKNOWN && "rounded-l-md",
+              dateType !== DateType.UNKNOWN && "rounded-t-md",
               "bg-gray-50 hover:bg-gray-100"
             )}
           >
@@ -152,7 +152,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   });
                 }
               }}
-              className="inline-flex w-full border border-gray-300 rounded-r-md shadow-sm px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+              className="inline-flex flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
             />
           )}
           {(dateType === DateType.MONTH_DAY || dateType === DateType.MONTH) && (
@@ -183,7 +183,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   }
                 }}
                 value={Month[month]}
-                className="flex-1 border mx-1 border-gray-300 shadow-sm px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                className="flex-1 border rounded-bl-md border-gray-300 shadow-sm px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
               >
                 {Object.keys(Month)
                   .filter((k) => Number.isNaN(+k))
@@ -214,7 +214,7 @@ export const BirthdayInput: React.FC<Props> = ({
                       });
                     }
                   }}
-                  className="flex-1 border border-gray-300 rounded-r-md shadow px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                 >
                   {Array.from(
                     { length: daysFor(Month[month]) },
@@ -250,7 +250,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   required
                   max={new Date().getFullYear()}
                   min={new Date().getFullYear() - 150}
-                  className="flex-1 border border-gray-300 rounded-r-md shadow px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                 />
               )}
             </div>
