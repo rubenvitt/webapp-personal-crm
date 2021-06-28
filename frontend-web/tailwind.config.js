@@ -3,7 +3,6 @@ const colors = require("tailwindcss/colors");
 
 // eslint-disable-next-line no-undef
 module.exports = {
-  //mode: "jit",
   purge: {
     content: [
       "./pages/**/*.{js,ts,jsx,tsx}",
