@@ -268,6 +268,7 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
             className={"col-span-4 sm:col-span-4"}
           />
           <BirthdayInput
+            placeholder={"Geburtstag"}
             required={
               !updatePersonModel.birthday?.dateValue &&
               updatePersonModel.birthday?.dateType !== DateType.UNKNOWN
