@@ -63,7 +63,7 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
                 key={element.id}
                 className={classNames(
                   isEdit && "py-1",
-                  isEdit && selectedId === element.id && "border-indigo-500",
+                  isEdit && selectedId === element.id && "border-orange-500",
                   "flex justify-center items-center px-3 border-2 border-transparent rounded-md"
                 )}
               >

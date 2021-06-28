@@ -126,7 +126,7 @@ const Option: React.FC<{
   return (
     <Listbox.Option
       className={classNames(
-        "group cursor-default select-none relative py-2 pl-8 pr-4 text-gray-900 hover:text-white hover:bg-indigo-600"
+        "group cursor-default select-none relative py-2 pl-8 pr-4 text-gray-900 hover:text-white hover:bg-orange-600"
       )}
       value={value}
     >
@@ -144,7 +144,7 @@ const Option: React.FC<{
       {getShortValueFor(activeValue) === shortValue ? (
         <span
           className={classNames(
-            "absolute inset-y-0 left-0 flex items-center pl-1.5 group-hover:text-white text-indigo-600"
+            "absolute inset-y-0 left-0 flex items-center pl-1.5 group-hover:text-white text-orange-600"
           )}
         >
           <CheckIcon className="h-5 w-5" aria-hidden="true" />
