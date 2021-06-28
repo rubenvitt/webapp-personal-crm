@@ -32,7 +32,18 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
     <div className="h-screen bg-gray-50 flex overflow-hidden">
       <Head>
         <title key="title">Unknown • Personal CRM</title>
-        <meta name="theme-color" content="rgb(194, 65, 12)" />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="rgb(194, 65, 12)"
+          key="theme-color-light"
+        />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="rgb(77, 26, 4)"
+          key="theme-color-dark"
+        />
       </Head>
       {/* Narrow sidebar */}
       <div className="hidden w-28 bg-orange-700 overflow-y-auto md:block">
