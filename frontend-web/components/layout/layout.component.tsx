@@ -1,4 +1,10 @@
-import React, { Fragment, ReactNode, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { useNavigationStore } from "./navigation";
@@ -11,6 +17,13 @@ import Avatar from "react-avatar";
 import { useQuery } from "react-query";
 import { getCurrentUser } from "../../services/account-service";
 import Head from "next/head";
+
+declare module "react" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface MetaHTMLAttributes<T> extends HTMLAttributes<T> {
+    media: string;
+  }
+}
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
