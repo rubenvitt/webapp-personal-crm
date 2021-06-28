@@ -59,7 +59,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
         />
       </Head>
       {/* Narrow sidebar */}
-      <div className="hidden w-28 bg-orange-700 overflow-y-auto md:block">
+      <div className="hidden w-28 bg-primary-700 overflow-y-auto md:block">
         <div className="w-full py-6 flex flex-col items-center">
           <div className="flex-shrink-0 h-10 w-full relative flex items-center">
             <Image layout="fill" src="/logo.svg" alt="Workflow" />
@@ -70,8 +70,8 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                 <a
                   className={classNames(
                     item.current
-                      ? "bg-orange-800 text-white"
-                      : "text-orange-100 hover:bg-orange-800 hover:text-white",
+                      ? "bg-primary-800 text-white"
+                      : "text-primary-100 hover:bg-primary-800 hover:text-white",
                     "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}
@@ -81,7 +81,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                     className={classNames(
                       item.current
                         ? "text-white"
-                        : "text-orange-300 group-hover:text-white",
+                        : "text-primary-300 group-hover:text-white",
                       "h-6 w-6 text-xl"
                     )}
                     aria-hidden="true"
@@ -124,7 +124,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="relative max-w-xs w-full bg-orange-700 pt-5 pb-4 flex-1 flex flex-col">
+              <div className="relative max-w-xs w-full bg-primary-700 pt-5 pb-4 flex-1 flex flex-col">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"
@@ -168,8 +168,8 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                             onClick={() => setMobileMenuOpen(false)}
                             className={classNames(
                               item.current
-                                ? "bg-orange-800 text-white"
-                                : "text-orange-100 hover:bg-orange-800 hover:text-white",
+                                ? "bg-primary-800 text-white"
+                                : "text-primary-100 hover:bg-primary-800 hover:text-white",
                               "group py-2 px-3 rounded-md flex items-center text-sm font-medium"
                             )}
                             aria-current={item.current ? "page" : undefined}
@@ -179,7 +179,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                               className={classNames(
                                 item.current
                                   ? "text-white"
-                                  : "text-orange-300 group-hover:text-white",
+                                  : "text-primary-300 group-hover:text-white",
                                 "mr-3 h-6 w-6 text-lg"
                               )}
                               aria-hidden="true"
@@ -206,7 +206,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
           <div className="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
             <button
               type="button"
-              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500 md:hidden"
+              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 md:hidden"
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
@@ -247,7 +247,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                   {({ open }) => (
                     <>
                       <div>
-                        <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                           <span className="sr-only">Open user menu</span>
                           <Avatar
                             className="h-2 w-2 rounded-full"
@@ -300,7 +300,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                   {({ open }) => (
                     <>
                       <div>
-                        <Menu.Button className="flex bg-orange-600 p-1 rounded-full items-center justify-center text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        <Menu.Button className="flex bg-primary-600 p-1 rounded-full items-center justify-center text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                           <div className="h-6 w-6 flex items-center flex-col">
                             <FontAwesomeIcon
                               icon={faPlus}

@@ -25,7 +25,7 @@ function getBackgroundForType(type: LogEntryType) {
     case LogEntryType.phone:
       return "bg-blue-500";
     case LogEntryType.meet:
-      return "bg-orange-500";
+      return "bg-primary-500";
     case LogEntryType.chat:
       return "bg-green-500";
   }

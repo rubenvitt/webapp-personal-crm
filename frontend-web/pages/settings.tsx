@@ -72,7 +72,7 @@ const Settings: React.FC = () => {
                     key={item.name}
                     className={classNames(
                       item.current
-                        ? "bg-gray-50 text-orange-600 hover:bg-white"
+                        ? "bg-gray-50 text-primary-600 hover:bg-white"
                         : "text-gray-900 hover:text-gray-900 hover:bg-gray-50",
                       "group rounded-md px-3 py-2 flex items-center text-sm font-medium"
                     )}
@@ -82,7 +82,7 @@ const Settings: React.FC = () => {
                       icon={item.icon}
                       className={classNames(
                         item.current
-                          ? "text-orange-500"
+                          ? "text-primary-500"
                           : "text-gray-400 group-hover:text-gray-500",
                         "flex-shrink-0 -ml-1 mr-3 h-6 w-6"
                       )}
@@ -280,7 +280,7 @@ const Settings: React.FC = () => {
                                   ? "rounded-bl-md rounded-br-md"
                                   : "",
                                 checked
-                                  ? "bg-orange-50 border-orange-200 z-10"
+                                  ? "bg-primary-50 border-primary-200 z-10"
                                   : "border-gray-200",
                                 "relative border p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 md:grid md:grid-cols-3 focus:outline-none"
                               )
@@ -292,7 +292,7 @@ const Settings: React.FC = () => {
                                   <span
                                     className={classNames(
                                       checked
-                                        ? "bg-orange-500 border-transparent"
+                                        ? "bg-primary-500 border-transparent"
                                         : "bg-white border-gray-300",
                                       active
                                         ? "ring-2 ring-offset-2 ring-gray-900"
@@ -314,7 +314,7 @@ const Settings: React.FC = () => {
                                   <span
                                     className={classNames(
                                       checked
-                                        ? "text-orange-900"
+                                        ? "text-primary-900"
                                         : "text-gray-900",
                                       "font-medium"
                                     )}
@@ -324,7 +324,7 @@ const Settings: React.FC = () => {
                                   <span
                                     className={
                                       checked
-                                        ? "text-orange-700"
+                                        ? "text-primary-700"
                                         : "text-gray-500"
                                     }
                                   >
@@ -334,7 +334,7 @@ const Settings: React.FC = () => {
                                 <RadioGroup.Description
                                   className={classNames(
                                     checked
-                                      ? "text-orange-700"
+                                      ? "text-primary-700"
                                       : "text-gray-500",
                                     "ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right"
                                   )}
@@ -354,7 +354,7 @@ const Settings: React.FC = () => {
                         onChange={setAnnualBillingEnabled}
                         className={classNames(
                           annualBillingEnabled
-                            ? "bg-orange-500"
+                            ? "bg-primary-500"
                             : "bg-gray-200",
                           "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors ease-in-out duration-200"
                         )}
@@ -455,7 +455,7 @@ const Settings: React.FC = () => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                   <Link href={payment.href}>
-                                    <a className="text-orange-600 hover:text-orange-900">
+                                    <a className="text-primary-600 hover:text-primary-900">
                                       View receipt
                                     </a>
                                   </Link>
