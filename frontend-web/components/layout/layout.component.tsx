@@ -32,19 +32,13 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
     <div className="h-screen bg-gray-50 flex overflow-hidden">
       <Head>
         <title key="title">Unknown • Personal CRM</title>
-        <meta name="theme-color" content="rgb(67, 56, 202)" />
+        <meta name="theme-color" content="rgb(194, 65, 12)" />
       </Head>
       {/* Narrow sidebar */}
       <div className="hidden w-28 bg-orange-700 overflow-y-auto md:block">
         <div className="w-full py-6 flex flex-col items-center">
-          <div className="flex-shrink-0 flex items-center">
-            <Image
-              height={30}
-              width={100}
-              className="h-8 w-auto"
-              src="/logo.svg"
-              alt="Workflow"
-            />
+          <div className="flex-shrink-0 h-10 w-full relative flex items-center">
+            <Image layout="fill" src="/logo.svg" alt="Workflow" />
           </div>
           <div className="flex-1 mt-6 w-full px-2 space-y-1">
             {sidebarNav.map((item) => (
