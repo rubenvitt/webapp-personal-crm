@@ -31,7 +31,7 @@ export const Button: React.FC<Props> = ({
     );
   };
 
-  const [color, setColor] = useState(getItemColorForType(type));
+  const color = getItemColorForType(type);
 
   const onClick = useCallback(() => {
     if (asyncAction) {

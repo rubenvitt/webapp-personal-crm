@@ -56,7 +56,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Settings() {
+const Settings: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState(plans[1]);
   const [annualBillingEnabled, setAnnualBillingEnabled] = useState(true);
 
@@ -475,4 +475,5 @@ export default function Settings() {
       </main>
     </>
   );
-}
+};
+export default Settings;

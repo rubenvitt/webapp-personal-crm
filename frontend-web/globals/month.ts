@@ -13,7 +13,7 @@ export enum Month {
   DECEMBER = 12,
 }
 
-export function nameFor(aMonth: Month) {
+export function nameFor(aMonth: Month): string {
   switch (aMonth) {
     case Month.JANUARY:
       return "Januar";
@@ -42,7 +42,7 @@ export function nameFor(aMonth: Month) {
   }
 }
 
-export function daysFor(aMonth: Month) {
+export function daysFor(aMonth: Month): number {
   switch (aMonth) {
     case Month.JANUARY:
     case Month.MARCH:

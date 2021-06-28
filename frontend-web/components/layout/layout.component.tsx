@@ -15,7 +15,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const Layout = (props: { children: ReactNode }) => {
+export const Layout: React.FC = (props: { children: ReactNode }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { sidebarNav, userNav, addItemsNav, setSidebarCurrent } =
     useNavigationStore();

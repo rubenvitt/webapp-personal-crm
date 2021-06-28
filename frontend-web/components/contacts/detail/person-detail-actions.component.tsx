@@ -23,7 +23,7 @@ interface Props {
   person: PersonDetails;
 }
 
-export const PersonDetailActions: React.FC<Props> = ({ person }) => {
+export const PersonDetailActions: React.FC<Props> = () => {
   const { push, asPath } = useRouter();
 
   return (

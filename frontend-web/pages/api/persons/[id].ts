@@ -24,8 +24,8 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("data for update:", req.body);
 
   const id = await apiUpdatePerson(req.body);
-  if (id) {
-    await res.status(200).json({ _id: req.query.id });
+  if (id.upserted[0]) {
+    await res.status(200).json({ _id: id.upserted[0]._id });
   } else {
     await res.status(403).json({
       status: "Person with id " + req.body._id + " not updated",

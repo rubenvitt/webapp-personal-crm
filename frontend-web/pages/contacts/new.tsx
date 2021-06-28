@@ -23,7 +23,7 @@ const EMPTY_FORM_VALUE: FormType = {
   nickName: "",
 };
 
-export default function NewContactPage() {
+const NewContactPage: React.FC = () => {
   const reducer = (
     state: FormType,
     action: {
@@ -163,4 +163,5 @@ export default function NewContactPage() {
       </section>
     </form>
   );
-}
+};
+export default NewContactPage;

@@ -1,3 +1,5 @@
+// noinspection JSUnusedLocalSymbols
+
 import "../styles/globals.css";
 import React from "react";
 import { Layout } from "../components/layout/layout.component";
@@ -5,20 +7,19 @@ import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { reactQuery } from "../globals/react-query.config";
 
-function MyApp({ Component, pageProps }) {
-  return (
-    <QueryClientProvider client={reactQuery}>
-      <Layout {...pageProps}>
-        <Component {...pageProps} />
-      </Layout>
-      <ReactQueryDevtools panelProps={{ className: "z-50" }} />
-    </QueryClientProvider>
-  );
-}
+const MyApp: React.ReactNode = ({ Component, pageProps }) => (
+  <QueryClientProvider client={reactQuery}>
+    <Layout {...pageProps}>
+      <Component {...pageProps} />
+    </Layout>
+    <ReactQueryDevtools panelProps={{ className: "z-50" }} />
+  </QueryClientProvider>
+);
 
 export default MyApp;
 
-const Element = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Element: React.FC = () => {
   return (
     <>
       <div className="bg-green-50 bg-green-100 bg-green-200 bg-green-300 bg-green-400 bg-green-500 bg-green-600 bg-green-700 bg-green-800 bg-green-900" />

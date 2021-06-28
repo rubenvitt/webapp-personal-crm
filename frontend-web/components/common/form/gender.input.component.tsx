@@ -125,37 +125,31 @@ const Option: React.FC<{
 }> = ({ activeValue, value, label, shortValue }) => {
   return (
     <Listbox.Option
-      className={({ active }) =>
-        classNames(
-          "group cursor-default select-none relative py-2 pl-8 pr-4 text-gray-900 hover:text-white hover:bg-indigo-600"
-        )
-      }
+      className={classNames(
+        "group cursor-default select-none relative py-2 pl-8 pr-4 text-gray-900 hover:text-white hover:bg-indigo-600"
+      )}
       value={value}
     >
-      {({ selected, active }) => (
-        <>
-          <span
-            className={classNames(
-              getShortValueFor(activeValue) === shortValue
-                ? "font-semibold"
-                : "font-normal",
-              "block truncate"
-            )}
-          >
-            {label}
-          </span>
+      <span
+        className={classNames(
+          getShortValueFor(activeValue) === shortValue
+            ? "font-semibold"
+            : "font-normal",
+          "block truncate"
+        )}
+      >
+        {label}
+      </span>
 
-          {getShortValueFor(activeValue) === shortValue ? (
-            <span
-              className={classNames(
-                "absolute inset-y-0 left-0 flex items-center pl-1.5 group-hover:text-white text-indigo-600"
-              )}
-            >
-              <CheckIcon className="h-5 w-5" aria-hidden="true" />
-            </span>
-          ) : null}
-        </>
-      )}
+      {getShortValueFor(activeValue) === shortValue ? (
+        <span
+          className={classNames(
+            "absolute inset-y-0 left-0 flex items-center pl-1.5 group-hover:text-white text-indigo-600"
+          )}
+        >
+          <CheckIcon className="h-5 w-5" aria-hidden="true" />
+        </span>
+      ) : null}
     </Listbox.Option>
   );
 };

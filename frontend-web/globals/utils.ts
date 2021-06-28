@@ -6,11 +6,11 @@ import {
   TimespanType,
 } from "./interfaces";
 
-export function classNames(...classes) {
+export function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-export const getPronounFor = (anAnrede: string, aGender: string) => {
+export const getPronounFor = (anAnrede: string, aGender: string): string => {
   if (anAnrede) return anAnrede;
   switch (aGender) {
     case "masculine":
@@ -24,7 +24,7 @@ export const getPronounFor = (anAnrede: string, aGender: string) => {
   }
 };
 
-export const getColorForType = (type: ActionType) => {
+export const getColorForType = (type: ActionType): string => {
   switch (type) {
     case ActionType.DANGER:
       return "red";
@@ -41,7 +41,7 @@ export const getColorForType = (type: ActionType) => {
   }
 };
 
-export const calculateDaysBetween = (aDuration: TimespanDuration) => {
+export const calculateDaysBetween = (aDuration: TimespanDuration): number => {
   const start = Date.parse(aDuration.start);
   const end = Date.parse(aDuration.end) ?? Date.now();
 
@@ -62,7 +62,7 @@ interface TimespanProps {
     | "milliseconds";
 }
 
-export const calculateAgeFromBirthday = (birthday: Birthday) => {
+export const calculateAgeFromBirthday = (birthday: Birthday): string => {
   if (!birthday) {
     return null;
   }
@@ -93,7 +93,7 @@ export const calculateTimespanSince = ({
   type = TimespanType.INACCURATE,
   prefix = "",
   unit,
-}: TimespanProps) => {
+}: TimespanProps): string => {
   const dur =
     (duration.end ? Date.parse(duration.end) : new Date().getTime()) -
     Date.parse(duration.start);

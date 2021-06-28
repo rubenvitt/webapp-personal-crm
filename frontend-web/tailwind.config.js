@@ -1,5 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require("tailwindcss/colors");
 
+// eslint-disable-next-line no-undef
 module.exports = {
   //mode: "jit",
   purge: {

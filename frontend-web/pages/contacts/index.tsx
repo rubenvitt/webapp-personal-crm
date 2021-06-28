@@ -7,7 +7,7 @@ import {
 import { PersonList } from "../../components/contacts/list/person-list.component";
 import { PersonListItemFavorite } from "../../components/contacts/list/person-list-item.favorite.component";
 
-export default function Index() {
+const Index: React.FC = () => {
   const { data: persons, isLoading: loadingPersons } = useQuery(
     "persons",
     findAllPersons
@@ -34,4 +34,6 @@ export default function Index() {
       />
     </div>
   );
-}
+};
+
+export default Index;

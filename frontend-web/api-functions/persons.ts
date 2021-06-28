@@ -1,8 +1,16 @@
-import { CreatePerson, UpdatePerson } from "../globals/interfaces";
+import {
+  CreatePerson,
+  IdOnly,
+  Person,
+  PersonDetails,
+  UpdatePerson,
+} from "../globals/interfaces";
 import { Person as PersonModel } from "../models/Person";
-import { Types } from "mongoose";
+import { Types, UpdateWriteOpResult } from "mongoose";
 
-export async function apiFindPersonDetailsFor(aPersonId: string) {
+export async function apiFindPersonDetailsFor(
+  aPersonId: string
+): Promise<PersonDetails> {
   try {
     return PersonModel.findById(Types.ObjectId(aPersonId));
   } catch (e) {
@@ -11,14 +19,16 @@ export async function apiFindPersonDetailsFor(aPersonId: string) {
   }
 }
 
-export function apiFindAllPersons() {
+export async function apiFindAllPersons(): Promise<Person[]> {
   return PersonModel.find({}, { displayName: 1 });
 }
 
-export async function apiCreatePerson(aPerson: CreatePerson) {
+export async function apiCreatePerson(aPerson: CreatePerson): Promise<IdOnly> {
   return await PersonModel.create(aPerson);
 }
 
-export async function apiUpdatePerson(aPerson: UpdatePerson) {
+export async function apiUpdatePerson(
+  aPerson: UpdatePerson
+): Promise<UpdateWriteOpResult> {
   return PersonModel.updateOne({ _id: aPerson._id }, aPerson);
 }

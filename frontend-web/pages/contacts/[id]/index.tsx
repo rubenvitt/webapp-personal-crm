@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 import { QueryClient, useQuery } from "react-query";
 import {
   findAllPersons,
@@ -16,6 +18,7 @@ import { findLogItemsFor } from "../../../services/log-service";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function getStaticProps({ params }) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["persons", params.id], () =>
@@ -30,6 +33,7 @@ export async function getStaticProps({ params }) {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function getStaticPaths() {
   const queryClient = new QueryClient();
   const people = await queryClient.fetchQuery(["persons"], findAllPersons);
@@ -45,9 +49,7 @@ export async function getStaticPaths() {
   };
 }
 
-export default ContactDetailPage;
-
-function ContactDetailPage(props: { id; dehydratedState }) {
+const ContactDetailPage: React.ReactNode = (props: { id; dehydratedState }) => {
   const { push } = useRouter();
   const { data: person } = useQuery(
     ["persons", props.id],
@@ -63,7 +65,6 @@ function ContactDetailPage(props: { id; dehydratedState }) {
   const { data: logEntries } = useQuery(["persons.log", props.id], () =>
     findLogItemsFor(props.id)
   );
-
   return (
     <>
       {person && (
@@ -94,4 +95,6 @@ function ContactDetailPage(props: { id; dehydratedState }) {
       )}
     </>
   );
-}
+};
+
+export default ContactDetailPage;

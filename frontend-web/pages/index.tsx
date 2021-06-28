@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { findAllPersons } from "../services/person-service";
 import { getCurrentUser } from "../services/account-service";
 
-export default function Dashboard() {
+const Dashboard: React.FC = () => {
   const { data: persons } = useQuery("persons", findAllPersons);
   const { data: currentUser } = useQuery("user", getCurrentUser);
 
@@ -18,4 +18,5 @@ export default function Dashboard() {
       <dl>{persons && <dt>Du hast {persons.length} Kontakte</dt>}</dl>
     </>
   );
-}
+};
+export default Dashboard;

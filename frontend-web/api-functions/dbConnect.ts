@@ -6,14 +6,17 @@ if (!MONGO_URI) {
   throw new Error("Please define the MONGO_DB_CONNECTION environment variable");
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 let cached = global.mongoose;
 
 if (!cached) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   cached = global.mongoose = { conn: null, promise: null };
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default async function dbConnect() {
   if (cached.conn) {
     return cached.conn;
