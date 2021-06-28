@@ -184,7 +184,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   value: valid && event.currentTarget.value,
                 });
               }}
-              className="inline-flex flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-0 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+              className="inline-flex flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
             />
           )}
           {(dateType === DateType.MONTH_DAY || dateType === DateType.MONTH) && (
