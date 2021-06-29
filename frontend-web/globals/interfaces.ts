@@ -80,14 +80,18 @@ export interface RichName {
   displayName: string;
 }
 
-export interface CreatePerson extends RichName {
+export interface Gendered {
   gender?: string;
   anrede: string;
 }
 
-export interface UpdatePerson extends RichName, CreatePerson, IdOnly {
+export interface Birthdayed {
   birthday: Birthday;
 }
+
+export interface CreatePerson extends RichName, Gendered, Birthdayed {}
+
+export interface UpdatePerson extends CreatePerson, IdOnly {}
 
 export interface IdOnly {
   _id: string;
@@ -101,12 +105,9 @@ export interface Person extends IdOnly {
   notification?: string;
 }
 
-export interface PersonDetails extends Person, RichName {
+export interface PersonDetails extends Person, RichName, Gendered, Birthdayed {
   isFavorite: boolean;
   groups: PersonTag[];
-  birthday?: Birthday;
-  anrede: string;
-  gender: string;
   lastContact: string;
   mails: PersonMail[];
   phones: PersonPhone[];

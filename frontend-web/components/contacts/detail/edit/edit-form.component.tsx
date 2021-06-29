@@ -5,41 +5,17 @@ import {
   PersonDetails,
   UpdatePerson,
 } from "../../../../globals/interfaces";
-import { TextInput } from "../../../common/input.component";
-import { GenderInput } from "../../../common/form/gender.input.component";
 import React, { useEffect } from "react";
-import { BirthdayInput } from "../../../common/form/birthday.input.component";
-import { FormSection } from "../../../common/form/section.component";
-import { SelectInput } from "../../../common/form/select.input.component";
 import { FormLayout } from "../../../common/form/form.layout.component";
 import { useRouter } from "next/router";
 import create from "zustand";
 import { useMutation } from "react-query";
 import { reactQuery } from "../../../../globals/react-query.config";
 import { updatePerson } from "../../../../services/person-service";
+import { EssentialFormSection } from "../form/essential-form-section.component";
 
 interface Props {
   person: PersonDetails;
-}
-
-enum DisplayNameType {
-  FIRSTNAME_ONLY,
-  LASTNAME_ONLY,
-  FIRSTNAME_LASTNAME,
-  NICKNAME,
-}
-
-function descriptionFor(aDisplayNameType: DisplayNameType) {
-  switch (aDisplayNameType) {
-    case DisplayNameType.FIRSTNAME_ONLY:
-      return "Vorname";
-    case DisplayNameType.LASTNAME_ONLY:
-      return "Nachname";
-    case DisplayNameType.FIRSTNAME_LASTNAME:
-      return "Vorname Nachname";
-    case DisplayNameType.NICKNAME:
-      return "Spitzname";
-  }
 }
 
 interface FormType {
@@ -171,107 +147,7 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
           },
         }}
       >
-        <FormSection
-          title={"Generelle Informationen"}
-          description={"Allgemeine Informationen über den Kontakt"}
-        >
-          <TextInput
-            required={
-              !updatePersonModel.firstName &&
-              !updatePersonModel.lastName &&
-              !updatePersonModel.nickName
-            }
-            onChange={setFirstName}
-            value={updatePersonModel.firstName}
-            title={"Vorname"}
-            className={"col-span-4 sm:col-span-2"}
-          />
-          <TextInput
-            required={
-              !updatePersonModel.firstName &&
-              !updatePersonModel.lastName &&
-              !updatePersonModel.nickName
-            }
-            onChange={setLastName}
-            value={updatePersonModel.lastName}
-            title={"Nachname"}
-            className={"col-span-4 sm:col-span-2"}
-          />
-          <TextInput
-            required={
-              !updatePersonModel.firstName &&
-              !updatePersonModel.lastName &&
-              !updatePersonModel.nickName
-            }
-            onChange={setNickName}
-            value={updatePersonModel.nickName}
-            title={"Spitzname"}
-            className={"col-span-4 sm:col-span-2"}
-          />
-          <SelectInput
-            title="Anzeigename"
-            id="displayName"
-            className="col-span-4 sm:col-span-2"
-            buttonClassName="mt-1"
-            onChange={(value) => {
-              setDisplayName(value);
-            }}
-          >
-            {[
-              {
-                condition:
-                  updatePersonModel.firstName && updatePersonModel.lastName,
-                value:
-                  updatePersonModel.firstName +
-                  " " +
-                  updatePersonModel.lastName,
-                form: DisplayNameType.FIRSTNAME_LASTNAME,
-              },
-              {
-                condition: updatePersonModel.firstName,
-                value: updatePersonModel.firstName,
-                form: DisplayNameType.FIRSTNAME_ONLY,
-              },
-              {
-                condition: updatePersonModel.lastName,
-                value: updatePersonModel.lastName,
-                form: DisplayNameType.LASTNAME_ONLY,
-              },
-              {
-                condition: updatePersonModel.nickName,
-                value: updatePersonModel.nickName,
-                form: DisplayNameType.NICKNAME,
-              },
-            ]
-              .filter((it) => it.condition)
-              .map((it) => {
-                return (
-                  <option key={it.form} value={it.value}>
-                    {it.value} ({descriptionFor(it.form)})
-                  </option>
-                );
-              })}
-          </SelectInput>
-          <GenderInput
-            required
-            disabled={false}
-            onChange={setGender}
-            value={{
-              gender: updatePersonModel.gender,
-              anrede: updatePersonModel.anrede,
-            }}
-            className={"col-span-4 sm:col-span-4"}
-          />
-          <BirthdayInput
-            placeholder={"Geburtstag"}
-            required={
-              !updatePersonModel.birthday?.dateValue &&
-              updatePersonModel.birthday?.dateType !== DateType.UNKNOWN
-            }
-            className={"col-span-4 sm:col-span-2"}
-            onChange={setBirthday}
-          />
-        </FormSection>
+        <EssentialFormSection />
       </FormLayout>
     </>
   );
