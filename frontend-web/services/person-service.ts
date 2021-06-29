@@ -34,7 +34,7 @@ export const createPerson: (aPerson: CreatePerson) => Promise<IdOnly> = async (
     .catch(() => undefined);
 };
 
-export const updatePerson: (aPerson: UpdatePerson) => Promise<IdOnly> = async (
+export const updatePerson: (aPerson: UpdatePerson) => Promise<void> = async (
   aPerson
 ) => {
   return axios

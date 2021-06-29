@@ -30,5 +30,10 @@ export async function apiCreatePerson(aPerson: CreatePerson): Promise<IdOnly> {
 export async function apiUpdatePerson(
   aPerson: UpdatePerson
 ): Promise<UpdateWriteOpResult> {
-  return PersonModel.updateOne({ _id: aPerson._id }, aPerson);
+  return PersonModel.updateOne(
+    { _id: Types.ObjectId(aPerson._id) },
+    {
+      $set: aPerson,
+    }
+  );
 }

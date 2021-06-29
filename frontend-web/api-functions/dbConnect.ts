@@ -33,6 +33,7 @@ export default async function dbConnect() {
     };
 
     cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
+      mongoose.set("debug", true);
       return mongoose;
     });
   }

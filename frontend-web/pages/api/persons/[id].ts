@@ -23,11 +23,12 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("data for update:", req.body);
 
-  const id = await apiUpdatePerson(req.body);
-  if (id.upserted[0]) {
-    await res.status(200).json({ _id: id.upserted[0]._id });
+  const result = await apiUpdatePerson(req.body);
+  console.log("returning:", result);
+  if (result.n === result.ok) {
+    await res.status(200).send(null);
   } else {
-    await res.status(403).json({
+    await res.status(400).json({
       status: "Person with id " + req.body._id + " not updated",
     });
   }

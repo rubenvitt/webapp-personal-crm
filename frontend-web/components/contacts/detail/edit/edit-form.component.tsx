@@ -137,21 +137,19 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
 
   const { push } = useRouter();
 
-  const { mutate } = useMutation<IdOnly, unknown, UpdatePerson>(
+  const { mutate } = useMutation<void, unknown, UpdatePerson>(
     "update-contacts",
     async (element) => {
       return await updatePerson(element);
     },
     {
-      onSuccess: async (contact) => {
-        await reactQuery
-          .invalidateQueries("persons")
-          .then(() => {
-            return reactQuery.invalidateQueries(["persons", contact._id]);
-          })
-          .then(() => {
-            navigateTo(contact);
-          });
+      onSuccess: async () => {
+        await reactQuery.invalidateQueries("persons");
+        console.log("success 1/3");
+        await reactQuery.invalidateQueries(["persons", person._id]);
+        console.log("success 2/3");
+        await navigateTo(person);
+        console.log("success 3/3");
       },
     }
   );
