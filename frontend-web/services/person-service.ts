@@ -42,3 +42,12 @@ export const updatePerson: (aPerson: UpdatePerson) => Promise<void> = async (
     .then((value) => value.data)
     .catch(() => undefined);
 };
+
+export const deletePerson: (aPerson: IdOnly) => Promise<void> = async (
+  aPerson
+) => {
+  return axios
+    .delete<IdOnly>("/persons/" + aPerson._id)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};

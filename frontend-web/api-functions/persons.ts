@@ -37,3 +37,9 @@ export async function apiUpdatePerson(
     }
   );
 }
+
+export async function apiDeletePerson(
+  aPersonId: string
+): Promise<{ deletedCount?: number }> {
+  return PersonModel.deleteOne({ _id: Types.ObjectId(aPersonId) });
+}

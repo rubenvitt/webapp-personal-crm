@@ -145,11 +145,8 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
     {
       onSuccess: async () => {
         await reactQuery.invalidateQueries("persons");
-        console.log("success 1/3");
         await reactQuery.invalidateQueries(["persons", person._id]);
-        console.log("success 2/3");
         await navigateTo(person);
-        console.log("success 3/3");
       },
     }
   );

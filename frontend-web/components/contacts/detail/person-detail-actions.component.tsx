@@ -1,5 +1,5 @@
 import React from "react";
-import { ActionType, PersonDetails } from "../../../globals/interfaces";
+import { ActionType, IdOnly, PersonDetails } from "../../../globals/interfaces";
 import {
   DropDownButton,
   DropDownGroup,
@@ -18,13 +18,30 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 import { faBell as farBell } from "@fortawesome/pro-regular-svg-icons";
 import { useRouter } from "next/router";
+import { useMutation } from "react-query";
+import { deletePerson } from "../../../services/person-service";
+import { reactQuery } from "../../../globals/react-query.config";
 
 interface Props {
   person: PersonDetails;
 }
 
-export const PersonDetailActions: React.FC<Props> = () => {
+export const PersonDetailActions: React.FC<Props> = ({ person }) => {
   const { push, asPath } = useRouter();
+
+  const { mutate: mutatePersonDelete } = useMutation<void, unknown, IdOnly>(
+    "update-contacts",
+    async (element) => {
+      return await deletePerson(element);
+    },
+    {
+      onSuccess: async () => {
+        await reactQuery.invalidateQueries("persons");
+        await reactQuery.removeQueries(["persons", person._id]);
+        await push("/contacts");
+      },
+    }
+  );
 
   return (
     <div className="mt-6 flex flex-col-reverse justify-stπretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
@@ -85,6 +102,9 @@ export const PersonDetailActions: React.FC<Props> = () => {
           />
           <DropDownItem
             title={"Löschen"}
+            onClick={() => {
+              mutatePersonDelete(person);
+            }}
             type={ActionType.DANGER}
             icon={{ active: faTrash }}
           />

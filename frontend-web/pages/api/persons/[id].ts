@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
+  apiDeletePerson,
   apiFindPersonDetailsFor,
   apiUpdatePerson,
 } from "../../../api-functions/persons";
@@ -21,7 +22,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("data for update:", req.body);
+  console.log("update user:", req.body);
 
   const result = await apiUpdatePerson(req.body);
   console.log("returning:", result);
@@ -30,6 +31,19 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   } else {
     await res.status(400).json({
       status: "Person with id " + req.body._id + " not updated",
+    });
+  }
+});
+
+handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log("remove user:", req.query.id);
+
+  const result = await apiDeletePerson(req.query.id as string);
+  if (result.deletedCount === 1) {
+    await res.status(200).send(null);
+  } else {
+    await res.status(400).json({
+      status: "Too many elements deleted",
     });
   }
 });
