@@ -37,7 +37,7 @@ export const PersonTagList: React.FC<Props> = ({
       {tags.map((tag) => {
         return (
           <span
-            key={tag.id}
+            key={tag._id}
             onClick={() => onClick(tag)}
             style={{ backgroundColor: tag.color.bg, color: tag.color.text }}
             className={classNames(
