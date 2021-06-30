@@ -170,98 +170,100 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
   }, [personDetails]);
 
   return (
-    <FormSection
-      title={"Generelle Informationen"}
-      description={"Allgemeine Informationen über den Kontakt"}
-    >
-      <TextInput
-        required={
-          !formValue.firstName && !formValue.lastName && !formValue.nickName
-        }
-        onChange={setFirstName}
-        value={formValue.firstName}
-        title={"Vorname"}
-        className={"col-span-4 sm:col-span-2"}
-      />
-      <TextInput
-        required={
-          !formValue.firstName && !formValue.lastName && !formValue.nickName
-        }
-        onChange={setLastName}
-        value={formValue.lastName}
-        title={"Nachname"}
-        className={"col-span-4 sm:col-span-2"}
-      />
-      <TextInput
-        required={
-          !formValue.firstName && !formValue.lastName && !formValue.nickName
-        }
-        onChange={setNickName}
-        value={formValue.nickName}
-        title={"Spitzname"}
-        className={"col-span-4 sm:col-span-2"}
-      />
-      <SelectInput
-        title="Anzeigename"
-        id="displayName"
-        className="col-span-4 sm:col-span-2"
-        initialValue={formValue.displayName}
-        buttonClassName="mt-1"
-        onChange={(value) => {
-          setDisplayName(value);
-        }}
+    <>
+      <FormSection
+        title={"Generelle Informationen"}
+        description={"Allgemeine Informationen über den Kontakt"}
       >
-        {[
-          {
-            condition: formValue.firstName && formValue.lastName,
-            value: formValue.firstName + " " + formValue.lastName,
-            form: DisplayNameType.FIRSTNAME_LASTNAME,
-          },
-          {
-            condition: formValue.firstName,
-            value: formValue.firstName,
-            form: DisplayNameType.FIRSTNAME_ONLY,
-          },
-          {
-            condition: formValue.lastName,
-            value: formValue.lastName,
-            form: DisplayNameType.LASTNAME_ONLY,
-          },
-          {
-            condition: formValue.nickName,
-            value: formValue.nickName,
-            form: DisplayNameType.NICKNAME,
-          },
-        ]
-          .filter((it) => it.condition)
-          .map((it) => {
-            return (
-              <option key={it.form} value={it.value}>
-                {it.value} ({descriptionFor(it.form)})
-              </option>
-            );
-          })}
-      </SelectInput>
-      <GenderInput
-        required
-        disabled={false}
-        onChange={setGender}
-        value={{
-          gender: formValue.gender,
-          anrede: formValue.anrede,
-        }}
-        className={"col-span-4 sm:col-span-4"}
-      />
-      <BirthdayInput
-        initialValue={formValue.birthday}
-        placeholder={"Geburtstag"}
-        required={
-          !formValue.birthday?.dateValue &&
-          formValue.birthday?.dateType !== DateType.UNKNOWN
-        }
-        className={"col-span-4 sm:col-span-2"}
-        onChange={setBirthday}
-      />
-    </FormSection>
+        <TextInput
+          required={
+            !formValue.firstName && !formValue.lastName && !formValue.nickName
+          }
+          onChange={setFirstName}
+          value={formValue.firstName}
+          title={"Vorname"}
+          className={"col-span-4 sm:col-span-2"}
+        />
+        <TextInput
+          required={
+            !formValue.firstName && !formValue.lastName && !formValue.nickName
+          }
+          onChange={setLastName}
+          value={formValue.lastName}
+          title={"Nachname"}
+          className={"col-span-4 sm:col-span-2"}
+        />
+        <TextInput
+          required={
+            !formValue.firstName && !formValue.lastName && !formValue.nickName
+          }
+          onChange={setNickName}
+          value={formValue.nickName}
+          title={"Spitzname"}
+          className={"col-span-4 sm:col-span-2"}
+        />
+        <SelectInput
+          title="Anzeigename"
+          id="displayName"
+          className="col-span-4 sm:col-span-2"
+          initialValue={formValue.displayName}
+          buttonClassName="mt-1"
+          onChange={(value) => {
+            setDisplayName(value);
+          }}
+        >
+          {[
+            {
+              condition: formValue.firstName && formValue.lastName,
+              value: formValue.firstName + " " + formValue.lastName,
+              form: DisplayNameType.FIRSTNAME_LASTNAME,
+            },
+            {
+              condition: formValue.firstName,
+              value: formValue.firstName,
+              form: DisplayNameType.FIRSTNAME_ONLY,
+            },
+            {
+              condition: formValue.lastName,
+              value: formValue.lastName,
+              form: DisplayNameType.LASTNAME_ONLY,
+            },
+            {
+              condition: formValue.nickName,
+              value: formValue.nickName,
+              form: DisplayNameType.NICKNAME,
+            },
+          ]
+            .filter((it) => it.condition)
+            .map((it) => {
+              return (
+                <option key={it.form} value={it.value}>
+                  {it.value} ({descriptionFor(it.form)})
+                </option>
+              );
+            })}
+        </SelectInput>
+        <GenderInput
+          required
+          disabled={false}
+          onChange={setGender}
+          value={{
+            gender: formValue.gender,
+            anrede: formValue.anrede,
+          }}
+          className={"col-span-4 sm:col-span-4"}
+        />
+        <BirthdayInput
+          initialValue={formValue.birthday}
+          placeholder={"Geburtstag"}
+          required={
+            !formValue.birthday?.dateValue &&
+            formValue.birthday?.dateType !== DateType.UNKNOWN
+          }
+          className={"col-span-4 sm:col-span-2"}
+          onChange={setBirthday}
+        />
+      </FormSection>
+    </>
   );
 };
