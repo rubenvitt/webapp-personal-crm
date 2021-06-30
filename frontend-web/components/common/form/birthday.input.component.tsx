@@ -31,13 +31,18 @@ const labelFor = (aDateType: DateType) => {
 
 export const BirthdayInput: React.FC<Props> = ({
   disabled,
-  initialValue = { dateValue: undefined, dateType: DateType.MONTH_DAY },
+  initialValue = { dateType: DateType.UNKNOWN, dateValue: undefined },
   value,
   onChange,
   placeholder,
   className,
   required,
 }) => {
+  const yearInputRef = useRef<HTMLInputElement>();
+  const monthInputRef = useRef<HTMLSelectElement>();
+  const dayInputRef = useRef<HTMLSelectElement>();
+  const dateInputRef = useRef<HTMLInputElement>();
+
   const reducer = (
     state: Birthday,
     action: {
@@ -83,11 +88,6 @@ export const BirthdayInput: React.FC<Props> = ({
 
   const [month, setMonth] = useState("JANUARY");
 
-  const yearInputRef = useRef<HTMLInputElement>();
-  const monthInputRef = useRef<HTMLSelectElement>();
-  const dayInputRef = useRef<HTMLSelectElement>();
-  const dateInputRef = useRef<HTMLInputElement>();
-
   return (
     <>
       <div className={className}>
@@ -101,6 +101,7 @@ export const BirthdayInput: React.FC<Props> = ({
         <div className="mt-1 relative flex flex-col focus-within:z-10">
           <SelectInput
             id={"dateType"}
+            initialValue={initialValue?.dateType}
             onChange={(element) => {
               dispatch({
                 name: "dateType",
@@ -161,6 +162,7 @@ export const BirthdayInput: React.FC<Props> = ({
           {(dateType === DateType.EXACT || dateType === DateType.AGE) && (
             <input
               ref={dateInputRef}
+              value={dateValue}
               type={(() => {
                 switch (dateType) {
                   case DateType.EXACT:

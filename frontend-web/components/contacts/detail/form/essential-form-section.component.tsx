@@ -99,6 +99,7 @@ export const useEssentialFormStore = create<FormType>((set, get) => ({
   },
   initialize: (person) => {
     if (person) {
+      console.log("set person as formValue");
       set({
         formValue: {
           ...person,
@@ -107,7 +108,16 @@ export const useEssentialFormStore = create<FormType>((set, get) => ({
           },
         },
       });
+      console.log("formValue", {
+        formValue: {
+          ...person,
+          birthday: {
+            ...person.birthday,
+          },
+        },
+      });
     } else {
+      console.log("set empy formValue");
       set({
         formValue: {
           ...EMPTY_FORM_VALUE,
@@ -153,8 +163,11 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
   } = useEssentialFormStore();
 
   useEffect(() => {
-    initialize(personDetails);
-  }, []);
+    setTimeout(() => {
+      console.log("initialize with details", personDetails);
+      initialize(personDetails);
+    });
+  }, [personDetails]);
 
   return (
     <FormSection
@@ -192,6 +205,7 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
         title="Anzeigename"
         id="displayName"
         className="col-span-4 sm:col-span-2"
+        initialValue={formValue.displayName}
         buttonClassName="mt-1"
         onChange={(value) => {
           setDisplayName(value);
@@ -239,6 +253,7 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
         className={"col-span-4 sm:col-span-4"}
       />
       <BirthdayInput
+        initialValue={formValue.birthday}
         placeholder={"Geburtstag"}
         required={
           !formValue.birthday?.dateValue &&

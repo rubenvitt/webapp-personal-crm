@@ -3,13 +3,14 @@ import { Listbox, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { classNames } from "../../../globals/utils";
 import { CheckIcon } from "@heroicons/react/solid";
+import { Gendered } from "../../../globals/interfaces";
 
 interface Props {
   disabled: boolean;
   onChange: (value: { gender: string; anrede: string }) => void;
   className?: string;
   required?: boolean;
-  value?: { gender: string; anrede: string };
+  value?: Gendered;
 }
 
 function getShortValueFor(aValue: string) {

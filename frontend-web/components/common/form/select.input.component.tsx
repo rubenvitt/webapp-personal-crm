@@ -6,6 +6,8 @@ interface Props {
   buttonClassName?: string;
   id: string;
   showLabel?: boolean;
+  value?: string;
+  initialValue?: string;
   title?: string;
   onChange: (value: string) => void;
   rounded?: boolean;
@@ -14,6 +16,7 @@ interface Props {
 export const SelectInput: React.FC<Props> = ({
   className,
   id,
+  initialValue,
   title,
   showLabel = Boolean(title),
   rounded = true,
@@ -22,7 +25,13 @@ export const SelectInput: React.FC<Props> = ({
   buttonClassName,
 }) => {
   const ref = useRef<HTMLSelectElement>();
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>(initialValue);
+
+  useEffect(() => {
+    setTimeout(() => {
+      ref.current.value = initialValue;
+    });
+  }, [initialValue]);
 
   useEffect(() => {
     if (value !== ref.current.value) {

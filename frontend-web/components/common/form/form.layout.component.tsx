@@ -49,7 +49,7 @@ export const FormLayout: React.FC<Props> = ({ children, cancel, save }) => {
           )}
         >
           {save?.isLoading ? (
-            <FontAwesomeIcon spin icon={faSpinner} />
+            <FontAwesomeIcon className="self-center" spin icon={faSpinner} />
           ) : (
             save?.label ?? "Speichern"
           )}

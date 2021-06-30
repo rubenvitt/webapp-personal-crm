@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { classNames, getColorForType } from "../../globals/utils";
 import { ActionType } from "../../globals/interfaces";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/pro-light-svg-icons";
 
 interface Props {
   asyncAction?: () => Promise<void>;
@@ -56,7 +58,11 @@ export const Button: React.FC<Props> = ({
         "self-end inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
       )}
     >
-      {children}
+      {isLoading ? (
+        <FontAwesomeIcon className="self-center" spin icon={faSpinner} />
+      ) : (
+        children
+      )}
     </button>
   );
 };

@@ -30,8 +30,9 @@ export const getColorForType = (type: ActionType): string => {
       return "red";
     case ActionType.WARNING:
       return "yellow";
-    case ActionType.DEFAULT:
     case ActionType.PRIMARY:
+    case ActionType.DEFAULT:
+      return "orange";
     case ActionType.INFO:
       return "blue";
     case ActionType.ARCHIVE:

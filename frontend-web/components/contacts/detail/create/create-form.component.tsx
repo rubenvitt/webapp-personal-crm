@@ -9,9 +9,7 @@ import { CreatePerson, IdOnly } from "../../../../globals/interfaces";
 import { createPerson } from "../../../../services/person-service";
 import { reactQuery } from "../../../../globals/react-query.config";
 
-interface Props {}
-
-export const CreatePersonForm: React.FC<Props> = () => {
+export const CreatePersonForm: React.FC<never> = () => {
   const { formValue } = useEssentialFormStore();
   const { push } = useRouter();
 
@@ -41,7 +39,7 @@ export const CreatePersonForm: React.FC<Props> = () => {
   return (
     <FormLayout
       save={{
-        isLoading: true,
+        isLoading: isLoading,
         action: createContact,
       }}
     >
