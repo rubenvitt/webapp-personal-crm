@@ -4,12 +4,57 @@ import {
 } from "../../../../globals/utils";
 import { ContentBox } from "../../../common/content-box.component";
 import React from "react";
-import { PersonDetails } from "../../../../globals/interfaces";
+import {
+  Birthday,
+  DateType,
+  PersonDetails,
+} from "../../../../globals/interfaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBirthdayCake, faUsers } from "@fortawesome/pro-regular-svg-icons";
 
 interface Props {
   person: PersonDetails;
+}
+
+function toBirthdayString({ dateType, dateValue }: Birthday) {
+  function monthDayToDateString(monthDay: string) {
+    const [month, day] = monthDay.split("-");
+    return new Date(0, Number(month), Number(day)).toLocaleDateString(
+      undefined,
+      {
+        month: "long",
+        day: "2-digit",
+      }
+    );
+  }
+
+  function monthAndYearToDateString(monthYear: string) {
+    const [year, month] = monthYear.split("-");
+    return new Date(Number(year), Number(month), 1).toLocaleDateString(
+      undefined,
+      {
+        year: "numeric",
+        month: "long",
+      }
+    );
+  }
+
+  switch (dateType) {
+    case DateType.EXACT:
+      return new Date(dateValue).toLocaleDateString(undefined, {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
+    case DateType.MONTH_DAY:
+      return monthDayToDateString(dateValue);
+    case DateType.MONTH:
+      return monthAndYearToDateString(dateValue);
+    case DateType.AGE:
+      return dateValue + " Jahre";
+    case DateType.UNKNOWN:
+      return "Unbekannt";
+  }
 }
 
 export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
@@ -25,7 +70,7 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
             className="inline pr-2"
             size="lg"
           />
-          {new Date(person.birthday.dateValue).toLocaleDateString()} (
+          {toBirthdayString(person.birthday)} (
           {calculateAgeFromBirthday(person.birthday)})
         </dt>
         <dt>
