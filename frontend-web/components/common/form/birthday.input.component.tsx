@@ -20,8 +20,8 @@ const labelFor = (aDateType: DateType) => {
       return "Exaktes Datum";
     case DateType.MONTH_DAY:
       return "Monat und Tag";
-    case DateType.MONTH:
-      return "Nur Monat";
+    case DateType.YEAR_MONTH:
+      return "Monat und Jahr";
     case DateType.AGE:
       return "Ungefähres Alter";
     case DateType.UNKNOWN:
@@ -127,7 +127,7 @@ export const BirthdayInput: React.FC<Props> = ({
                         dateInputRef.current?.reportValidity() &&
                         dateInputRef.current?.value
                       );
-                    case DateType.MONTH:
+                    case DateType.YEAR_MONTH:
                       return (
                         yearInputRef.current?.reportValidity() &&
                         monthInputRef.current?.reportValidity() &&
@@ -189,7 +189,8 @@ export const BirthdayInput: React.FC<Props> = ({
               className="inline-flex flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
             />
           )}
-          {(dateType === DateType.MONTH_DAY || dateType === DateType.MONTH) && (
+          {(dateType === DateType.MONTH_DAY ||
+            dateType === DateType.YEAR_MONTH) && (
             <div className="flex w-full items-stretch">
               <select
                 ref={monthInputRef}
@@ -200,7 +201,7 @@ export const BirthdayInput: React.FC<Props> = ({
                     event.currentTarget.reportValidity() &&
                     ((dateType === DateType.MONTH_DAY &&
                       dayInputRef.current.reportValidity()) ||
-                      (DateType.MONTH &&
+                      (DateType.YEAR_MONTH &&
                         yearInputRef.current.reportValidity()));
                   dispatch({
                     name: "dateValue",
@@ -260,7 +261,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   })}
                 </select>
               )}
-              {dateType === DateType.MONTH && (
+              {dateType === DateType.YEAR_MONTH && (
                 <input
                   ref={yearInputRef}
                   onChange={(event) => {

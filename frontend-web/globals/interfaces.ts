@@ -117,7 +117,7 @@ export interface PersonDetails extends Person, RichName, Gendered, Birthdayed {
 export enum DateType {
   EXACT = "EXACT",
   MONTH_DAY = "MONTH_DAY",
-  MONTH = "MONTH",
+  YEAR_MONTH = "YEAR_MONTH",
   AGE = "AGE",
   UNKNOWN = "UNKNOWN",
 }

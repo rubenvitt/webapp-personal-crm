@@ -30,6 +30,13 @@ function toBirthdayString({ dateType, dateValue }: Birthday) {
 
   function monthAndYearToDateString(monthYear: string) {
     const [year, month] = monthYear.split("-");
+    console.log(
+      "convert",
+      monthYear,
+      "to",
+      monthYear.split("-"),
+      new Date(Number(year), Number(month), 1)
+    );
     return new Date(Number(year), Number(month), 1).toLocaleDateString(
       undefined,
       {
@@ -48,10 +55,10 @@ function toBirthdayString({ dateType, dateValue }: Birthday) {
       });
     case DateType.MONTH_DAY:
       return monthDayToDateString(dateValue);
-    case DateType.MONTH:
+    case DateType.YEAR_MONTH:
       return monthAndYearToDateString(dateValue);
     case DateType.AGE:
-      return dateValue + " Jahre";
+      return dateValue + " Jahr" + (Number(dateValue) > 1 ? "e" : "");
     case DateType.UNKNOWN:
       return "Unbekannt";
   }
@@ -70,8 +77,10 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
             className="inline pr-2"
             size="lg"
           />
-          {toBirthdayString(person.birthday)} (
-          {calculateAgeFromBirthday(person.birthday)})
+          {toBirthdayString(person.birthday)}{" "}
+          {[DateType.YEAR_MONTH, DateType.EXACT].find(
+            (a) => a === person.birthday.dateType
+          ) && "(" + calculateAgeFromBirthday(person.birthday) + ")"}
         </dt>
         <dt>
           <FontAwesomeIcon icon={faUsers} className="inline pr-2" size="lg" />

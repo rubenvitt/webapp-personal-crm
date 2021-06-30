@@ -68,9 +68,19 @@ export const calculateAgeFromBirthday = (birthday: Birthday): string => {
     return null;
   }
 
+  if (birthday.dateType === DateType.YEAR_MONTH) {
+    const [year, month] = birthday.dateValue.split("-");
+    const date = new Date(Number(year), Number(month), 1);
+    return calculateTimespanSince({
+      duration: {
+        start: date.toUTCString(),
+      },
+      unit: "years",
+    });
+  }
+
   switch (birthday.dateType) {
     case DateType.EXACT:
-    case DateType.MONTH:
       return calculateTimespanSince({
         duration: {
           start: birthday.dateValue,
@@ -78,11 +88,7 @@ export const calculateAgeFromBirthday = (birthday: Birthday): string => {
         unit: "years",
       });
     case DateType.AGE:
-      return (
-        birthday.dateValue +
-        " Jahr" +
-        (Number(birthday.dateValue) > 1 ? "e" : "")
-      );
+      return birthday.dateValue;
     case DateType.UNKNOWN:
     case DateType.MONTH_DAY:
       return null;
