@@ -14,21 +14,21 @@ interface Props {
 
 const notes: Note[] = [
   {
-    id: 1,
+    _id: 1,
     name: "Leslie Alexander",
     date: "2020-05-01",
     imageId: "1494790108377-be9c29b29330",
     body: "Ducimus quas delectus ad maxime totam doloribus reiciendis ex. Tempore dolorem maiores. Similique voluptatibus tempore non ut.",
   },
   {
-    id: 2,
+    _id: 2,
     name: "Michael Foster",
     date: "2020-10-10",
     imageId: "1519244703995-f4e0f30006d5",
     body: "Et ut autem. Voluptatem eum dolores sint necessitatibus quos. Quis eum qui dolorem accusantium voluptas voluptatem ipsum. Quo facere iusto quia accusamus veniam id explicabo et aut.",
   },
   {
-    id: 3,
+    _id: 3,
     name: "Dries Vincent",
     date: "2021-05-18",
     imageId: "1506794778202-cad84cf45f1d",

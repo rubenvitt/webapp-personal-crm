@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const appointments: LogEntry[] = [
   {
-    id: "0",
+    _id: "0",
     type: LogEntryType.meet,
     label: "Essengehen",
     description: "Ich bin mit denen Essen gegangen",
@@ -24,7 +24,7 @@ const Appointments: React.ReactNode = () => (
   <div className="m-10 bg-white shadow overflow-hidden sm:rounded-md">
     <ul className="divide-y divide-gray-200">
       {appointments.map((appointment) => (
-        <li key={appointment.id}>
+        <li key={appointment._id}>
           <Link href="#">
             <a className="block hover:bg-gray-50">
               <div className="px-4 py-4 sm:px-6">

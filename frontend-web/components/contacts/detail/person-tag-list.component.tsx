@@ -22,7 +22,7 @@ export const PersonTagList: React.FC<Props> = ({
       return [
         ...prevState,
         {
-          id: String(Math.random()),
+          _id: String(Math.random()),
           title: element,
           color: { bg: "#8ec025", text: "#333" },
         },

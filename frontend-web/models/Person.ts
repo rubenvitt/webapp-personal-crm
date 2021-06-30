@@ -33,7 +33,29 @@ const PersonSchema = new mongoose.Schema({
   isFavorite: {
     type: Boolean,
   },
+  contact: {
+    phone: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
+    },
+  },
 });
+
+const ContactSchema = new mongoose.Schema({
+  value: {
+    type: Object,
+  },
+  customType: {
+    type: String,
+    required: false,
+  },
+  type: {
+    type: Number,
+  },
+});
+
+export const Contact =
+  mongoose.models.Contact ||
+  mongoose.model("Contact", ContactSchema, "contacts");
 
 export const Person =
   mongoose.models.Person || mongoose.model("Person", PersonSchema, "persons");

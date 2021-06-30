@@ -3,6 +3,7 @@ import {
   IdOnly,
   Person,
   PersonDetails,
+  PersonPhone,
   UpdatePerson,
 } from "../globals/interfaces";
 import axios from "../axios";
@@ -60,6 +61,26 @@ export const favoritePerson: (
     .post<void>("/persons/" + aPerson._id + "/favorite", {
       status: state,
     })
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
+export const addPhoneNumber: (
+  aPerson: IdOnly,
+  phone: Omit<PersonPhone, "_id">
+) => Promise<void> = async (aPerson, phone) => {
+  return axios
+    .post<void>("/persons/" + aPerson._id + "/contact/phone/add", phone)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
+export const deletePhoneNumber: (
+  aPersonId: IdOnly,
+  aPhoneID: IdOnly
+) => Promise<void> = async ({ _id: aPerson }, { _id: aPhone }) => {
+  return axios
+    .delete<void>("/persons/" + aPerson + "/contact/phone/" + aPhone)
     .then((value) => value.data)
     .catch(() => undefined);
 };

@@ -43,12 +43,12 @@ export const TextInput: React.FC<Props> = ({
 
   useEffect(() => {
     setInternalValue(initialValue);
-    onChange(initialValue);
+    onChange?.(initialValue);
   }, []);
 
   if (onChange) {
     useEffect(() => {
-      onChange(internalValue);
+      onChange?.(internalValue);
     }, [internalValue]);
   }
 

@@ -2,7 +2,7 @@ import { LogEntry, LogEntryType } from "../globals/interfaces";
 
 const entries: LogEntry[] = [
   {
-    id: "0",
+    _id: "0",
     type: LogEntryType.meet,
     label: "Essengehen",
     description: "Ich bin mit denen Essen gegangen",
@@ -11,7 +11,7 @@ const entries: LogEntry[] = [
     people: ["001-test", "002-test"],
   },
   {
-    id: "1",
+    _id: "1",
     type: LogEntryType.meet,
     label: "Essengehen",
     description: "Ich bin mit denen Essen gegangen",

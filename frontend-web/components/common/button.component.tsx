@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { classNames, getColorForType } from "../../globals/utils";
 import { ActionType } from "../../globals/interfaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,7 @@ interface Props {
   action?: () => void;
   className?: string;
   type?: ActionType;
+  isLoading?: boolean;
 }
 
 export const Button: React.FC<Props> = ({
@@ -18,8 +19,15 @@ export const Button: React.FC<Props> = ({
   action,
   className,
   type = ActionType.PRIMARY,
+  isLoading,
 }) => {
-  const [isLoading, setLoading] = useState(false);
+  const [_isLoading, setLoading] = useState(false);
+
+  if (isLoading !== undefined) {
+    useEffect(() => {
+      setLoading(isLoading);
+    }, [isLoading]);
+  }
 
   const getItemColorForType = (aType: ActionType) => {
     const color = getColorForType(aType);
@@ -27,7 +35,7 @@ export const Button: React.FC<Props> = ({
       return "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500";
     }
     return classNames(
-      isLoading
+      _isLoading
         ? `bg-${color}-200 focus:ring-${color}-300`
         : `bg-${color}-600 hover:bg-${color}-700 focus:ring-${color}-500`,
       `text-white border-transparent`
@@ -52,7 +60,7 @@ export const Button: React.FC<Props> = ({
   return (
     <button
       onClick={onClick}
-      disabled={isLoading}
+      disabled={_isLoading}
       className={classNames(
         color,
         className,
@@ -62,7 +70,7 @@ export const Button: React.FC<Props> = ({
       {children}
       <Transition
         as={Fragment}
-        show={isLoading}
+        show={_isLoading}
         enter="transform transition duration-700"
         enterFrom="opacity-0 scale-50"
         enterTo="opacity-100 scale-100"

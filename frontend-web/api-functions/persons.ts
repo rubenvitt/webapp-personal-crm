@@ -5,14 +5,16 @@ import {
   PersonDetails,
   UpdatePerson,
 } from "../globals/interfaces";
-import { Person as PersonModel } from "../models/Person";
+import { Contact, Person as PersonModel } from "../models/Person";
 import { FilterQuery, Types, UpdateWriteOpResult } from "mongoose";
 
 export async function apiFindPersonDetailsFor(
   aPersonId: string
 ): Promise<PersonDetails> {
   try {
-    return PersonModel.findById(Types.ObjectId(aPersonId));
+    return PersonModel.findById(Types.ObjectId(aPersonId)).populate(
+      "contact.phone"
+    );
   } catch (e) {
     console.log("error", e);
     return null;
@@ -58,4 +60,38 @@ export async function apiFavoritePerson(
       },
     }
   );
+}
+
+export async function apiAddPhoneForPerson(
+  aPersonId: string,
+  value: string
+): Promise<UpdateWriteOpResult> {
+  return await Contact.create(value).then((doc) => {
+    return PersonModel.updateOne(
+      {
+        _id: Types.ObjectId(aPersonId),
+      },
+      {
+        $addToSet: {
+          "contact.phone": doc.id,
+        },
+      }
+    );
+  });
+}
+
+export async function apiDeletePhoneForPerson(
+  aPersonId: string,
+  aPhoneId: string
+): Promise<{ deletedCount?: number }> {
+  const any = await Contact.deleteOne({ _id: Types.ObjectId(aPhoneId) });
+  await PersonModel.updateOne(
+    { _id: Types.ObjectId(aPersonId) },
+    {
+      $pull: {
+        "contact.phone": Types.ObjectId(aPhoneId),
+      },
+    }
+  );
+  return any;
 }

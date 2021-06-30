@@ -1,5 +1,9 @@
-import { PersonCommunicationChannel } from "../../../../globals/interfaces";
-import React, { useEffect, useState } from "react";
+import {
+  ActionType,
+  IsLoadingAction,
+  PersonCommunicationChannel,
+} from "../../../../globals/interfaces";
+import React, { Ref, useEffect, useRef, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { classNames } from "../../../../globals/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,18 +12,22 @@ import {
   faCircle,
   faCrown as farCrown,
   faStars,
+  faTrash,
 } from "@fortawesome/pro-regular-svg-icons";
 import { TextInput } from "../../../common/input.component";
+import { Button } from "../../../common/button.component";
 
 interface InputOptions {
   title?: string;
   inputType?: string;
   autocomplete?: string;
+  placeholder?: string;
 }
 
 interface InputProps<T> {
-  initialElement: T;
-  onChange: (id: string) => undefined;
+  initialElement?: T;
+  inputRef?: Ref<HTMLInputElement>;
+  onChange?: (aValue: string) => void;
   isEdit: boolean;
   inputOptions?: InputOptions;
 }
@@ -30,7 +38,9 @@ interface RadioProps<T> {
   label: string;
   CustomEditInput?: React.FC<InputProps<T>>;
   inputOptions?: InputOptions;
-  onChange?: (value: string) => void;
+  onChange?: (value: T) => void;
+  addItem?: IsLoadingAction<string>; // TODO change to T
+  deleteItem?: IsLoadingAction<T>;
 }
 
 export const EditRadio: <T extends PersonCommunicationChannel>(
@@ -42,8 +52,11 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
   CustomEditInput,
   inputOptions,
   onChange,
+  addItem,
+  deleteItem,
 }) => {
-  const [selectedId, setSelectedId] = useState(values?.[0].id);
+  const [selectedId, setSelectedId] = useState(values?.[0]?._id);
+  const addReference = useRef<HTMLInputElement>();
 
   const onChangeValue = (value) => {
     onChange?.(value);
@@ -60,18 +73,30 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
           {values?.map((element) => {
             return (
               <li
-                key={element.id}
+                key={element._id}
                 className={classNames(
                   isEdit && "py-1",
-                  isEdit && selectedId === element.id && "border-primary-500",
-                  "flex justify-center items-center px-3 border-2 border-transparent rounded-md"
+                  isEdit && selectedId === element._id && "border-primary-500",
+                  "flex justify-center items-center px-3 border-2 space-x-2 border-transparent rounded-md"
                 )}
               >
                 <p className={classNames(isEdit ? "hidden" : "block", "w-6")}>
-                  {element.id === selectedId && (
+                  {element._id === selectedId && (
                     <FontAwesomeIcon icon={faStars} />
                   )}
                 </p>
+                {isEdit && deleteItem && (
+                  <Button
+                    action={() => {
+                      deleteItem.action(element);
+                    }}
+                    isLoading={deleteItem.isLoading}
+                    type={ActionType.DANGER}
+                    className="self-center rounded-full "
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </Button>
+                )}
                 {CustomEditInput ? (
                   <CustomEditInput
                     isEdit={isEdit}
@@ -88,7 +113,7 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
                   />
                 )}
                 <RadioGroup.Option
-                  value={element.id}
+                  value={element._id}
                   className={({ active }) =>
                     classNames(
                       !isEdit ? "hidden" : "relative block cursor-pointer py-4",
@@ -114,10 +139,37 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
             );
           })}
         </ul>
-        {!values && (
+        {(!values || values.length === 0) && (
           <p className="pl-4 text-red-500">Keine Elemente vorhanden</p>
         )}
       </RadioGroup>
+      {addItem && (
+        <form
+          className="flex"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (event.currentTarget.reportValidity()) {
+              addItem.action?.(addReference.current.value);
+              addReference.current.value = "";
+            }
+          }}
+        >
+          <EditInput
+            isEdit={isEdit}
+            inputRef={addReference}
+            inputOptions={{
+              ...inputOptions,
+              placeholder: "Neu anlegen",
+            }}
+          />
+          <Button
+            isLoading={addItem.isLoading}
+            className={classNames(isEdit ? "block" : "hidden")}
+          >
+            Hinzufügen
+          </Button>
+        </form>
+      )}
     </>
   );
 };
@@ -126,31 +178,38 @@ const EditInput: <T extends PersonCommunicationChannel>(
   props: React.PropsWithChildren<InputProps<T>>
 ) => JSX.Element = ({
   isEdit,
+  inputRef,
   initialElement,
   inputOptions: {
-    inputType = "tπext",
+    inputType = "text",
     autocomplete = "off",
     title = "Text",
+    placeholder = "",
   } = {
     inputType: "text",
     autocomplete: "off",
     title: "Text",
+    placeholder: "",
   },
 }) => {
-  const [value, setValue] = useState<string>(initialElement.value as string);
+  const [value, setValue] = useState(initialElement?.value as string);
 
-  useEffect(() => setValue(initialElement.value as string), [isEdit]);
+  useEffect(() => setValue(initialElement?.value as string), [isEdit]);
 
   return (
     <div className="flex flex-1 grid grid-cols-3 md:grid-cols-4">
       {isEdit ? (
         <TextInput
+          inputRef={inputRef}
           autocomplete={autocomplete}
           inputType={inputType}
           className="col-span-3"
+          placeholder={placeholder}
+          onChange={setValue}
+          value={value}
           title={title}
           showLabel={false}
-          initialValue={initialElement.value as string}
+          initialValue={initialElement?.value as string}
         />
       ) : (
         <p className="col-span-4">{value}</p>

@@ -48,7 +48,7 @@ export const LogList: React.FC<Props> = ({ logEntries }) => {
       <ul className="-mb-8">
         {logEntries?.map((entry, index) => (
           <LogListItem
-            key={entry.id}
+            key={entry._id}
             entry={entry}
             isLast={logEntries.length - 1 === index}
           />
@@ -60,7 +60,7 @@ export const LogList: React.FC<Props> = ({ logEntries }) => {
 
 const LogListItem: React.FC<EntryProps> = ({ entry, isLast }) => {
   return (
-    <li key={entry.id}>
+    <li key={entry._id}>
       <div className="relative pb-8">
         {!isLast ? (
           <span

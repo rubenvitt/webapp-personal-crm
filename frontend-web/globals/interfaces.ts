@@ -18,7 +18,7 @@ export interface Navigation {
 }
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   hashedMail: string;
   imageUrl?: string;
@@ -49,7 +49,7 @@ export enum AddressType {
 export interface PersonCommunicationChannel {
   value: string | unknown;
   customType?: string;
-  id: string;
+  _id: string;
   type: PhoneType | MailType | AddressType | unknown;
 }
 
@@ -105,13 +105,17 @@ export interface Person extends IdOnly {
   notification?: string;
 }
 
+export interface ContactInfos {
+  mail: PersonMail[];
+  phone: PersonPhone[];
+  address: PersonAddress[];
+}
+
 export interface PersonDetails extends Person, RichName, Gendered, Birthdayed {
   isFavorite: boolean;
   groups: PersonTag[];
   lastContact: string;
-  mails: PersonMail[];
-  phones: PersonPhone[];
-  addresses: PersonAddress[];
+  contact: ContactInfos;
 }
 
 export enum DateType {
@@ -134,7 +138,7 @@ export enum LogEntryType {
 }
 
 export interface LogEntry {
-  id: string;
+  _id: string;
   label: string;
   description: string;
   type: LogEntryType;
@@ -164,15 +168,20 @@ export enum ActionType {
 }
 
 export interface PersonTag {
-  id: string;
+  _id: string;
   title: string;
   color: { bg: string; text: string };
 }
 
 export interface Note {
-  id: number;
+  _id: number;
   name?: string;
   date: string;
   imageId?: string;
   body: string;
+}
+
+export interface IsLoadingAction<T> {
+  isLoading?: boolean;
+  action: (payload: T) => void;
 }
