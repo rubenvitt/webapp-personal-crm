@@ -12,8 +12,8 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   if (filters === "favorites") {
     apiFindAllPersons({
       isFavorite: true,
-    }).then((value) => {
-      res.json([value[0], value[1], value[13], value[2]].filter((it) => it));
+    }).then((persons) => {
+      res.json(persons);
     });
   } else {
     apiFindAllPersons().then((persons) => {
