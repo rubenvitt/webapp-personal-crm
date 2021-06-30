@@ -4,14 +4,14 @@ import {
   useEssentialFormStore,
 } from "../form/essential-form-section.component";
 import { useMutation } from "react-query";
-import { useRouter } from "next/router";
 import { CreatePerson, IdOnly } from "../../../../globals/interfaces";
 import { createPerson } from "../../../../services/person-service";
 import { reactQuery } from "../../../../globals/react-query.config";
+import { usePersonNavigate } from "../../../../globals/person-utils";
 
 export const CreatePersonForm: React.FC = () => {
   const { formValue } = useEssentialFormStore();
-  const { push } = useRouter();
+  const { navigateTo } = usePersonNavigate();
 
   const { isLoading, mutate } = useMutation<IdOnly, unknown, CreatePerson>(
     "create-contacts",
@@ -22,9 +22,9 @@ export const CreatePersonForm: React.FC = () => {
       });
     },
     {
-      onSuccess: async (value) => {
+      onSuccess: async (person) => {
         await reactQuery.invalidateQueries("persons").then(() => {
-          push("/contacts/" + value._id);
+          navigateTo(person);
         });
       },
     }

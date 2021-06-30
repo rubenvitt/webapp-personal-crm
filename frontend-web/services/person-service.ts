@@ -47,7 +47,19 @@ export const deletePerson: (aPerson: IdOnly) => Promise<void> = async (
   aPerson
 ) => {
   return axios
-    .delete<IdOnly>("/persons/" + aPerson._id)
+    .delete<void>("/persons/" + aPerson._id)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
+export const favoritePerson: (
+  aPerson: IdOnly,
+  state: boolean
+) => Promise<void> = async (aPerson, state) => {
+  return axios
+    .post<void>("/persons/" + aPerson._id + "/favorite", {
+      status: state,
+    })
     .then((value) => value.data)
     .catch(() => undefined);
 };

@@ -11,6 +11,8 @@ interface Props {
   title: string;
   className?: string;
   Item: React.FC<ItemProps>;
+  hideOnEmpty?: boolean;
+  grid?: boolean;
 }
 
 export const PersonList: React.FC<Props> = ({
@@ -19,7 +21,13 @@ export const PersonList: React.FC<Props> = ({
   title,
   className,
   Item,
+  hideOnEmpty,
+  grid = true,
 }) => {
+  if (hideOnEmpty && !(persons?.length > 0)) {
+    return <></>;
+  }
+
   return (
     <div className={classNames(className, "pb-5 border-b border-gray-200")}>
       {(loading || persons) && (
@@ -27,7 +35,13 @@ export const PersonList: React.FC<Props> = ({
           {title}
         </h3>
       )}
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <ul
+        className={classNames(
+          grid
+            ? "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            : "flex space-x-2"
+        )}
+      >
         {loading && "Loading"}
         {persons &&
           persons.map((person) => <Item key={person._id} person={person} />)}

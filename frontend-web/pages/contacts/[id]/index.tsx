@@ -16,7 +16,7 @@ import { PersonContactBox } from "../../../components/contacts/detail/boxes/cont
 import { LogList } from "../../../components/log/log-list.component";
 import { findLogItemsFor } from "../../../services/log-service";
 import { AxiosError } from "axios";
-import { useRouter } from "next/router";
+import { usePersonNavigate } from "../../../globals/person-utils";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function getStaticProps({ params }) {
@@ -50,14 +50,15 @@ export async function getStaticPaths() {
 }
 
 const ContactDetailPage: React.ReactNode = (props: { id; dehydratedState }) => {
-  const { push } = useRouter();
+  const { navigateTo } = usePersonNavigate();
+
   const { data: person } = useQuery(
     ["persons", props.id],
     () => findDetailsFor(props.id),
     {
-      onError: (err: AxiosError) => {
+      onError: async (err: AxiosError) => {
         if (err.isAxiosError && err.response?.status === 404) {
-          push("/contacts");
+          await navigateTo();
         }
       },
     }

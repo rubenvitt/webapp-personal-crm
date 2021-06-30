@@ -9,6 +9,9 @@ import {
 import { PersonDetailActions } from "./person-detail-actions.component";
 import { StarSwitch } from "../../common/star-switch.component";
 import Avatar from "react-avatar";
+import { useMutation } from "react-query";
+import { favoritePerson } from "../../../services/person-service";
+import { reactQuery } from "../../../globals/react-query.config";
 
 interface Props {
   person: PersonDetails;
@@ -16,6 +19,19 @@ interface Props {
 }
 
 export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
+  const { mutateAsync } = useMutation<void, unknown, boolean>(
+    (state) => {
+      return favoritePerson(person, state);
+    },
+    {
+      onSuccess: async () => {
+        await reactQuery.invalidateQueries("persons");
+        await reactQuery.invalidateQueries("persons.favorite");
+        await reactQuery.invalidateQueries(["persons", person._id]);
+      },
+    }
+  );
+
   const generateDescriptionFor = (person: PersonDetails) => {
     const ageFromBirthday = calculateAgeFromBirthday(person.birthday);
     return person
@@ -58,7 +74,10 @@ export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
                 <h1 className="text-2xl font-bold text-gray-900">
                   {person?.displayName}
                 </h1>
-                <StarSwitch mutate={() => Promise.resolve()} />
+                <StarSwitch
+                  mutate={(state) => mutateAsync(state)}
+                  checked={person.isFavorite}
+                />
               </div>
               <p className="text-sm font-medium text-gray-500">
                 {generateDescriptionFor(person)}

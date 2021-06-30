@@ -19,6 +19,8 @@ const Index: React.FC = () => {
   return (
     <div className="">
       <PersonList
+        hideOnEmpty
+        grid={false}
         persons={favoritePersons}
         loading={loadingFavorites}
         title="Favoriten"

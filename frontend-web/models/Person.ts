@@ -30,6 +30,9 @@ const PersonSchema = new mongoose.Schema({
   lastName: {
     type: String,
   },
+  isFavorite: {
+    type: Boolean,
+  },
 });
 
 export const Person =

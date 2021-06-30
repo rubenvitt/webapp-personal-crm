@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import { classNames, getColorForType } from "../../globals/utils";
 import { ActionType } from "../../globals/interfaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/pro-light-svg-icons";
+import { Transition } from "@headlessui/react";
 
 interface Props {
   asyncAction?: () => Promise<void>;
@@ -58,11 +59,21 @@ export const Button: React.FC<Props> = ({
         "self-end inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
       )}
     >
-      {isLoading ? (
-        <FontAwesomeIcon className="self-center" spin icon={faSpinner} />
-      ) : (
-        children
-      )}
+      {children}
+      <Transition
+        as={Fragment}
+        show={isLoading}
+        enter="transform transition duration-700"
+        enterFrom="opacity-0 scale-50"
+        enterTo="opacity-100 scale-100"
+        leave="transform duration-700 transition ease-in-out"
+        leaveFrom="opacity-100 scale-100 "
+        leaveTo="opacity-0 scale-95 "
+      >
+        <div className="w-full h-full ">
+          <FontAwesomeIcon className="self-center ml-2" spin icon={faSpinner} />
+        </div>
+      </Transition>
     </button>
   );
 };

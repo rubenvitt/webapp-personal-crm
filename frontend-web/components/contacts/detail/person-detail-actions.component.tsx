@@ -22,6 +22,7 @@ import { useMutation } from "react-query";
 import { deletePerson } from "../../../services/person-service";
 import { reactQuery } from "../../../globals/react-query.config";
 import { ConfirmDialog } from "../../common/dialog/confirm-dialog.component";
+import { usePersonNavigate } from "../../../globals/person-utils";
 
 interface Props {
   person: PersonDetails;
@@ -29,6 +30,7 @@ interface Props {
 
 export const PersonDetailActions: React.FC<Props> = ({ person }) => {
   const { push, asPath } = useRouter();
+  const { navigateTo } = usePersonNavigate();
 
   const { mutateAsync: mutatePersonDelete } = useMutation<
     void,
@@ -43,7 +45,7 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
       onSuccess: async () => {
         await reactQuery.invalidateQueries("persons");
         await reactQuery.removeQueries(["persons", person._id]);
-        await push("/contacts");
+        await navigateTo();
       },
     }
   );

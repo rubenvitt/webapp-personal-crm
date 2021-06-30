@@ -3,7 +3,7 @@ import {
   apiDeletePerson,
   apiFindPersonDetailsFor,
   apiUpdatePerson,
-} from "../../../api-functions/persons";
+} from "../../../../api-functions/persons";
 import nextConnect from "next-connect";
 
 const handler = nextConnect();
