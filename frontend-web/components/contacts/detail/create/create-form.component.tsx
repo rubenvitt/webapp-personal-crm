@@ -9,7 +9,7 @@ import { CreatePerson, IdOnly } from "../../../../globals/interfaces";
 import { createPerson } from "../../../../services/person-service";
 import { reactQuery } from "../../../../globals/react-query.config";
 
-export const CreatePersonForm: React.FC<never> = () => {
+export const CreatePersonForm: React.FC = () => {
   const { formValue } = useEssentialFormStore();
   const { push } = useRouter();
 
