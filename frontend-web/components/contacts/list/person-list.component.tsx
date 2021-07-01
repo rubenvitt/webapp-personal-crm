@@ -39,7 +39,7 @@ export const PersonList: React.FC<Props> = ({
         className={classNames(
           grid
             ? "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-            : "flex space-x-2"
+            : "flex space-x-2 overflow-x-auto"
         )}
       >
         {loading && "Loading"}

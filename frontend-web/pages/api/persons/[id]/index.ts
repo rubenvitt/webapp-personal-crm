@@ -39,7 +39,7 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("remove user:", req.query.id);
 
   const result = await apiDeletePerson(req.query.id as string);
-  if (result.deletedCount === 1) {
+  if (result) {
     await res.status(200).send(null);
   } else {
     await res.status(400).json({

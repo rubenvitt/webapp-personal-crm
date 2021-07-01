@@ -9,8 +9,8 @@ import { ItemProps } from "./person-list.component";
 export const PersonListItem: React.FC<ItemProps> = ({ person }) => {
   const router = useRouter();
 
-  const showProfile = () => {
-    router.push(`${router.pathname}/${person._id}`);
+  const showProfile = async () => {
+    await router.push(`${router.pathname}/${person._id}`);
   };
 
   return (

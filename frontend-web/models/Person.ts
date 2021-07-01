@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const PersonSchema = new mongoose.Schema({
   displayName: {
@@ -40,6 +40,15 @@ const PersonSchema = new mongoose.Schema({
   },
 });
 
+PersonSchema.pre("deleteOne", { document: true }, async function (next) {
+  console.log("deleting following element:", this);
+  await Contact.deleteMany({
+    _id: {
+      $in: this["contact"]?.phone.map((v) => Types.ObjectId(v)),
+    },
+  });
+});
+
 const ContactSchema = new mongoose.Schema({
   value: {
     type: Object,
@@ -52,6 +61,17 @@ const ContactSchema = new mongoose.Schema({
     type: Number,
   },
 });
+
+async function removeLinkedContact(next: () => void) {
+  console.log("should remove contact for doc", this);
+
+  const result = await Contact.remove({
+    _id: {
+      $in: this["contact"]?.phone,
+    },
+  });
+  console.log("finished removing with result", result);
+}
 
 export const Contact =
   mongoose.models.Contact ||
