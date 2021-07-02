@@ -7,19 +7,21 @@ import { UserProvider } from "@auth0/nextjs-auth0";
 import { SWRConfig } from "swr";
 import { fetcher } from "../globals/swr.utils";
 
-const MyApp: React.ReactNode = ({ Component, pageProps }) => (
-  <UserProvider>
-    <SWRConfig
-      value={{
-        fetcher: fetcher,
-      }}
-    >
-      <Layout {...pageProps}>
-        <Component {...pageProps} />
-      </Layout>
-    </SWRConfig>
-  </UserProvider>
-);
+const MyApp: React.ReactNode = ({ Component, pageProps }) => {
+  return (
+    <UserProvider>
+      <SWRConfig
+        value={{
+          fetcher: fetcher,
+        }}
+      >
+        <Layout {...pageProps}>
+          <Component {...pageProps} />
+        </Layout>
+      </SWRConfig>
+    </UserProvider>
+  );
+};
 
 export default MyApp;
 
