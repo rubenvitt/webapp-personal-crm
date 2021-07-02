@@ -9,11 +9,9 @@ import { PersonDetailNotesBox } from "../../../components/contacts/detail/boxes/
 import { PersonContactBox } from "../../../components/contacts/detail/boxes/contact.box.component";
 import { LogList } from "../../../components/log/log-list.component";
 import { useLogEntry } from "../../../services/log-service";
-import { fetcher } from "../../../globals/swr.utils";
-import { URL_API_Persons } from "../../../globals/urls";
-import { Person } from "../../../globals/interfaces";
 import { usePerson } from "../../../services/person-service";
 import { usePersonNavigate } from "../../../globals/person-utils";
+import { apiFindAllPersons } from "../../../api-functions/persons";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function getStaticProps({ params }) {
@@ -26,7 +24,7 @@ export async function getStaticProps({ params }) {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function getStaticPaths() {
-  const people = await fetcher<Person[]>(URL_API_Persons);
+  const people = await apiFindAllPersons();
 
   return {
     paths:
