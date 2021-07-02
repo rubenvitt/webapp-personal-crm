@@ -1,4 +1,5 @@
 import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
+import { UserProfile } from "@auth0/nextjs-auth0";
 
 export interface NavElement {
   href?: string;
@@ -183,4 +184,8 @@ export interface Note {
 
 export interface IsLoadingAction<T> {
   action: (payload: T) => Promise<void>;
+}
+
+export interface AppUser extends UserProfile {
+  version?: string;
 }
