@@ -13,6 +13,7 @@ import { fetcher } from "../../../globals/swr.utils";
 import { URL_API_Persons } from "../../../globals/urls";
 import { Person } from "../../../globals/interfaces";
 import { usePerson } from "../../../services/person-service";
+import { usePersonNavigate } from "../../../globals/person-utils";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function getStaticProps({ params }) {
@@ -40,6 +41,7 @@ export async function getStaticPaths() {
 
 const ContactDetailPage: React.ReactNode = ({ id }) => {
   const { person, isError } = usePerson(id);
+  const { navigateTo } = usePersonNavigate();
 
   useEffect(() => {
     if (isError && isError.isAxiosError && isError.response?.status === 404) {

@@ -255,7 +255,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                             size="36"
                             round
                             maxInitials={2}
-                            src={currentUser?.imageUrl}
+                            src={currentUser?.picture}
                             name={currentUser?.name}
                             alt={"Your profile picture"}
                           />
