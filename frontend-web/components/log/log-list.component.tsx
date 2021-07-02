@@ -8,8 +8,6 @@ import {
   faPhone,
   faUsers,
 } from "@fortawesome/pro-regular-svg-icons";
-import { useQuery } from "react-query";
-import { findDetailsFor } from "../../services/person-service";
 
 interface Props {
   logEntries?: LogEntry[];
@@ -90,15 +88,11 @@ const LogListItem: React.FC<EntryProps> = ({ entry, isLast }) => {
                 {entry.people.length > 0 && " mit "}
               </p>
               {entry.people.map((personId, index) => {
-                const { data: person } = useQuery(["persons", personId], () =>
-                  findDetailsFor(personId)
-                );
+                // TODO: use real data
                 return (
                   <>
                     <Link href={"/contacts/" + personId} key={personId}>
-                      <a className="font-medium text-gray-900">
-                        {person?.displayName}
-                      </a>
+                      <a className="font-medium text-gray-900">{"UNKNOWN"}</a>
                     </Link>
                     {entry.people.length - 3 !== index
                       ? entry.people.length - 2 === index && " und "

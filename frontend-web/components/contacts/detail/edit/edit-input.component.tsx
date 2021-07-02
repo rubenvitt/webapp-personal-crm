@@ -56,6 +56,7 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
   deleteItem,
 }) => {
   const [selectedId, setSelectedId] = useState(values?.[0]?._id);
+  const [isAdding, setAdding] = useState(false);
   const addReference = useRef<HTMLInputElement>();
 
   const onChangeValue = (value) => {
@@ -87,10 +88,9 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
                 </p>
                 {isEdit && deleteItem && (
                   <Button
-                    action={() => {
-                      deleteItem.action(element);
+                    asyncAction={() => {
+                      return deleteItem.action(element);
                     }}
-                    isLoading={deleteItem.isLoading}
                     type={ActionType.DANGER}
                     className="self-center rounded-full "
                   >
@@ -146,11 +146,13 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
       {addItem && (
         <form
           className="flex"
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
+            setAdding(true);
             event.preventDefault();
             if (event.currentTarget.reportValidity()) {
-              addItem.action?.(addReference.current.value);
+              await addItem.action?.(addReference.current.value);
               addReference.current.value = "";
+              setAdding(false);
             }
           }}
         >
@@ -163,7 +165,7 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
             }}
           />
           <Button
-            isLoading={addItem.isLoading}
+            isLoading={isAdding}
             className={classNames(isEdit ? "block" : "hidden")}
           >
             Hinzufügen

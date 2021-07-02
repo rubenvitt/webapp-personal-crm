@@ -9,9 +9,9 @@ import {
 import { PersonDetailActions } from "./person-detail-actions.component";
 import { StarSwitch } from "../../common/star-switch.component";
 import Avatar from "react-avatar";
-import { useMutation } from "react-query";
+import { mutate } from "swr";
+import { URL_API_Persons } from "../../../globals/urls";
 import { favoritePerson } from "../../../services/person-service";
-import { reactQuery } from "../../../globals/react-query.config";
 
 interface Props {
   person: PersonDetails;
@@ -19,19 +19,6 @@ interface Props {
 }
 
 export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
-  const { mutateAsync } = useMutation<void, unknown, boolean>(
-    (state) => {
-      return favoritePerson(person, state);
-    },
-    {
-      onSuccess: async () => {
-        await reactQuery.invalidateQueries("persons");
-        await reactQuery.invalidateQueries("persons.favorite");
-        await reactQuery.invalidateQueries(["persons", person._id]);
-      },
-    }
-  );
-
   const generateDescriptionFor = (person: PersonDetails) => {
     const ageFromBirthday = calculateAgeFromBirthday(person.birthday);
     return person
@@ -75,7 +62,33 @@ export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
                   {person?.displayName}
                 </h1>
                 <StarSwitch
-                  mutate={(state) => mutateAsync(state)}
+                  mutate={async (state) => {
+                    mutate(
+                      URL_API_Persons + "/" + person._id,
+                      {
+                        ...person,
+                        isFavorite: state,
+                      },
+                      false
+                    );
+                    if (state) {
+                      mutate(
+                        URL_API_Persons + "?filter=favorites",
+                        (data) => [...data, person],
+                        false
+                      );
+                    } else {
+                      mutate(
+                        URL_API_Persons + "?filter=favorites",
+                        (data) => [...data.filter((e) => e._id !== person._id)],
+                        false
+                      );
+                    }
+                    return favoritePerson(person, state).then(() => {
+                      mutate(URL_API_Persons + "/" + person._id);
+                      mutate(URL_API_Persons + "?filter=favorites");
+                    });
+                  }}
                   checked={person.isFavorite}
                 />
               </div>

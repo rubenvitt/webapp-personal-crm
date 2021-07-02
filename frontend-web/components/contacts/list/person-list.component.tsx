@@ -7,7 +7,7 @@ export interface ItemProps {
 
 interface Props {
   persons: Person[];
-  loading: boolean;
+  loading?: boolean;
   title: string;
   className?: string;
   Item: React.FC<ItemProps>;
@@ -30,7 +30,7 @@ export const PersonList: React.FC<Props> = ({
 
   return (
     <div className={classNames(className, "pb-5 border-b border-gray-200")}>
-      {(loading || persons) && (
+      {(loading || !persons || persons.length > 0) && (
         <h3 className="text-lg leading-6 pb-2 font-medium text-gray-900">
           {title}
         </h3>

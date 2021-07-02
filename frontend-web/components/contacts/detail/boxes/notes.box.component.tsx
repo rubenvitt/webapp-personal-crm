@@ -97,7 +97,7 @@ export const PersonDetailNotesBox: React.FC<Props> = () => {
     >
       <ul className="space-y-8">
         {state.map((comment) => (
-          <li key={comment.id}>
+          <li key={comment._id}>
             <div className="flex space-x-3">
               <div>
                 <div className="mt-1 text-sm text-gray-700">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ActionType, IdOnly, PersonDetails } from "../../../globals/interfaces";
+import { ActionType, PersonDetails } from "../../../globals/interfaces";
 import {
   DropDownButton,
   DropDownGroup,
@@ -18,11 +18,8 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 import { faBell as farBell } from "@fortawesome/pro-regular-svg-icons";
 import { useRouter } from "next/router";
-import { useMutation } from "react-query";
-import { deletePerson } from "../../../services/person-service";
-import { reactQuery } from "../../../globals/react-query.config";
+import { usePersonMutation } from "../../../services/person-service";
 import { ConfirmDialog } from "../../common/dialog/confirm-dialog.component";
-import { usePersonNavigate } from "../../../globals/person-utils";
 
 interface Props {
   person: PersonDetails;
@@ -30,25 +27,7 @@ interface Props {
 
 export const PersonDetailActions: React.FC<Props> = ({ person }) => {
   const { push, asPath } = useRouter();
-  const { navigateTo } = usePersonNavigate();
-
-  const { mutateAsync: mutatePersonDelete } = useMutation<
-    void,
-    unknown,
-    IdOnly
-  >(
-    "update-contacts",
-    async (element) => {
-      return await deletePerson(element);
-    },
-    {
-      onSuccess: async () => {
-        await reactQuery.invalidateQueries("persons");
-        await reactQuery.removeQueries(["persons", person._id]);
-        await navigateTo();
-      },
-    }
-  );
+  const { deletePerson } = usePersonMutation(person);
 
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>();
 
@@ -128,7 +107,7 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
         success={{
           label: "Löschen",
           type: ActionType.DANGER,
-          action: () => mutatePersonDelete(person),
+          action: () => deletePerson(),
         }}
       >
         Soll <b className="text-red-500">{person.displayName}</b> wirklich

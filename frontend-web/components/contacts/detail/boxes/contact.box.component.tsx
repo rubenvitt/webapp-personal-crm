@@ -1,5 +1,4 @@
 import {
-  IdOnly,
   PersonAddress,
   PersonDetails,
   PersonMail,
@@ -10,48 +9,18 @@ import { ContentBox } from "../../../common/content-box.component";
 import React, { useEffect, useState } from "react";
 import { EditRadio } from "../edit/edit-input.component";
 import { EditAddress } from "../edit/edit-address-input.component";
-import { useMutation } from "react-query";
 import {
   addPhoneNumber,
   deletePhoneNumber,
 } from "../../../../services/person-service";
-import { reactQuery } from "../../../../globals/react-query.config";
+import { mutate } from "swr";
+import { URL_API_Persons } from "../../../../globals/urls";
 
 interface Props {
   person: PersonDetails;
 }
 
 export const PersonContactBox: React.FC<Props> = ({ person }) => {
-  const { mutate: mutateAddPhoneNumber, isLoading: isLoadingAddPhoneNumber } =
-    useMutation<
-      void,
-      unknown,
-      { person: IdOnly; value: Omit<PersonPhone, "_id"> }
-    >(
-      ({ person, value }) => {
-        return addPhoneNumber(person, value);
-      },
-      {
-        onSuccess: async () => {
-          await reactQuery.invalidateQueries(["persons", person._id]);
-        },
-      }
-    );
-
-  const {
-    mutate: mutateDeletePhoneNumber,
-    isLoading: isLoadingDeletePhoneNumber,
-  } = useMutation<void, unknown, { person: IdOnly; value: IdOnly }>(
-    ({ person, value }) => {
-      return deletePhoneNumber(person, value);
-    },
-    {
-      onSuccess: async () => {
-        await reactQuery.invalidateQueries(["persons", person._id]);
-      },
-    }
-  );
-
   const [isEdit, setIsEdit] = useState<boolean>();
   useEffect(() => {
     // reload edit form
@@ -72,22 +41,53 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
         <dt className="border-b pb-4 border-gray-200">
           <EditRadio<PersonPhone>
             deleteItem={{
-              action: (element) => {
-                mutateDeletePhoneNumber({ person, value: element });
+              action: async (element) => {
+                mutate(
+                  `${URL_API_Persons}/${person._id}`,
+                  {
+                    ...person,
+                    contact: {
+                      phone: [
+                        ...person.contact.phone.filter(
+                          (value) => value._id !== element._id
+                        ),
+                      ],
+                    },
+                  },
+                  false
+                );
+
+                await deletePhoneNumber(person, element);
+                mutate(`${URL_API_Persons}/${person._id}`);
+                return Promise.resolve();
               },
-              isLoading: isLoadingDeletePhoneNumber,
             }}
             addItem={{
-              action: (value) => {
-                mutateAddPhoneNumber({
-                  person,
-                  value: {
-                    value: value,
-                    type: PhoneType.MOBILE,
+              action: async (value) => {
+                mutate(
+                  `${URL_API_Persons}/${person._id}`,
+                  {
+                    ...person,
+                    contact: {
+                      phone: [
+                        ...person.contact.phone,
+                        {
+                          value,
+                          type: PhoneType.MOBILE,
+                        },
+                      ],
+                    },
                   },
+                  false
+                );
+
+                await addPhoneNumber(person, {
+                  value,
+                  type: PhoneType.MOBILE,
                 });
+                mutate(`${URL_API_Persons}/${person._id}`);
+                return Promise.resolve();
               },
-              isLoading: isLoadingAddPhoneNumber,
             }}
             isEdit={isEdit}
             label="Telefonnummern:"

@@ -1,14 +1,14 @@
-import { PersonDetails, UpdatePerson } from "../../../../globals/interfaces";
+import { PersonDetails } from "../../../../globals/interfaces";
 import React from "react";
 import { FormLayout } from "../../../common/form/form.layout.component";
-import { useMutation } from "react-query";
-import { reactQuery } from "../../../../globals/react-query.config";
-import { updatePerson } from "../../../../services/person-service";
+import {
+  usePerson,
+  usePersonMutation,
+} from "../../../../services/person-service";
 import {
   EssentialFormSection,
   useEssentialFormStore,
 } from "../form/essential-form-section.component";
-import { usePersonNavigate } from "../../../../globals/person-utils";
 
 interface Props {
   person: PersonDetails;
@@ -17,34 +17,37 @@ interface Props {
 export const EditPersonForm: React.FC<Props> = ({ person }) => {
   const { formValue: essentialFormValue } = useEssentialFormStore();
 
-  const { navigateTo } = usePersonNavigate();
-
-  const { mutate, isLoading } = useMutation<void, unknown, UpdatePerson>(
-    "update-contacts",
-    async (element) => {
-      return await updatePerson(element);
-    },
-    {
-      onSuccess: async () => {
-        await reactQuery.invalidateQueries("persons");
-        await reactQuery.invalidateQueries(["persons", person._id]);
-        await navigateTo(person);
-      },
-    }
-  );
+  const { navigateTo } = usePerson(person._id);
+  const { updatePerson } = usePersonMutation(person);
 
   return (
     <>
       <FormLayout
-        cancel={{ action: () => navigateTo(person) }}
+        cancel={{ action: () => navigateTo }}
         save={{
-          isLoading,
+          /*action: async () => {
+                                                              console.log("update person");
+                                                              mutatePerson(
+                                                                {
+                                                                  _id: person._id,
+                                                                  ...essentialFormValue,
+                                                                },
+                                                                false
+                                                              )
+                                                                .then(() => {
+                                                                  mutatePerson(
+                                                                    updatePerson({
+                                                                      _id: person._id,
+                                                                      ...essentialFormValue,
+                                                                    })
+                                                                  );
+                                                                })
+                                                                .then(() => {
+                                                                  mutate(URL_API_Persons);
+                                                                });
+                                                            },*/
           action: () => {
-            console.log("update person");
-            mutate({
-              _id: person._id,
-              ...essentialFormValue,
-            });
+            return updatePerson(essentialFormValue).then(navigateTo);
           },
         }}
       >

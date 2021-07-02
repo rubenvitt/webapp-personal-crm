@@ -1,7 +1,10 @@
 import nextConnect from "next-connect";
 import dbConnect from "../../../api-functions/dbConnect";
 import { NextApiRequest, NextApiResponse } from "next";
-import { apiFindAllPersons } from "../../../api-functions/persons";
+import {
+  apiCreatePerson,
+  apiFindAllPersons,
+} from "../../../api-functions/persons";
 
 const handler = nextConnect();
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -20,6 +23,16 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       res.json(persons);
     });
   }
+});
+
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  await dbConnect();
+
+  apiCreatePerson(req.body).then((value) => {
+    res.json({
+      _id: value["id"],
+    });
+  });
 });
 
 export default handler;

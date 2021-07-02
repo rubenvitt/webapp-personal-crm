@@ -7,7 +7,7 @@ export const usePersonNavigate: () => {
   const { push } = useRouter();
 
   const navigateTo = (aPerson?: IdOnly) => {
-    return push("/contacts/" + aPerson?._id);
+    return push("/contacts/" + (aPerson?._id ?? ""));
   };
 
   return { navigateTo };

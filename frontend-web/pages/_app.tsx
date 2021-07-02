@@ -3,17 +3,22 @@
 import "../styles/globals.css";
 import React from "react";
 import { Layout } from "../components/layout/layout.component";
-import { QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { reactQuery } from "../globals/react-query.config";
+import { UserProvider } from "@auth0/nextjs-auth0";
+import { SWRConfig } from "swr";
+import { fetcher } from "../globals/swr.utils";
 
 const MyApp: React.ReactNode = ({ Component, pageProps }) => (
-  <QueryClientProvider client={reactQuery}>
-    <Layout {...pageProps}>
-      <Component {...pageProps} />
-    </Layout>
-    <ReactQueryDevtools panelProps={{ className: "z-50" }} />
-  </QueryClientProvider>
+  <UserProvider>
+    <SWRConfig
+      value={{
+        fetcher: fetcher,
+      }}
+    >
+      <Layout {...pageProps}>
+        <Component {...pageProps} />
+      </Layout>
+    </SWRConfig>
+  </UserProvider>
 );
 
 export default MyApp;

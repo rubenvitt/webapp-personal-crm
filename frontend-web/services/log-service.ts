@@ -1,4 +1,5 @@
-import { LogEntry, LogEntryType } from "../globals/interfaces";
+import { IdOnly, LogEntry, LogEntryType } from "../globals/interfaces";
+import useSWR from "swr";
 
 const entries: LogEntry[] = [
   {
@@ -42,4 +43,22 @@ export const findLogItemsFor: (aPersonId: string) => Promise<LogEntry[]> = (
       );
     }, 100)
   );
+};
+
+export const useLogEntry: (aPerson?: IdOnly) => {
+  logEntries: LogEntry[];
+} = (person) => {
+  const { data: entries } = useSWR<LogEntry[]>(
+    "/log-entries" + (person ? "/" + person._id : ""),
+    {
+      fetcher: () => {
+        if (person) return findLogItemsFor(person._id);
+        else return findAllLogItems();
+      },
+    }
+  );
+
+  return {
+    logEntries: entries,
+  };
 };

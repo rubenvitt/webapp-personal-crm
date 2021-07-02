@@ -71,10 +71,10 @@ export const Button: React.FC<Props> = ({
       <Transition
         as={Fragment}
         show={_isLoading}
-        enter="transform transition duration-700"
+        enter="transform transition duration-200"
         enterFrom="opacity-0 scale-50"
         enterTo="opacity-100 scale-100"
-        leave="transform duration-700 transition ease-in-out"
+        leave="transform duration-50 transition ease-in-out"
         leaveFrom="opacity-100 scale-100 "
         leaveTo="opacity-0 scale-95 "
       >

@@ -115,6 +115,7 @@ const Settings: React.FC = () => {
                     </div>
 
                     <div className="mt-6 grid grid-cols-4 gap-6">
+                      <div className="col-span-4 mt-6">lala</div>
                       <div className="col-span-4 sm:col-span-2">
                         <label
                           htmlFor="first_name"

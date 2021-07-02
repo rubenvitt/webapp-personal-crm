@@ -14,8 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
 import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
 import Avatar from "react-avatar";
-import { useQuery } from "react-query";
-import { getCurrentUser } from "../../services/account-service";
+import { useCurrentUser } from "../../services/account-service";
 import Head from "next/head";
 
 declare module "react" {
@@ -34,7 +33,9 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
   const { sidebarNav, userNav, addItemsNav, setSidebarCurrent } =
     useNavigationStore();
   const router = useRouter();
-  const { data: currentUser } = useQuery("user", getCurrentUser);
+  // TODO: change to real method & use authentication context
+
+  const { currentUser } = useCurrentUser();
 
   useEffect(() => {
     console.log("Set sidebar current to", router.pathname);

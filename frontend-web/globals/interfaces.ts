@@ -182,6 +182,5 @@ export interface Note {
 }
 
 export interface IsLoadingAction<T> {
-  isLoading?: boolean;
-  action: (payload: T) => void;
+  action: (payload: T) => Promise<void>;
 }
