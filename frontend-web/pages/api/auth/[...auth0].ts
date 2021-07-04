@@ -1,3 +1,3 @@
-import auth0 from "../../../globals/auth0";
+import { handleAuth } from "../../../globals/auth0";
 
-export default auth0.handleAuth();
+export default handleAuth();
