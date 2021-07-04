@@ -5,25 +5,27 @@ import { managementClient } from "../../../globals/auth0";
 
 const handler = nextConnect();
 
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user: sessionUser } = getSession(req, res);
-  await managementClient.updateUser(
-    {
-      id: sessionUser.sub,
-    },
-    {
-      user_metadata: {
-        online_test: "success",
+handler.get(
+  withApiAuthRequired(async (req: NextApiRequest, res: NextApiResponse) => {
+    const { user: sessionUser } = getSession(req, res);
+    await managementClient.updateUser(
+      {
+        id: sessionUser.sub,
       },
-      email_verified: false,
-    }
-  );
+      {
+        user_metadata: {
+          online_test: "success",
+        },
+        email_verified: false,
+      }
+    );
 
-  const user = await managementClient.getUser({
-    id: sessionUser.sub,
-  });
+    const user = await managementClient.getUser({
+      id: sessionUser.sub,
+    });
 
-  res.send(user);
-});
+    res.send(user);
+  })
+);
 
-export default withApiAuthRequired(handler);
+export default handler;
