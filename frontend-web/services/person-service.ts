@@ -3,6 +3,7 @@ import {
   IdOnly,
   Person,
   PersonDetails,
+  PersonMail,
   PersonPhone,
   UpdatePerson,
 } from "../globals/interfaces";
@@ -11,6 +12,7 @@ import useSWR, { mutate as mutateGlobal } from "swr";
 import { URL_API_Persons } from "../globals/urls";
 import { AxiosError } from "axios";
 import { usePersonNavigate } from "../globals/person-utils";
+import { Omit } from "ast-types/types";
 
 export const findAllPersons: () => Promise<Person[]> = async () => {
   return axios
@@ -77,6 +79,16 @@ export const addPhoneNumber: (
     .catch(() => undefined);
 };
 
+export const updatePhoneNumber: (
+  aPerson: IdOnly,
+  phone: PersonPhone
+) => Promise<void> = async (aPerson, phone) => {
+  return axios
+    .put<void>("/persons/" + aPerson._id + "/contact/phone/" + phone._id, phone)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
 export const deletePhoneNumber: (
   aPersonId: IdOnly,
   aPhoneID: IdOnly
@@ -85,6 +97,15 @@ export const deletePhoneNumber: (
     .delete<void>("/persons/" + aPerson + "/contact/phone/" + aPhone)
     .then((value) => value.data)
     .catch(() => undefined);
+};
+
+export const addMailAddress: (
+  aPerson: IdOnly,
+  mail: Omit<PersonMail, "_id">
+) => Promise<void> = async (aPerson, mail) => {
+  return axios
+    .post<void>(`/persons/${aPerson._id}/contact/mail/add`, mail)
+    .then((value) => value.data);
 };
 
 // API

@@ -37,6 +37,9 @@ const PersonSchema = new mongoose.Schema({
     phone: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
     },
+    mail: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
+    },
   },
 });
 
@@ -44,7 +47,12 @@ PersonSchema.pre("deleteOne", { document: true }, async function (next) {
   console.log("deleting following element:", this);
   await Contact.deleteMany({
     _id: {
-      $in: this["contact"]?.phone.map((v) => Types.ObjectId(v)),
+      $in: {
+        $or: [
+          this["contact"]?.phone.map((v) => Types.ObjectId(v)),
+          this["contact"]?.mail.map((v) => Types.ObjectId(v)),
+        ],
+      },
     },
   });
 });
@@ -61,17 +69,6 @@ const ContactSchema = new mongoose.Schema({
     type: Number,
   },
 });
-
-async function removeLinkedContact(next: () => void) {
-  console.log("should remove contact for doc", this);
-
-  const result = await Contact.remove({
-    _id: {
-      $in: this["contact"]?.phone,
-    },
-  });
-  console.log("finished removing with result", result);
-}
 
 export const Contact =
   mongoose.models.Contact ||
