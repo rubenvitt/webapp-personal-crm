@@ -2,7 +2,6 @@ import { initAuth0 } from "@auth0/nextjs-auth0";
 import { ManagementClient } from "auth0";
 
 export const getBaseUrl = (): string => {
-  console.log("get base url");
   switch (process.env.VERCEL_ENV) {
     case "production":
       return "https://crm.rubeen.dev";
