@@ -9,7 +9,7 @@ import { fetcher } from "../globals/swr.utils";
 
 const MyApp: React.ReactNode = ({ Component, pageProps }) => {
   return (
-    <UserProvider>
+    <UserProvider profileUrl={"/api/user"}>
       <SWRConfig
         value={{
           fetcher: fetcher,

@@ -1,19 +1,20 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import { Button } from "../components/common/button.component";
 import { useCurrentUser } from "../services/account-service";
 import Avatar from "react-avatar";
 import React from "react";
+import { withPageAuthRequired } from "../globals/auth0";
+
+export const getServerSideProps = withPageAuthRequired();
 
 const Dashboard: React.FC = () => {
-  const { user, error, isLoading } = useUser();
-  const { login, logout, currentUser } = useCurrentUser();
+  const { login, logout, currentUser, isLoading, error } = useCurrentUser();
 
   if (isLoading) return <>Loading</>;
   if (error) return <div>{error.message}</div>;
   if (currentUser)
     return (
       <div>
-        Willkommen, {user.name}
+        Willkommen, {currentUser.name}
         <p>
           <Avatar
             className="block rounded-full m-2 mb-8"
@@ -36,16 +37,16 @@ const Dashboard: React.FC = () => {
   );
 
   /*return (
-                <>
-                  <p>Hallo {currentUser?.name}!</p>
-                  <ul>
-                    <li>Overview last contacts</li>
-                    <li>Overview appointments</li>
-                    <li>Search?</li>
-                  </ul>
-            
-                  <dl>{persons && <dt>Du hast {persons.length} Kontakte</dt>}</dl>
-                </>
-              );*/
+                    <>
+                      <p>Hallo {currentUser?.name}!</p>
+                      <ul>
+                        <li>Overview last contacts</li>
+                        <li>Overview appointments</li>
+                        <li>Search?</li>
+                      </ul>
+                
+                      <dl>{persons && <dt>Du hast {persons.length} Kontakte</dt>}</dl>
+                    </>
+                  );*/
 };
 export default Dashboard;
