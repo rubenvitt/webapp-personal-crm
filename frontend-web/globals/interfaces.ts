@@ -188,4 +188,6 @@ export interface IsLoadingAction<T> {
 
 export interface AppUser extends UserProfile {
   version?: string;
+  given_name?: string;
+  family_name?: string;
 }

@@ -142,3 +142,7 @@ export const calculateTimespanSince = ({
     }`;
   }
 };
+
+export function givenOrNull(s?: string): string | null {
+  return s?.length > 0 ? s : null ?? null;
+}
