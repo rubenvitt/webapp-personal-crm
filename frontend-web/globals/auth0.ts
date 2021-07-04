@@ -1,5 +1,19 @@
-import { initAuth0 } from "@auth0/nextjs-auth0";
+import {
+  GetAccessToken,
+  GetSession,
+  HandleAuth,
+  HandleCallback,
+  HandleLogin,
+  HandleLogout,
+  HandleProfile,
+  initAuth0,
+  WithApiAuthRequired,
+  WithPageAuthRequired,
+} from "@auth0/nextjs-auth0";
+import { SignInWithAuth0 } from "@auth0/nextjs-auth0/dist/instance";
 import { ManagementClient } from "auth0";
+import { getLoginUrl } from "@auth0/nextjs-auth0/dist/config";
+import { withPageAuthRequiredFactory } from "@auth0/nextjs-auth0/dist/helpers";
 
 export const getBaseUrl = (): string => {
   switch (process.env.VERCEL_ENV) {
@@ -15,18 +29,45 @@ export const getBaseUrl = (): string => {
   }
 };
 
-export default initAuth0({
-  baseURL: getBaseUrl(),
-  authorizationParams: {
-    audience: "https://r-personal-crm.eu.auth0.com/api/v2/",
-    scope:
-      "openid profile read:current_user update:current_user_metadata read:users",
-  },
-});
-
 export const managementClient = new ManagementClient({
   domain: process.env.API_AUTH0_CLIENT_DOMAIN,
   clientId: process.env.API_AUTH0_CLIENT_ID,
   clientSecret: process.env.API_AUTH0_CLIENT_SECRET,
   scope: "read:users update:users",
 });
+
+let instance: SignInWithAuth0;
+
+function getInstance(): SignInWithAuth0 {
+  if (instance) {
+    return instance;
+  }
+  instance = initAuth0({
+    baseURL: getBaseUrl(),
+    authorizationParams: {
+      audience: "https://r-personal-crm.eu.auth0.com/api/v2/",
+      scope:
+        "openid profile read:current_user update:current_user_metadata read:users",
+    },
+  });
+  return instance;
+}
+
+export const getSession: GetSession = (...args) =>
+  getInstance().getSession(...args);
+export const getAccessToken: GetAccessToken = (...args) =>
+  getInstance().getAccessToken(...args);
+export const withApiAuthRequired: WithApiAuthRequired = (...args) =>
+  getInstance().withApiAuthRequired(...args);
+export const withPageAuthRequired: WithPageAuthRequired =
+  withPageAuthRequiredFactory(getLoginUrl(), getSession);
+export const handleLogin: HandleLogin = (...args) =>
+  getInstance().handleLogin(...args);
+export const handleLogout: HandleLogout = (...args) =>
+  getInstance().handleLogout(...args);
+export const handleCallback: HandleCallback = (...args) =>
+  getInstance().handleCallback(...args);
+export const handleProfile: HandleProfile = (...args) =>
+  getInstance().handleProfile(...args);
+export const handleAuth: HandleAuth = (...args) =>
+  getInstance().handleAuth(...args);

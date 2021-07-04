@@ -1,7 +1,10 @@
 import nextConnect from "next-connect";
-import { getSession } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
-import auth0, { managementClient } from "../../../globals/auth0";
+import {
+  getSession,
+  managementClient,
+  withApiAuthRequired,
+} from "../../../globals/auth0";
 
 const handler = nextConnect();
 
@@ -26,4 +29,4 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   res.send(user);
 });
 
-export default auth0.withApiAuthRequired(handler);
+export default withApiAuthRequired(handler);
