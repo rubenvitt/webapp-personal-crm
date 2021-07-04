@@ -13,13 +13,19 @@ interface Props {
     label?: string;
     action: () => Promise<void>;
   };
+  className?: string;
 }
 
-export const FormLayout: React.FC<Props> = ({ children, cancel, save }) => {
+export const FormLayout: React.FC<Props> = ({
+  children,
+  cancel,
+  save,
+  className,
+}) => {
   const [isLoading, setLoading] = useState(false);
   return (
     <form
-      className="space-y-6"
+      className={classNames(className, "space-y-6")}
       onSubmit={(event) => {
         event.preventDefault();
         if (!isLoading) {

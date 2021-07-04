@@ -29,13 +29,6 @@ export const getBaseUrl = (): string => {
   }
 };
 
-export const managementClient = new ManagementClient({
-  domain: process.env.API_AUTH0_CLIENT_DOMAIN,
-  clientId: process.env.API_AUTH0_CLIENT_ID,
-  clientSecret: process.env.API_AUTH0_CLIENT_SECRET,
-  scope: "read:users update:users",
-});
-
 let instance: SignInWithAuth0;
 
 function getInstance(): SignInWithAuth0 {
@@ -44,17 +37,13 @@ function getInstance(): SignInWithAuth0 {
   }
   instance = initAuth0({
     baseURL: getBaseUrl(),
-    authorizationParams: {
-      audience: "https://r-personal-crm.eu.auth0.com/api/v2/",
-      scope:
-        "openid profile read:current_user update:current_user_metadata read:users",
-    },
   });
   return instance;
 }
 
 export const getSession: GetSession = (...args) =>
   getInstance().getSession(...args);
+
 export const getAccessToken: GetAccessToken = (...args) =>
   getInstance().getAccessToken(...args);
 export const withApiAuthRequired: WithApiAuthRequired = (...args) =>
@@ -71,3 +60,10 @@ export const handleProfile: HandleProfile = (...args) =>
   getInstance().handleProfile(...args);
 export const handleAuth: HandleAuth = (...args) =>
   getInstance().handleAuth(...args);
+
+export const managementClient = new ManagementClient({
+  domain: process.env.API_AUTH0_CLIENT_DOMAIN,
+  clientId: process.env.API_AUTH0_CLIENT_ID,
+  clientSecret: process.env.API_AUTH0_CLIENT_SECRET,
+  scope: "read:users update:users",
+});
