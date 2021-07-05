@@ -252,7 +252,6 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
                         <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                           <span className="sr-only">Open user menu</span>
                           <Avatar
-                            title={currentUser?.name}
                             className="h-2 w-2 rounded-full"
                             size="36"
                             round
