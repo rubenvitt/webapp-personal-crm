@@ -10,7 +10,7 @@ interface Props {
   onChange: (value: { gender: string; anrede: string }) => void;
   className?: string;
   required?: boolean;
-  value?: Gendered;
+  initialValue?: Gendered;
 }
 
 function getShortValueFor(aValue: string) {
@@ -31,11 +31,11 @@ export const GenderInput: React.FC<Props> = ({
   onChange,
   className,
   required,
-  value,
+  initialValue,
 }) => {
   const [isOpen, setOpen] = useState(false);
-  const [genderValue, setGenderValue] = useState("");
-  const [anredeValue, setAnredeValue] = useState("");
+  const [genderValue, setGenderValue] = useState(initialValue?.gender ?? "");
+  const [anredeValue, setAnredeValue] = useState(initialValue?.anrede ?? "");
 
   useEffect(() => {
     onChange({
@@ -45,9 +45,9 @@ export const GenderInput: React.FC<Props> = ({
   }, [genderValue, anredeValue]);
 
   useEffect(() => {
-    if (getShortValueFor(genderValue) === "m") {
+    if (getShortValueFor(genderValue) === "m" && anredeValue !== "Sie") {
       setAnredeValue("Er");
-    } else if (getShortValueFor(genderValue) === "w") {
+    } else if (getShortValueFor(genderValue) === "w" && anredeValue !== "Er") {
       setAnredeValue("Sie");
     } else {
       //
@@ -75,7 +75,7 @@ export const GenderInput: React.FC<Props> = ({
             }}
             title={"Geschlecht"}
             autocomplete={"gender"}
-            value={value?.gender}
+            value={genderValue}
           />
           <Transition
             show={isOpen}
@@ -109,7 +109,7 @@ export const GenderInput: React.FC<Props> = ({
         className={"col-span-4 sm:col-span-2"}
         title={"Anrede"}
         placeholder={"z.B.: 'Sie' geht im Wald"}
-        value={value?.anrede}
+        value={anredeValue}
         onChange={(aValue) => {
           setAnredeValue(aValue);
         }}

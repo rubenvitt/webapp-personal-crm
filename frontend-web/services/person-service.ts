@@ -134,16 +134,20 @@ export const usePersonMutation: (aPerson: IdOnly) => {
   };
 
   const mutateUpdate = async (essentialFormValue) => {
-    mutate({
-      _id: aPerson._id,
-      ...essentialFormValue,
-    });
+    mutate(
+      {
+        _id: aPerson._id,
+        ...essentialFormValue,
+      },
+      false
+    );
     await updatePerson({
       _id: aPerson._id,
       ...essentialFormValue,
     });
     invalidateFavorites();
     invalidatePersons();
+    mutate();
     return Promise.resolve();
   };
 

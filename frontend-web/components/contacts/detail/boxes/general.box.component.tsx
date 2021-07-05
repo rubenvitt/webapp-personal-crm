@@ -11,7 +11,6 @@ import {
 } from "../../../../globals/interfaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBirthdayCake, faUsers } from "@fortawesome/pro-regular-svg-icons";
-import { Logger } from "../../../../globals/logging";
 
 interface Props {
   person: PersonDetails;
@@ -30,14 +29,7 @@ function toBirthdayString({ dateType, dateValue }: Birthday) {
   }
 
   function monthAndYearToDateString(monthYear: string) {
-    const [year, month] = monthYear.split("-");
-    if (Logger.isDebug)
-      Logger.log(
-        "convert monthYear to string",
-        monthYear,
-        monthYear.split("-"),
-        new Date(Number(year), Number(month), 1)
-      );
+    const [year, month] = monthYear?.split("-") ?? [0, 0];
     return new Date(Number(year), Number(month), 1).toLocaleDateString(
       undefined,
       {

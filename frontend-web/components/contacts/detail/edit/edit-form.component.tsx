@@ -20,32 +20,36 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
   const { navigateTo } = usePerson(person._id);
   const { updatePerson } = usePersonMutation(person);
 
+  if (!updatePerson) {
+    return <>Loading</>;
+  }
+
   return (
     <>
       <FormLayout
-        cancel={{ action: () => navigateTo }}
+        cancel={{ action: navigateTo }}
         save={{
           /*action: async () => {
-                                                              console.log("update person");
-                                                              mutatePerson(
-                                                                {
-                                                                  _id: person._id,
-                                                                  ...essentialFormValue,
-                                                                },
-                                                                false
-                                                              )
-                                                                .then(() => {
-                                                                  mutatePerson(
-                                                                    updatePerson({
-                                                                      _id: person._id,
-                                                                      ...essentialFormValue,
-                                                                    })
-                                                                  );
-                                                                })
-                                                                .then(() => {
-                                                                  mutate(URL_API_Persons);
-                                                                });
-                                                            },*/
+                                                                        console.log("update person");
+                                                                        mutatePerson(
+                                                                          {
+                                                                            _id: person._id,
+                                                                            ...essentialFormValue,
+                                                                          },
+                                                                          false
+                                                                        )
+                                                                          .then(() => {
+                                                                            mutatePerson(
+                                                                              updatePerson({
+                                                                                _id: person._id,
+                                                                                ...essentialFormValue,
+                                                                              })
+                                                                            );
+                                                                          })
+                                                                          .then(() => {
+                                                                            mutate(URL_API_Persons);
+                                                                          });
+                                                                      },*/
           action: () => {
             return updatePerson(essentialFormValue).then(navigateTo);
           },

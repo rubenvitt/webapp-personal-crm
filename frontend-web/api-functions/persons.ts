@@ -89,24 +89,12 @@ export async function apiUpdatePhoneForPerson(
   aPhoneId: string,
   aPhone: PersonPhone
 ): Promise<UpdateWriteOpResult> {
-  Contact.updateOne(
+  return Contact.updateOne(
     { _id: Types.ObjectId(aPhoneId) },
     {
       $set: aPhone,
     }
   );
-  return await Contact.create(aPhoneId).then((doc) => {
-    return PersonModel.updateOne(
-      {
-        _id: Types.ObjectId(aPersonId),
-      },
-      {
-        $addToSet: {
-          "contact.phone": doc.id,
-        },
-      }
-    );
-  });
 }
 
 export async function apiDeletePhoneForPerson(

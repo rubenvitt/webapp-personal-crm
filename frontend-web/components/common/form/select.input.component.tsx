@@ -7,6 +7,7 @@ interface Props {
   id: string;
   showLabel?: boolean;
   value?: string;
+  required?: boolean;
   initialValue?: string;
   title?: string;
   onChange: (value: string) => void;
@@ -20,6 +21,7 @@ export const SelectInput: React.FC<Props> = ({
   title,
   showLabel = Boolean(title),
   rounded = true,
+  required,
   children,
   onChange,
   buttonClassName,
@@ -57,6 +59,7 @@ export const SelectInput: React.FC<Props> = ({
       <select
         ref={ref}
         id="day"
+        required={required}
         onChange={(event) => {
           const valid = event.currentTarget.reportValidity();
           if (valid) {

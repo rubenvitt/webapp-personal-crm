@@ -91,12 +91,16 @@ export const useEssentialFormStore = create<FormType>((set, get) => ({
     });
   },
   setBirthday: (value) => {
-    set({
-      formValue: {
-        ...get().formValue,
-        birthday: value,
-      },
-    });
+    if (value.dateType !== DateType.UNKNOWN && !value.dateValue) {
+      Logger.warning("No value given, don't saving birthday", value);
+    } else {
+      set({
+        formValue: {
+          ...get().formValue,
+          birthday: value,
+        },
+      });
+    }
   },
   initialize: (person) => {
     if (person) {
@@ -207,6 +211,7 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
         <SelectInput
           title="Anzeigename"
           id="displayName"
+          required
           className="col-span-4 sm:col-span-2"
           initialValue={formValue.displayName}
           buttonClassName="mt-1"
@@ -249,15 +254,14 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           required
           disabled={false}
           onChange={setGender}
-          value={{
-            gender: formValue.gender,
-            anrede: formValue.anrede,
+          initialValue={{
+            gender: personDetails.gender,
+            anrede: personDetails.anrede,
           }}
           className={"col-span-4 sm:col-span-4"}
         />
         <BirthdayInput
-          initialValue={formValue.birthday}
-          placeholder={"Geburtstag"}
+          initialValue={personDetails.birthday}
           required={
             !formValue.birthday?.dateValue &&
             formValue.birthday?.dateType !== DateType.UNKNOWN
