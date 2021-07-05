@@ -12,6 +12,7 @@ module.exports = {
         /gray/,
         /yellow/,
         /primary/,
+        /blue/,
         /(from|via|to|border|bg|text)-(.*)-(\\d0{1,2})/,
       ],
     },
