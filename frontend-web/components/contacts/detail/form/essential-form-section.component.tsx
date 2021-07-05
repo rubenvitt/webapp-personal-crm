@@ -13,6 +13,7 @@ import {
 import { FormSection } from "../../../common/form/section.component";
 import React, { useEffect } from "react";
 import create from "zustand";
+import { Logger } from "../../../../globals/logging";
 
 interface Props {
   personDetails?: PersonDetails;
@@ -99,7 +100,7 @@ export const useEssentialFormStore = create<FormType>((set, get) => ({
   },
   initialize: (person) => {
     if (person) {
-      console.log("set person as formValue");
+      Logger.log("set person as formValue");
       set({
         formValue: {
           ...person,
@@ -108,16 +109,17 @@ export const useEssentialFormStore = create<FormType>((set, get) => ({
           },
         },
       });
-      console.log("formValue", {
-        formValue: {
-          ...person,
-          birthday: {
-            ...person.birthday,
+      if (Logger.isDebug)
+        Logger.log("formValue", {
+          formValue: {
+            ...person,
+            birthday: {
+              ...person.birthday,
+            },
           },
-        },
-      });
+        });
     } else {
-      console.log("set empy formValue");
+      Logger.log("set empy formValue");
       set({
         formValue: {
           ...EMPTY_FORM_VALUE,
@@ -164,7 +166,7 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("initialize with details", personDetails);
+      Logger.log("initialize with details", personDetails);
       initialize(personDetails);
     });
   }, [personDetails]);

@@ -5,6 +5,7 @@ import { classNames, getColorForType } from "../../globals/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/pro-light-svg-icons";
 import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
+import { Logger } from "../../globals/logging";
 
 interface Props {
   title: JSX.Element | string;
@@ -37,7 +38,7 @@ export const DropDownButton: React.FC<Props> = ({
   return (
     <>
       <Menu
-        onChange={(event) => console.log("onchange", event)}
+        onChange={(event) => Logger.log("onChange", event)}
         as="div"
         className={classNames("relative", className)}
       >

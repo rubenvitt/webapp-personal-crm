@@ -146,3 +146,7 @@ export const calculateTimespanSince = ({
 export function givenOrNull(s?: string): string | null {
   return s?.length > 0 ? s : null ?? null;
 }
+
+let _isProd;
+export const isProduction =
+  _isProd ?? (_isProd = process.env.NODE_ENV === "production");

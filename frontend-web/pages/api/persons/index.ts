@@ -5,13 +5,14 @@ import {
   apiCreatePerson,
   apiFindAllPersons,
 } from "../../../api-functions/persons";
+import { Logger } from "../../../globals/logging";
 
 const handler = nextConnect();
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
 
   const filters = req.query.filter;
-  console.log("find all persons with filters:", filters);
+  Logger.log("find all persons with filters:", filters);
   if (filters === "favorites") {
     apiFindAllPersons({
       isFavorite: true,

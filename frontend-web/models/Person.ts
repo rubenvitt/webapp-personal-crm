@@ -1,4 +1,5 @@
 import mongoose, { Types } from "mongoose";
+import { Logger } from "../globals/logging";
 
 const PersonSchema = new mongoose.Schema({
   displayName: {
@@ -43,8 +44,8 @@ const PersonSchema = new mongoose.Schema({
   },
 });
 
-PersonSchema.pre("deleteOne", { document: true }, async function (next) {
-  console.log("deleting following element:", this);
+PersonSchema.pre("deleteOne", { document: true }, async function () {
+  Logger.log("deleting following element:", this);
   await Contact.deleteMany({
     _id: {
       $in: {

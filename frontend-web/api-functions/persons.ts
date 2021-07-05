@@ -8,6 +8,7 @@ import {
 } from "../globals/interfaces";
 import { Contact, Person as PersonModel } from "../models/Person";
 import { FilterQuery, Types, UpdateWriteOpResult } from "mongoose";
+import { Logger } from "../globals/logging";
 
 export async function apiFindPersonDetailsFor(
   aPersonId: string
@@ -18,7 +19,7 @@ export async function apiFindPersonDetailsFor(
       "contact.mail",
     ]);
   } catch (e) {
-    console.log("error", e);
+    Logger.error("Unable to find person details for", aPersonId, e);
     return null;
   }
 }

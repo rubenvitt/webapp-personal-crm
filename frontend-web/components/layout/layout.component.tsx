@@ -16,6 +16,7 @@ import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
 import Avatar from "react-avatar";
 import { useCurrentUser } from "../../services/account-service";
 import Head from "next/head";
+import { Logger } from "../../globals/logging";
 
 declare module "react" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -38,7 +39,7 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
   const { currentUser } = useCurrentUser();
 
   useEffect(() => {
-    console.log("Set sidebar current to", router.pathname);
+    Logger.log("Set sidebar current to", router.pathname);
     setSidebarCurrent(router.pathname);
   }, [router.pathname]);
 

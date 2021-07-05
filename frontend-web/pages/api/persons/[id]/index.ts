@@ -5,6 +5,7 @@ import {
   apiUpdatePerson,
 } from "../../../../api-functions/persons";
 import nextConnect from "next-connect";
+import { Logger } from "../../../../globals/logging";
 
 const handler = nextConnect();
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -22,10 +23,10 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("update user:", req.body);
+  Logger.log("update user:", req.body);
 
   const result = await apiUpdatePerson(req.body);
-  console.log("returning:", result);
+  Logger.log("returning:", result);
   if (result.n === result.ok) {
     await res.status(200).send(null);
   } else {
@@ -36,7 +37,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("remove user:", req.query.id);
+  Logger.log("remove user:", req.query.id);
 
   const result = await apiDeletePerson(req.query.id as string);
   if (result) {
