@@ -111,7 +111,19 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                   false
                 );
                 await updatePhoneNumber(person, value);
-                mutate(`${URL_API_Persons}/${person._id}`);
+                mutate(`${URL_API_Persons}/${person._id}`, {
+                  ...person,
+                  contact: {
+                    phone: [
+                      person.contact.phone.map((elem) => {
+                        if (elem._id === value._id) {
+                          return { ...elem, value: value.value };
+                        }
+                        return elem;
+                      }),
+                    ],
+                  },
+                });
               },
             }}
             isEdit={isEdit}
