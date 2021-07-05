@@ -7,6 +7,9 @@ import {
   faUsers,
 } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { withPageAuthRequired } from "../globals/auth0";
+
+export const getServerSideProps = withPageAuthRequired();
 
 const appointments: LogEntry[] = [
   {
