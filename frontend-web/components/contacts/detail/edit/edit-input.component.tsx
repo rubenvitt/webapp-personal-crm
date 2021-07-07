@@ -195,7 +195,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
           inputRef={inputRef}
         />
       )}
-      {updateItem && touched && (
+      {updateItem && isEdit && touched && (
         <div className="flex space-x-1">
           <Button
             type={ActionType.INFO}

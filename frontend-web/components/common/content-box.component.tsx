@@ -5,6 +5,7 @@ import { isMobile } from "react-device-detect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/pro-regular-svg-icons";
 import { ActionType } from "../../globals/interfaces";
+import UseKey from "react-use/lib/component/UseKey";
 
 interface Props {
   title?: string | JSX.Element;
@@ -36,12 +37,20 @@ export const ContentBox: React.FC<Props> = ({
   const [isHover, setHover] = useState(false);
   const [isEdit, setEdit] = useState(false);
 
+  const submit = () => {
+    edit.submitAction().then(() => setEdit(false));
+  };
+
+  // noinspection UnnecessaryLocalVariableJS
+  const cancel = submit;
+
   return (
     <section
       onMouseEnter={() => !isMobile && setHover(true)}
       onMouseLeave={() => !isMobile && setHover(false)}
       aria-labelledby={"title-" + id}
     >
+      {isEdit && <UseKey filter="Escape" fn={cancel} />}
       <div className="bg-white shadow sm:rounded-lg">
         {(title || subTitle) && (
           <header className="px-4 py-5 sm:px-6">
@@ -80,9 +89,7 @@ export const ContentBox: React.FC<Props> = ({
                       key={"1"}
                       type={ActionType.SUCCESS}
                       className={classNames("block")}
-                      action={() => {
-                        edit.submitAction().then(() => setEdit(false));
-                      }}
+                      action={submit}
                     >
                       {edit.submitContent ?? (
                         <FontAwesomeIcon className={"text-lg"} icon={faCheck} />
