@@ -13,7 +13,9 @@ import { EditAddress } from "../edit/edit-address-input.component";
 import {
   addMailAddress,
   addPhoneNumber,
+  deleteMailAddress,
   deletePhoneNumber,
+  updateMailAddress,
   updatePhoneNumber,
 } from "../../../../services/person-service";
 import { mutate } from "swr";
@@ -115,7 +117,7 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                   ...person,
                   contact: {
                     phone: [
-                      person.contact.phone.map((elem) => {
+                      ...person.contact.phone.map((elem) => {
                         if (elem._id === value._id) {
                           return { ...elem, value: value.value };
                         }
@@ -151,6 +153,63 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                   },
                 });
                 await addMailAddress(person, element);
+                mutate(`${URL_API_Persons}/${person._id}`);
+                return Promise.resolve();
+              },
+            }}
+            updateItem={{
+              action: async (value) => {
+                mutate(
+                  `${URL_API_Persons}/${person._id}`,
+                  {
+                    ...person,
+                    contact: {
+                      mail: [
+                        ...person.contact.mail.map((elem) => {
+                          if (elem._id === value._id) {
+                            return { ...elem, value: value.value };
+                          }
+                          return elem;
+                        }),
+                      ],
+                    },
+                  },
+                  false
+                );
+                await updateMailAddress(person, value);
+                mutate(`${URL_API_Persons}/${person._id}`, {
+                  ...person,
+                  contact: {
+                    phone: [
+                      person.contact.phone.map((elem) => {
+                        if (elem._id === value._id) {
+                          return { ...elem, value: value.value };
+                        }
+                        return elem;
+                      }),
+                    ],
+                  },
+                });
+              },
+            }}
+            deleteItem={{
+              action: async (element) => {
+                mutate(
+                  `${URL_API_Persons}/${person._id}`,
+                  {
+                    ...person,
+                    contact: {
+                      mail: [
+                        ...person.contact.mail.filter(
+                          (value) => value._id !== element._id
+                        ),
+                      ],
+                    },
+                  },
+                  false
+                );
+
+                await deleteMailAddress(person, element);
                 mutate(`${URL_API_Persons}/${person._id}`);
                 return Promise.resolve();
               },

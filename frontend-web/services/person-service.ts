@@ -108,6 +108,26 @@ export const addMailAddress: (
     .then((value) => value.data);
 };
 
+export const updateMailAddress: (
+  aPerson: IdOnly,
+  mail: PersonMail
+) => Promise<void> = async (aPerson, mail) => {
+  return axios
+    .put<void>("/persons/" + aPerson._id + "/contact/mail/" + mail._id, mail)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
+export const deleteMailAddress: (
+  aPersonId: IdOnly,
+  aMailId: IdOnly
+) => Promise<void> = async ({ _id: aPerson }, { _id: aMail }) => {
+  return axios
+    .delete<void>("/persons/" + aPerson + "/contact/mail/" + aMail)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
 // API
 const useCacheInvalidations = () => {
   return {

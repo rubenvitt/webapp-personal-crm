@@ -3,6 +3,7 @@ import {
   IdOnly,
   Person,
   PersonDetails,
+  PersonMail,
   PersonPhone,
   UpdatePerson,
 } from "../globals/interfaces";
@@ -129,6 +130,19 @@ export async function apiAddMailForPerson(
       }
     );
   });
+}
+
+export async function apiUpdateMailForPerson(
+  aPersonId: string,
+  aMailId: string,
+  aMail: PersonMail
+): Promise<UpdateWriteOpResult> {
+  return Contact.updateOne(
+    { _id: Types.ObjectId(aMailId) },
+    {
+      $set: aMail,
+    }
+  );
 }
 
 export async function apiDeleteMailForPerson(
