@@ -4,15 +4,22 @@ const colors = require("tailwindcss/colors");
 // eslint-disable-next-line no-undef
 module.exports = {
   purge: {
+    safelist: {
+      deep: [
+        /red/,
+        /orange/,
+        /green/,
+        /gray/,
+        /yellow/,
+        /primary/,
+        /blue/,
+        /(from|via|to|border|bg|text)-(.*)-(\\d0{1,2})/,
+      ],
+    },
     content: [
       "./pages/**/*.{js,ts,jsx,tsx}",
       "./components/**/*.{js,ts,jsx,tsx}",
     ],
-    options: {
-      safelist: {
-        deep: [/(from|via|to|border|bg|text)-(.*)-(\\d{1}0{1,2})/],
-      },
-    },
   },
   darkMode: false, // or 'media' or 'class'
   theme: {

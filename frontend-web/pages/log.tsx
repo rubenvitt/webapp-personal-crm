@@ -12,4 +12,5 @@ const Log: React.FC = () => {
     </div>
   );
 };
+
 export default withPageAuthRequired(Log);

@@ -3,20 +3,24 @@ import {
   IdOnly,
   Person,
   PersonDetails,
+  PersonMail,
+  PersonPhone,
   UpdatePerson,
 } from "../globals/interfaces";
 import { Contact, Person as PersonModel } from "../models/Person";
 import { FilterQuery, Types, UpdateWriteOpResult } from "mongoose";
+import { Logger } from "../globals/logging";
 
 export async function apiFindPersonDetailsFor(
   aPersonId: string
 ): Promise<PersonDetails> {
   try {
-    return PersonModel.findById(Types.ObjectId(aPersonId)).populate(
-      "contact.phone"
-    );
+    return PersonModel.findById(Types.ObjectId(aPersonId)).populate([
+      "contact.phone",
+      "contact.mail",
+    ]);
   } catch (e) {
-    console.log("error", e);
+    Logger.error("Unable to find person details for", aPersonId, e);
     return null;
   }
 }
@@ -81,6 +85,19 @@ export async function apiAddPhoneForPerson(
   });
 }
 
+export async function apiUpdatePhoneForPerson(
+  aPersonId: string,
+  aPhoneId: string,
+  aPhone: PersonPhone
+): Promise<UpdateWriteOpResult> {
+  return Contact.updateOne(
+    { _id: Types.ObjectId(aPhoneId) },
+    {
+      $set: aPhone,
+    }
+  );
+}
+
 export async function apiDeletePhoneForPerson(
   aPersonId: string,
   aPhoneId: string
@@ -91,6 +108,53 @@ export async function apiDeletePhoneForPerson(
     {
       $pull: {
         "contact.phone": Types.ObjectId(aPhoneId),
+      },
+    }
+  );
+  return any;
+}
+
+export async function apiAddMailForPerson(
+  aPersonId: string,
+  value: string
+): Promise<UpdateWriteOpResult> {
+  return await Contact.create(value).then((doc) => {
+    return PersonModel.updateOne(
+      {
+        _id: Types.ObjectId(aPersonId),
+      },
+      {
+        $addToSet: {
+          "contact.mail": doc.id,
+        },
+      }
+    );
+  });
+}
+
+export async function apiUpdateMailForPerson(
+  aPersonId: string,
+  aMailId: string,
+  aMail: PersonMail
+): Promise<UpdateWriteOpResult> {
+  return Contact.updateOne(
+    { _id: Types.ObjectId(aMailId) },
+    {
+      $set: aMail,
+    }
+  );
+}
+
+export async function apiDeleteMailForPerson(
+  aPersonId: string,
+  aMailId: string
+): Promise<{ deletedCount?: number }> {
+  const any = await Contact.deleteOne({ _id: Types.ObjectId(aMailId) });
+  await PersonModel.updateOne(
+    { _id: Types.ObjectId(aPersonId) },
+    {
+      $pull: {
+        "contact.mail": Types.ObjectId(aMailId),
       },
     }
   );

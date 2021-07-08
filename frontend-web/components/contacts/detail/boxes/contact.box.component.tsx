@@ -1,4 +1,5 @@
 import {
+  MailType,
   PersonAddress,
   PersonDetails,
   PersonMail,
@@ -10,8 +11,12 @@ import React, { useEffect, useState } from "react";
 import { EditRadio } from "../edit/edit-input.component";
 import { EditAddress } from "../edit/edit-address-input.component";
 import {
+  addMailAddress,
   addPhoneNumber,
+  deleteMailAddress,
   deletePhoneNumber,
+  updateMailAddress,
+  updatePhoneNumber,
 } from "../../../../services/person-service";
 import { mutate } from "swr";
 import { URL_API_Persons } from "../../../../globals/urls";
@@ -86,7 +91,41 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                   type: PhoneType.MOBILE,
                 });
                 mutate(`${URL_API_Persons}/${person._id}`);
-                return Promise.resolve();
+              },
+            }}
+            updateItem={{
+              action: async (value) => {
+                mutate(
+                  `${URL_API_Persons}/${person._id}`,
+                  {
+                    ...person,
+                    contact: {
+                      phone: [
+                        person.contact.phone.map((elem) => {
+                          if (elem._id === value._id) {
+                            return { ...elem, value: value.value };
+                          }
+                          return elem;
+                        }),
+                      ],
+                    },
+                  },
+                  false
+                );
+                await updatePhoneNumber(person, value);
+                mutate(`${URL_API_Persons}/${person._id}`, {
+                  ...person,
+                  contact: {
+                    phone: [
+                      ...person.contact.phone.map((elem) => {
+                        if (elem._id === value._id) {
+                          return { ...elem, value: value.value };
+                        }
+                        return elem;
+                      }),
+                    ],
+                  },
+                });
               },
             }}
             isEdit={isEdit}
@@ -101,9 +140,83 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
         </dt>
         <dt className="border-b pb-4 border-gray-200">
           <EditRadio<PersonMail>
+            addItem={{
+              action: async (value) => {
+                const element = {
+                  value,
+                  type: MailType.PRIVATE,
+                };
+                mutate(`${URL_API_Persons}/${person._id}`, {
+                  ...person,
+                  contact: {
+                    mail: [...(person.contact.mail ?? []), element],
+                  },
+                });
+                await addMailAddress(person, element);
+                mutate(`${URL_API_Persons}/${person._id}`);
+                return Promise.resolve();
+              },
+            }}
+            updateItem={{
+              action: async (value) => {
+                mutate(
+                  `${URL_API_Persons}/${person._id}`,
+                  {
+                    ...person,
+                    contact: {
+                      mail: [
+                        ...person.contact.mail.map((elem) => {
+                          if (elem._id === value._id) {
+                            return { ...elem, value: value.value };
+                          }
+                          return elem;
+                        }),
+                      ],
+                    },
+                  },
+                  false
+                );
+                await updateMailAddress(person, value);
+                mutate(`${URL_API_Persons}/${person._id}`, {
+                  ...person,
+                  contact: {
+                    phone: [
+                      person.contact.phone.map((elem) => {
+                        if (elem._id === value._id) {
+                          return { ...elem, value: value.value };
+                        }
+                        return elem;
+                      }),
+                    ],
+                  },
+                });
+              },
+            }}
+            deleteItem={{
+              action: async (element) => {
+                mutate(
+                  `${URL_API_Persons}/${person._id}`,
+                  {
+                    ...person,
+                    contact: {
+                      mail: [
+                        ...person.contact.mail.filter(
+                          (value) => value._id !== element._id
+                        ),
+                      ],
+                    },
+                  },
+                  false
+                );
+
+                await deleteMailAddress(person, element);
+                mutate(`${URL_API_Persons}/${person._id}`);
+                return Promise.resolve();
+              },
+            }}
             isEdit={isEdit}
             values={person.contact?.mail}
-            label={"E-Mail Adressen:"}
+            label="E-Mail Adressen:"
             inputOptions={{
               inputType: "email",
               autocomplete: "email",

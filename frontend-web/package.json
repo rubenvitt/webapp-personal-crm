@@ -24,7 +24,6 @@
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
-    "@types/auth0": "^2.33.3",
     "auth0": "^2.35.1",
     "axios": "^0.21.1",
     "mongoose": "^5.13.0",
@@ -41,6 +40,7 @@
     "zustand": "^3.5.5"
   },
   "devDependencies": {
+    "@types/auth0": "^2.33.3",
     "@types/react": "^17.0.13",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",

@@ -39,8 +39,9 @@ interface RadioProps<T> {
   CustomEditInput?: React.FC<InputProps<T>>;
   inputOptions?: InputOptions;
   onChange?: (value: T) => void;
-  addItem?: IsLoadingAction<string>; // TODO change to T
+  addItem?: IsLoadingAction<string>;
   deleteItem?: IsLoadingAction<T>;
+  updateItem?: IsLoadingAction<T>;
 }
 
 export const EditRadio: <T extends PersonCommunicationChannel>(
@@ -54,6 +55,7 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
   onChange,
   addItem,
   deleteItem,
+  updateItem,
 }) => {
   const [selectedId, setSelectedId] = useState(values?.[0]?._id);
   const [isAdding, setAdding] = useState(false);
@@ -73,69 +75,16 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
         <ul className={classNames(isEdit ? "space-y-2" : "")}>
           {values?.map((element) => {
             return (
-              <li
+              <InputListItem
                 key={element._id}
-                className={classNames(
-                  isEdit && "py-1",
-                  isEdit && selectedId === element._id && "border-primary-500",
-                  "flex justify-center items-center px-3 border-2 space-x-2 border-transparent rounded-md"
-                )}
-              >
-                <p className={classNames(isEdit ? "hidden" : "block", "w-6")}>
-                  {element._id === selectedId && (
-                    <FontAwesomeIcon icon={faStars} />
-                  )}
-                </p>
-                {isEdit && deleteItem && (
-                  <Button
-                    asyncAction={() => {
-                      return deleteItem.action(element);
-                    }}
-                    type={ActionType.DANGER}
-                    className="self-center rounded-full "
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                )}
-                {CustomEditInput ? (
-                  <CustomEditInput
-                    isEdit={isEdit}
-                    onChange={() => undefined}
-                    initialElement={element}
-                    inputOptions={inputOptions}
-                  />
-                ) : (
-                  <EditInput
-                    initialElement={element}
-                    onChange={() => undefined}
-                    isEdit={isEdit}
-                    inputOptions={inputOptions}
-                  />
-                )}
-                <RadioGroup.Option
-                  value={element._id}
-                  className={({ active }) =>
-                    classNames(
-                      !isEdit ? "hidden" : "relative block cursor-pointer py-4",
-                      active ? "" : "",
-                      "rounded-lg px-4 focus:outline-none"
-                    )
-                  }
-                >
-                  {({ checked, active }) => (
-                    <div className="flex space-x-2">
-                      <FontAwesomeIcon
-                        title="Als Standardnummer markieren"
-                        className={classNames(
-                          checked || isEdit ? "block" : "hidden",
-                          "text-2xl"
-                        )}
-                        icon={checked ? fasCrown : active ? farCrown : faCircle}
-                      />
-                    </div>
-                  )}
-                </RadioGroup.Option>
-              </li>
+                element={element}
+                isEdit={isEdit}
+                CustomEditInput={CustomEditInput}
+                inputOptions={inputOptions}
+                deleteItem={deleteItem}
+                updateItem={updateItem}
+                selectedId={selectedId}
+              />
             );
           })}
         </ul>
@@ -176,9 +125,124 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
   );
 };
 
+interface ItemProps<T extends PersonCommunicationChannel> {
+  element: T;
+  isEdit: boolean;
+  selectedId: string;
+  deleteItem?: IsLoadingAction<T>;
+  updateItem?: IsLoadingAction<T>;
+  CustomEditInput?: React.FC<InputProps<T>>;
+  inputOptions?: InputOptions;
+}
+
+const InputListItem: <T extends PersonCommunicationChannel>(
+  props: React.PropsWithoutRef<ItemProps<T>>
+) => JSX.Element = ({
+  element,
+  isEdit,
+  selectedId,
+  deleteItem,
+  updateItem,
+  CustomEditInput,
+  inputOptions,
+}) => {
+  const [touched, setTouched] = useState<boolean>();
+
+  const inputRef = useRef<HTMLInputElement>();
+
+  return (
+    <li
+      key={element._id}
+      className={classNames(
+        isEdit && "py-1",
+        isEdit && selectedId === element._id && "border-primary-500",
+        "flex justify-center items-center px-3 border-2 space-x-2 border-transparent rounded-md"
+      )}
+    >
+      <p className={classNames(isEdit ? "hidden" : "block", "w-6")}>
+        {element._id === selectedId && <FontAwesomeIcon icon={faStars} />}
+      </p>
+      {isEdit && deleteItem && (
+        <Button
+          asyncAction={() => {
+            return deleteItem.action(element);
+          }}
+          type={ActionType.DANGER}
+          className="self-center rounded-full "
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </Button>
+      )}
+      {CustomEditInput ? (
+        <CustomEditInput
+          isEdit={isEdit && Boolean(updateItem)}
+          onChange={(aValue) => {
+            if (aValue !== element?.value) setTouched(true);
+            else setTouched(false);
+          }}
+          initialElement={element}
+          inputOptions={inputOptions}
+        />
+      ) : (
+        <EditInput
+          initialElement={element}
+          onChange={(aValue) => {
+            if (aValue !== element?.value) setTouched(true);
+            else setTouched(false);
+          }}
+          isEdit={isEdit && Boolean(updateItem)}
+          inputOptions={inputOptions}
+          inputRef={inputRef}
+        />
+      )}
+      {updateItem && isEdit && touched && (
+        <div className="flex space-x-1">
+          <Button
+            type={ActionType.INFO}
+            className={classNames("self-center")}
+            asyncAction={async () => {
+              setTouched(false);
+              await updateItem.action({
+                ...element,
+                value: inputRef.current.value,
+              });
+            }}
+          >
+            Update
+          </Button>
+        </div>
+      )}
+      <RadioGroup.Option
+        value={element._id}
+        className={({ active }) =>
+          classNames(
+            !isEdit ? "hidden" : "relative block cursor-pointer py-4",
+            active ? "" : "",
+            "rounded-lg px-4 focus:outline-none"
+          )
+        }
+      >
+        {({ checked, active }) => (
+          <div className="flex space-x-2">
+            <FontAwesomeIcon
+              title="Als Standardnummer markieren"
+              className={classNames(
+                checked || isEdit ? "block" : "hidden",
+                "text-2xl"
+              )}
+              icon={checked ? fasCrown : active ? farCrown : faCircle}
+            />
+          </div>
+        )}
+      </RadioGroup.Option>
+    </li>
+  );
+};
+
 const EditInput: <T extends PersonCommunicationChannel>(
   props: React.PropsWithChildren<InputProps<T>>
 ) => JSX.Element = ({
+  onChange,
   isEdit,
   inputRef,
   initialElement,
@@ -207,7 +271,10 @@ const EditInput: <T extends PersonCommunicationChannel>(
           inputType={inputType}
           className="col-span-3"
           placeholder={placeholder}
-          onChange={setValue}
+          onChange={(aValue) => {
+            setValue(aValue);
+            onChange?.(aValue);
+          }}
           value={value}
           title={title}
           showLabel={false}

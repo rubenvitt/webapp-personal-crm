@@ -3,6 +3,7 @@ import {
   IdOnly,
   Person,
   PersonDetails,
+  PersonMail,
   PersonPhone,
   UpdatePerson,
 } from "../globals/interfaces";
@@ -11,6 +12,7 @@ import useSWR, { mutate as mutateGlobal } from "swr";
 import { URL_API_Persons } from "../globals/urls";
 import { AxiosError } from "axios";
 import { usePersonNavigate } from "../globals/person-utils";
+import { Omit } from "ast-types/types";
 
 export const findAllPersons: () => Promise<Person[]> = async () => {
   return axios
@@ -77,12 +79,51 @@ export const addPhoneNumber: (
     .catch(() => undefined);
 };
 
+export const updatePhoneNumber: (
+  aPerson: IdOnly,
+  phone: PersonPhone
+) => Promise<void> = async (aPerson, phone) => {
+  return axios
+    .put<void>("/persons/" + aPerson._id + "/contact/phone/" + phone._id, phone)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
 export const deletePhoneNumber: (
   aPersonId: IdOnly,
   aPhoneID: IdOnly
 ) => Promise<void> = async ({ _id: aPerson }, { _id: aPhone }) => {
   return axios
     .delete<void>("/persons/" + aPerson + "/contact/phone/" + aPhone)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
+export const addMailAddress: (
+  aPerson: IdOnly,
+  mail: Omit<PersonMail, "_id">
+) => Promise<void> = async (aPerson, mail) => {
+  return axios
+    .post<void>(`/persons/${aPerson._id}/contact/mail/add`, mail)
+    .then((value) => value.data);
+};
+
+export const updateMailAddress: (
+  aPerson: IdOnly,
+  mail: PersonMail
+) => Promise<void> = async (aPerson, mail) => {
+  return axios
+    .put<void>("/persons/" + aPerson._id + "/contact/mail/" + mail._id, mail)
+    .then((value) => value.data)
+    .catch(() => undefined);
+};
+
+export const deleteMailAddress: (
+  aPersonId: IdOnly,
+  aMailId: IdOnly
+) => Promise<void> = async ({ _id: aPerson }, { _id: aMail }) => {
+  return axios
+    .delete<void>("/persons/" + aPerson + "/contact/mail/" + aMail)
     .then((value) => value.data)
     .catch(() => undefined);
 };
@@ -113,16 +154,20 @@ export const usePersonMutation: (aPerson: IdOnly) => {
   };
 
   const mutateUpdate = async (essentialFormValue) => {
-    mutate({
-      _id: aPerson._id,
-      ...essentialFormValue,
-    });
+    mutate(
+      {
+        _id: aPerson._id,
+        ...essentialFormValue,
+      },
+      false
+    );
     await updatePerson({
       _id: aPerson._id,
       ...essentialFormValue,
     });
     invalidateFavorites();
     invalidatePersons();
+    mutate();
     return Promise.resolve();
   };
 

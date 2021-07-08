@@ -11,23 +11,18 @@ import { LogList } from "../../../components/log/log-list.component";
 import { useLogEntry } from "../../../services/log-service";
 import { usePerson } from "../../../services/person-service";
 import { usePersonNavigate } from "../../../globals/person-utils";
+import { withPageAuthRequired } from "../../../globals/auth0";
+import { Logger } from "../../../globals/logging";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function getStaticProps({ params }) {
-  return {
-    props: {
-      id: params.id,
-    },
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true,
-  };
-}
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(context) {
+    return {
+      props: {
+        id: context.params.id,
+      },
+    };
+  },
+});
 
 const ContactDetailPage: React.ReactNode = ({ id }) => {
   const { person, isError } = usePerson(id);
@@ -35,7 +30,7 @@ const ContactDetailPage: React.ReactNode = ({ id }) => {
 
   useEffect(() => {
     if (isError && isError.isAxiosError && isError.response?.status === 404) {
-      console.log("navigate to");
+      Logger.error("Could not find contact by id", id, isError);
       navigateTo();
     }
   }, [isError]);

@@ -2,27 +2,25 @@
 
 import { EditPersonForm } from "../../../components/contacts/detail/edit/edit-form.component";
 import { usePerson } from "../../../services/person-service";
+import { withPageAuthRequired } from "../../../globals/auth0";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function getStaticProps({ params }) {
-  return {
-    props: {
-      id: params.id,
-    },
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true,
-  };
-}
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(context) {
+    return {
+      props: {
+        id: context.params.id,
+      },
+    };
+  },
+});
 
 const EditPersonPage: React.ReactNode = ({ id }) => {
   const { person, isLoading } = usePerson(id);
-  return <>{isLoading ? <>Loading</> : <EditPersonForm person={person} />}</>;
+  return (
+    <>
+      {isLoading || !person ? <>Loading</> : <EditPersonForm person={person} />}
+    </>
+  );
 };
 
 export default EditPersonPage;

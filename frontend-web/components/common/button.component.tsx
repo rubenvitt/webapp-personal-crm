@@ -4,6 +4,7 @@ import { ActionType } from "../../globals/interfaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/pro-light-svg-icons";
 import { Transition } from "@headlessui/react";
+import { Logger } from "../../globals/logging";
 
 interface Props {
   asyncAction?: () => Promise<void>;
@@ -46,10 +47,10 @@ export const Button: React.FC<Props> = ({
 
   const onClick = useCallback(() => {
     if (asyncAction) {
-      console.log("set on click");
+      Logger.log("setLoading(true) on click");
       setLoading(true);
       asyncAction().then(() => {
-        console.log("async fn finished");
+        Logger.log("async fn finished");
         setLoading(false);
       });
     } else if (action) {

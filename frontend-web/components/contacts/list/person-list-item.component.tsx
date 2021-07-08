@@ -1,16 +1,16 @@
 import React from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelopeOpen, faPhone } from "@fortawesome/pro-solid-svg-icons";
 import Avatar from "react-avatar";
 import { ItemProps } from "./person-list.component";
+import { usePersonNavigate } from "../../../globals/person-utils";
 
 export const PersonListItem: React.FC<ItemProps> = ({ person }) => {
-  const router = useRouter();
+  const { navigateTo } = usePersonNavigate();
 
   const showProfile = async () => {
-    await router.push(`${router.pathname}/${person._id}`);
+    await navigateTo(person);
   };
 
   return (

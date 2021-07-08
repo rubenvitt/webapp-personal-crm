@@ -1,15 +1,16 @@
 import { classNames } from "../../../globals/utils";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Birthday, DateType } from "../../../globals/interfaces";
 import { daysFor, Month, nameFor } from "../../../globals/month";
 import { SelectInput } from "./select.input.component";
+import { Logger } from "../../../globals/logging";
+import create from "zustand";
 
 interface Props {
   disabled?: boolean;
   initialValue?: Birthday;
   value?: Birthday;
   onChange?: (element: Birthday) => void;
-  placeholder?: string;
   className?: string;
   required?: boolean;
 }
@@ -29,62 +30,115 @@ const labelFor = (aDateType: DateType) => {
   }
 };
 
+interface FormType {
+  exact: string;
+  monthDay: string;
+  monthYear: string;
+  age: string;
+  dateType?: DateType;
+  set: (birthday: Birthday) => void;
+  get: () => Birthday;
+}
+
+const useFormStore = create<FormType>((set, get) => ({
+  exact: "",
+  monthDay: "",
+  monthYear: "",
+  age: "",
+  set: ({ dateType, dateValue }) => {
+    switch (dateType) {
+      case DateType.EXACT:
+        set({
+          dateType,
+          exact: dateValue,
+        });
+        break;
+      case DateType.MONTH_DAY:
+        set({
+          dateType,
+          monthDay: dateValue,
+        });
+        break;
+      case DateType.YEAR_MONTH:
+        set({
+          dateType,
+          monthYear: dateValue,
+        });
+        break;
+      case DateType.AGE:
+        set({
+          dateType,
+          age: dateValue,
+        });
+        break;
+      case DateType.UNKNOWN:
+        set({
+          dateType,
+        });
+    }
+  },
+  get: () => {
+    switch (get().dateType) {
+      case DateType.EXACT:
+        return {
+          dateType: get().dateType,
+          dateValue: get().exact,
+        };
+      case DateType.MONTH_DAY:
+        return {
+          dateType: get().dateType,
+          dateValue: get().monthDay,
+        };
+      case DateType.YEAR_MONTH:
+        return {
+          dateType: get().dateType,
+          dateValue: get().monthYear,
+        };
+      case DateType.AGE:
+        return {
+          dateType: get().dateType,
+          dateValue: get().age,
+        };
+      case DateType.UNKNOWN:
+        return {
+          dateType: get().dateType,
+        };
+    }
+  },
+}));
+
 export const BirthdayInput: React.FC<Props> = ({
   disabled,
   initialValue = { dateType: DateType.UNKNOWN, dateValue: undefined },
-  value,
   onChange,
-  placeholder,
   className,
   required,
 }) => {
   const yearInputRef = useRef<HTMLInputElement>();
-  const monthInputRef = useRef<HTMLSelectElement>();
+  const monthYearInputRef = useRef<HTMLSelectElement>();
+  const monthDayInputRef = useRef<HTMLSelectElement>();
   const dayInputRef = useRef<HTMLSelectElement>();
-  const dateInputRef = useRef<HTMLInputElement>();
+  const exactInputRef = useRef<HTMLInputElement>();
+  const ageInputRef = useRef<HTMLInputElement>();
 
-  const reducer = (
-    state: Birthday,
-    action: {
-      name: "dateType" | "dateValue";
-      value?: string;
-    }
-  ) => {
-    if (action.name === "dateType") {
-      action.value = DateType[action.value];
-    }
-    if (
-      action.name === "dateType" &&
-      action.value === DateType.UNKNOWN.toString()
-    ) {
-      return {
-        dateType: DateType.UNKNOWN,
-      };
-    }
-    return {
-      ...state,
-      [action.name]: action.value,
-    };
-  };
-
-  const [{ dateType, dateValue }, dispatch] = useReducer(reducer, initialValue);
+  const { set, get, dateType, monthDay, age, exact, monthYear } =
+    useFormStore();
 
   useEffect(() => {
-    if (value) {
-      dispatch({ name: "dateType", value: value.dateType.toString() });
-      dispatch({ name: "dateValue", value: value.dateValue });
-    }
-  }, [value]);
-  useEffect(() => {
-    dispatch({ name: "dateType", value: initialValue.dateType.toString() });
-    dispatch({ name: "dateValue", value: initialValue.dateValue });
+    set(initialValue);
   }, []);
 
-  if (onChange) {
-    useEffect(() => {
-      onChange({ dateType, dateValue });
-    }, [dateValue, dateType]);
-  }
+  useEffect(() => {
+    Logger.log("store contains", get());
+    onChange &&
+      yearInputRef.current.reportValidity() &&
+      monthYearInputRef.current.reportValidity() &&
+      monthDayInputRef.current.reportValidity() &&
+      dayInputRef.current.reportValidity() &&
+      exactInputRef.current.reportValidity() &&
+      ageInputRef.current.reportValidity() &&
+      onChange(get());
+  }, [get()?.dateValue, get()?.dateType]);
 
   const [month, setMonth] = useState("JANUARY");
 
@@ -103,37 +157,37 @@ export const BirthdayInput: React.FC<Props> = ({
             id={"dateType"}
             initialValue={initialValue?.dateType}
             onChange={(element) => {
-              dispatch({
-                name: "dateType",
-                value: element,
-              });
-              dispatch({
-                name: "dateValue",
-                value: (() => {
+              set({
+                dateType: DateType[element],
+                dateValue: (() => {
                   switch (element) {
                     case DateType.MONTH_DAY:
                       return (
-                        monthInputRef.current?.reportValidity() &&
+                        monthDayInputRef.current?.reportValidity() &&
                         dayInputRef.current?.reportValidity() &&
-                        monthInputRef.current?.value +
+                        monthDayInputRef.current?.value +
                           "-" +
                           dayInputRef.current?.value
                       );
                     case DateType.UNKNOWN:
                       return undefined;
                     case DateType.AGE:
+                      return (
+                        ageInputRef.current?.reportValidity() &&
+                        ageInputRef.current?.value
+                      );
                     case DateType.EXACT:
                       return (
-                        dateInputRef.current?.reportValidity() &&
-                        dateInputRef.current?.value
+                        exactInputRef.current?.reportValidity() &&
+                        exactInputRef.current?.value
                       );
                     case DateType.YEAR_MONTH:
                       return (
                         yearInputRef.current?.reportValidity() &&
-                        monthInputRef.current?.reportValidity() &&
+                        monthYearInputRef.current?.reportValidity() &&
                         yearInputRef.current?.value +
                           "-" +
-                          monthInputRef.current?.value
+                          monthYearInputRef.current?.value
                       );
                   }
                 })(),
@@ -159,134 +213,179 @@ export const BirthdayInput: React.FC<Props> = ({
             })}
           </SelectInput>
 
-          {(dateType === DateType.EXACT || dateType === DateType.AGE) && (
-            <input
-              ref={dateInputRef}
-              value={dateValue}
-              type={(() => {
-                switch (dateType) {
-                  case DateType.EXACT:
-                    return "date";
-                  case DateType.AGE:
-                    return "number";
-                }
-              })()}
-              name="birthday"
-              id="birthday"
-              required
-              min={dateType === DateType.AGE && 0}
-              max={dateType === DateType.AGE && 150}
-              disabled={disabled}
-              autoComplete={"bday"}
-              placeholder={placeholder}
+          <input
+            ref={exactInputRef}
+            value={exact}
+            type="date"
+            id="birthday"
+            name="exactBirthday"
+            required={dateType === DateType.EXACT}
+            disabled={disabled}
+            autoComplete="bday"
+            placeholder="Geburtstag"
+            onChange={(event) => {
+              set({
+                dateType: DateType.EXACT,
+                dateValue: event.currentTarget.value,
+              });
+            }}
+            className={classNames(
+              dateType === DateType.EXACT ? "inline-flex" : "hidden",
+              " flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+            )}
+          />
+
+          <input
+            ref={ageInputRef}
+            value={age ?? ""}
+            type="number"
+            id="age"
+            name="age"
+            required={dateType === DateType.AGE}
+            min={(dateType === DateType.AGE && 0) || undefined}
+            max={(dateType === DateType.AGE && 150) || undefined}
+            disabled={disabled}
+            autoComplete="bday"
+            placeholder="Ungefähres Alter"
+            onChange={(event) => {
+              set({
+                dateType: DateType.AGE,
+                dateValue: event.currentTarget.value,
+              });
+            }}
+            className={classNames(
+              dateType === DateType.AGE ? "inline-flex" : "hidden",
+              " flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+            )}
+          />
+
+          <div
+            className={classNames(
+              dateType === DateType.MONTH_DAY ||
+                dateType === DateType.YEAR_MONTH
+                ? "flex"
+                : "hidden",
+              "w-full items-stretch"
+            )}
+          >
+            <select
+              ref={monthDayInputRef}
+              id="dayMonth"
+              name="dayMonth"
               onChange={(event) => {
-                const valid = event.currentTarget.reportValidity();
-                dispatch({
-                  name: "dateValue",
-                  value: valid && event.currentTarget.value,
+                setMonth(Month[event.currentTarget.value]);
+                set({
+                  dateType: DateType.MONTH_DAY,
+                  dateValue:
+                    event.currentTarget.value + "-" + dayInputRef.current.value,
                 });
               }}
-              className="inline-flex flex-1 border border-gray-300 rounded-b-md shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+              value={Number(monthDay ? monthDay.split("-")[0] : 0)}
+              className={classNames(
+                dateType === DateType.MONTH_DAY ? "block" : "hidden",
+                "flex-1 border rounded-bl-md border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+              )}
+            >
+              {Object.keys(Month)
+                .filter((k) => Number.isNaN(+k))
+                .map((monthName) => {
+                  const month = Month[monthName];
+                  return (
+                    <option key={month} value={month}>
+                      {nameFor(month)}
+                    </option>
+                  );
+                })}
+            </select>
+
+            <select
+              ref={dayInputRef}
+              id="day"
+              name="day"
+              onChange={(event) => {
+                set({
+                  dateType: DateType.MONTH_DAY,
+                  dateValue:
+                    monthDayInputRef.current.value +
+                    "-" +
+                    event.currentTarget.value,
+                });
+              }}
+              value={monthDay ? monthDay.split("-")[1] : 1}
+              className={classNames(
+                dateType === DateType.MONTH_DAY ? "block" : "hidden",
+                "flex-1 border border-gray-300 rounded-br-md shadow px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+              )}
+            >
+              {Array.from(
+                { length: daysFor(Month[month]) },
+                (_, k) => k + 1
+              ).map((element) => {
+                return (
+                  <option key={element} value={element}>
+                    {element}
+                  </option>
+                );
+              })}
+            </select>
+
+            <select
+              ref={monthYearInputRef}
+              id="yearMonth"
+              name="yearMonth"
+              onChange={(event) => {
+                setMonth(Month[event.currentTarget.value]);
+                set({
+                  dateType: DateType.YEAR_MONTH,
+                  dateValue:
+                    yearInputRef.current.value +
+                    "-" +
+                    event.currentTarget.value,
+                });
+              }}
+              value={monthYear ? Month[monthYear.split("-")[1]] : 0}
+              className={classNames(
+                dateType === DateType.YEAR_MONTH ? "block" : "hidden",
+                "flex-1 border rounded-bl-md border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+              )}
+            >
+              {Object.keys(Month)
+                .filter((k) => Number.isNaN(+k))
+                .map((monthName) => {
+                  const month = Month[monthName];
+                  return (
+                    <option key={month} value={month}>
+                      {nameFor(month)}
+                    </option>
+                  );
+                })}
+            </select>
+
+            <input
+              ref={yearInputRef}
+              onChange={(event) => {
+                set({
+                  dateType,
+                  dateValue:
+                    event.currentTarget.value +
+                    "-" +
+                    monthYearInputRef.current.value,
+                });
+              }}
+              id="year"
+              name="year"
+              value={monthYear ? monthYear.split("-")[0] : ""}
+              type="number"
+              placeholder="Jahr"
+              required={dateType == DateType.YEAR_MONTH}
+              max={new Date().getFullYear()}
+              min={new Date().getFullYear() - 150}
+              className={classNames(
+                dateType === DateType.YEAR_MONTH ? "block" : "hidden",
+                "flex-1 border border-gray-300 rounded-br-md shadow px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+              )}
             />
-          )}
-          {(dateType === DateType.MONTH_DAY ||
-            dateType === DateType.YEAR_MONTH) && (
-            <div className="flex w-full items-stretch">
-              <select
-                ref={monthInputRef}
-                id="month"
-                onChange={(event) => {
-                  setMonth(Month[event.currentTarget.value]);
-                  const valid =
-                    event.currentTarget.reportValidity() &&
-                    ((dateType === DateType.MONTH_DAY &&
-                      dayInputRef.current.reportValidity()) ||
-                      (DateType.YEAR_MONTH &&
-                        yearInputRef.current.reportValidity()));
-                  dispatch({
-                    name: "dateValue",
-                    value:
-                      valid &&
-                      (dateType === DateType.MONTH_DAY
-                        ? event.currentTarget.value +
-                          "-" +
-                          dayInputRef.current.value
-                        : yearInputRef.current.value +
-                          "-" +
-                          event.currentTarget.value),
-                  });
-                }}
-                value={Month[month]}
-                className="flex-1 border rounded-bl-md border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-              >
-                {Object.keys(Month)
-                  .filter((k) => Number.isNaN(+k))
-                  .map((monthName) => {
-                    const month = Month[monthName];
-                    return (
-                      <option key={month} value={month}>
-                        {nameFor(month)}
-                      </option>
-                    );
-                  })}
-              </select>
-              {dateType === DateType.MONTH_DAY && (
-                <select
-                  ref={dayInputRef}
-                  id="day"
-                  onChange={(event) => {
-                    const valid =
-                      event.currentTarget.reportValidity() &&
-                      monthInputRef.current.reportValidity();
-                    dispatch({
-                      name: "dateValue",
-                      value:
-                        valid &&
-                        monthInputRef.current.value +
-                          "-" +
-                          event.currentTarget.value,
-                    });
-                  }}
-                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                >
-                  {Array.from(
-                    { length: daysFor(Month[month]) },
-                    (_, k) => k + 1
-                  ).map((element) => {
-                    return (
-                      <option key={element} value={element}>
-                        {element}
-                      </option>
-                    );
-                  })}
-                </select>
-              )}
-              {dateType === DateType.YEAR_MONTH && (
-                <input
-                  ref={yearInputRef}
-                  onChange={(event) => {
-                    const valid =
-                      event.currentTarget.reportValidity() &&
-                      monthInputRef.current.reportValidity();
-                    dispatch({
-                      name: "dateValue",
-                      value:
-                        valid &&
-                        event.currentTarget.value +
-                          "-" +
-                          monthInputRef.current.value,
-                    });
-                  }}
-                  id="year"
-                  type="number"
-                  required
-                  max={new Date().getFullYear()}
-                  min={new Date().getFullYear() - 150}
-                  className="flex-1 border border-gray-300 rounded-br-md shadow px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                />
-              )}
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </>

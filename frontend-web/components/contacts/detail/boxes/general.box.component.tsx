@@ -29,14 +29,7 @@ function toBirthdayString({ dateType, dateValue }: Birthday) {
   }
 
   function monthAndYearToDateString(monthYear: string) {
-    const [year, month] = monthYear.split("-");
-    console.log(
-      "convert",
-      monthYear,
-      "to",
-      monthYear.split("-"),
-      new Date(Number(year), Number(month), 1)
-    );
+    const [year, month] = monthYear?.split("-") ?? [0, 0];
     return new Date(Number(year), Number(month), 1).toLocaleDateString(
       undefined,
       {
