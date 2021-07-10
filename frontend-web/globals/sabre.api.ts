@@ -44,7 +44,7 @@ const fetcher = async <T>(...args: [url: string]): Promise<T> => {
   const authorization = `${token.token_type} ${token.access_token}`;
   return axios
     .get<T>(...args, {
-      baseURL: "https://api.dev-dav.rubeen.dev",
+      baseURL: process.env.SABRE_API_URL,
       headers: {
         Authorization: authorization,
       },
