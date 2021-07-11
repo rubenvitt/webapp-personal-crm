@@ -11,7 +11,7 @@ import {
 import { withPageAuthRequired } from "../globals/auth0";
 import { ProfileForm } from "../components/settings/form/profile-form.component";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { SecurityForm } from "../components/settings/form/security-form.component";
+import { IntegrationsForm } from "../components/settings/form/integrations-form.component";
 
 interface NavigationItem {
   label: string;
@@ -85,7 +85,7 @@ const Settings: React.FC = () => {
           </aside>
 
           {selectedPage === FormType.PROFILE && <ProfileForm />}
-          {selectedPage === FormType.SECURITY && <SecurityForm />}
+          {selectedPage === FormType.INTEGRATIONS && <IntegrationsForm />}
         </div>
       </main>
     </>

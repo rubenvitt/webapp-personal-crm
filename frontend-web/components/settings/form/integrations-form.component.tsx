@@ -6,7 +6,7 @@ import React from "react";
 import useSWR from "swr";
 import { AxiosError } from "axios";
 
-export const SecurityForm: React.FC = ({ children }) => {
+export const IntegrationsForm: React.FC = ({ children }) => {
   const { data } = useSWR<{ username: string; password: string }, AxiosError>(
     "/dav/user/credentials"
   );
@@ -15,9 +15,9 @@ export const SecurityForm: React.FC = ({ children }) => {
   return (
     <FormLayout className={classNames("lg:col-span-9")}>
       <FormSection
-        title="Profile"
+        title="Dav Integration"
         titleAsRow
-        description="Change your name and personal information"
+        description="Deine DAV Ressourcen auf einen Blick."
       >
         <TextInput
           title="DAV URL"
