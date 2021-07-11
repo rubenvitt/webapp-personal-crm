@@ -73,7 +73,7 @@ export const TextInput: React.FC<Props> = ({
               }
             : undefined
         }
-        className={classNames(clickToCopy && "relative")}
+        className={classNames(clickToCopy && "relative cursor-pointer")}
       >
         <input
           title={clickToCopy ? "Zum Kopieren klicken" : ""}
