@@ -11,23 +11,23 @@ const handler = nextConnect();
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { user: sessionUser } = getSession(req, res);
-  await managementClient.updateUser(
-    {
-      id: sessionUser.sub,
-    },
-    {
-      user_metadata: {
-        online_test: "success",
-      },
-      email_verified: false,
-    }
-  );
 
-  const user = await managementClient.getUser({
+  const user = managementClient.getUser({
     id: sessionUser.sub,
   });
 
-  res.send(user);
+  managementClient
+    .getUserRoles({
+      id: sessionUser.sub,
+    })
+    .then((roles) => {
+      user.then((user) => {
+        res.send({
+          ...user,
+          roles,
+        });
+      });
+    });
 });
 
 handler.patch(async (req: NextApiRequest, res: NextApiResponse) => {

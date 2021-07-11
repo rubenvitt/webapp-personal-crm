@@ -5,6 +5,7 @@ import React from "react";
 import { withPageAuthRequired } from "../globals/auth0";
 import { ActionType } from "../globals/interfaces";
 import axios from "../axios";
+import { RequireRoles } from "../components/common/require-roles.component";
 
 export const getServerSideProps = withPageAuthRequired();
 
@@ -17,17 +18,19 @@ const Dashboard: React.FC = () => {
     return (
       <div>
         Willkommen, {currentUser.name}.
-        <Button
-          type={ActionType.INFO}
-          asyncAction={() =>
-            axios.post("/dav/user/create", {
-              secret: "Hallo junger Mann. :D",
-            })
-          }
-        >
-          Run setup
-        </Button>
-        <p>
+        <RequireRoles role="full-admin">
+          <Button
+            type={ActionType.INFO}
+            asyncAction={() =>
+              axios.post("/dav/user/create", {
+                secret: "Hallo junger Mann. :D",
+              })
+            }
+          >
+            Run setup
+          </Button>
+        </RequireRoles>
+        <div>
           <Avatar
             className="block rounded-full m-2 mb-8"
             size="96"
@@ -37,7 +40,7 @@ const Dashboard: React.FC = () => {
             name={currentUser?.name}
             alt={"Your profile picture"}
           />
-        </p>
+        </div>
         <Button asyncAction={logout}>Logout</Button>
       </div>
     );

@@ -1,5 +1,6 @@
 import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 import { UserProfile } from "@auth0/nextjs-auth0";
+import { Role } from "auth0";
 
 export interface NavElement {
   href?: string;
@@ -190,4 +191,5 @@ export interface AppUser extends UserProfile {
   version?: string;
   given_name?: string;
   family_name?: string;
+  roles?: Role[];
 }
