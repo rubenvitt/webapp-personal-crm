@@ -1,5 +1,8 @@
 import React, { Ref, useEffect, useState } from "react";
 import { classNames } from "../../globals/utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard } from "@fortawesome/pro-light-svg-icons";
+import { useCopyToClipboard } from "react-use";
 
 interface Props {
   title: string;
@@ -16,6 +19,7 @@ interface Props {
   placeholder?: string;
   inputRef?: Ref<HTMLInputElement>;
   required?: boolean;
+  clickToCopy?: boolean;
 }
 
 export const TextInput: React.FC<Props> = ({
@@ -33,8 +37,10 @@ export const TextInput: React.FC<Props> = ({
   placeholder,
   inputRef,
   required,
+  clickToCopy,
 }) => {
   const [id] = useState(String(Math.random()));
+  const [, copy] = useCopyToClipboard();
 
   const [internalValue, setInternalValue] = useState(initialValue);
   useEffect(() => {
@@ -59,23 +65,43 @@ export const TextInput: React.FC<Props> = ({
         {title}
         {required && <span className="text-red-500">*</span>}
       </label>
-      <input
-        ref={inputRef}
-        type={inputType}
-        name={id}
-        required={required}
-        id={id}
-        disabled={disabled}
-        autoComplete={autocomplete}
-        value={internalValue}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        placeholder={placeholder}
-        onChange={(event) => {
-          setInternalValue(event.currentTarget.value);
-        }}
-        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-      />
+      <div
+        onClick={
+          clickToCopy
+            ? () => {
+                copy(internalValue);
+              }
+            : undefined
+        }
+        className={classNames(clickToCopy && "relative")}
+      >
+        <input
+          title={clickToCopy ? "Zum Kopieren klicken" : ""}
+          ref={inputRef}
+          type={inputType}
+          name={id}
+          required={required}
+          id={id}
+          disabled={disabled}
+          autoComplete={autocomplete}
+          value={internalValue}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          placeholder={placeholder}
+          onChange={(event) => {
+            setInternalValue(event.currentTarget.value);
+          }}
+          className={classNames(
+            clickToCopy && "hover:bg-gray-200 pr-7",
+            "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+          )}
+        />
+        {clickToCopy && (
+          <div className="absolute inset-y-0 right-0 pr-3 block flex items-center pointer-events-none">
+            <FontAwesomeIcon icon={faClipboard} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
