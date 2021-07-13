@@ -12,6 +12,7 @@ interface Props {
   className?: string;
   type?: ActionType;
   isLoading?: boolean;
+  customColor?: string;
 }
 
 export const Button: React.FC<Props> = ({
@@ -21,6 +22,7 @@ export const Button: React.FC<Props> = ({
   className,
   type = ActionType.PRIMARY,
   isLoading,
+  customColor,
 }) => {
   const [_isLoading, setLoading] = useState(false);
 
@@ -31,10 +33,10 @@ export const Button: React.FC<Props> = ({
   }
 
   const getItemColorForType = (aType: ActionType) => {
-    const color = getColorForType(aType);
     if (aType === ActionType.DEFAULT) {
       return "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500";
     }
+    const color = customColor || getColorForType(aType);
     return classNames(
       _isLoading
         ? `bg-${color}-200 focus:ring-${color}-300`

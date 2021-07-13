@@ -50,7 +50,7 @@ export const useCurrentUser: () => {
   return {
     currentUser,
     error:
-      error && error.isAxiosError && error.response.status !== 401 && error,
+      error && error.isAxiosError && error.response?.status !== 401 && error,
     isLoading: !currentUser && !error,
     logout,
     login,
