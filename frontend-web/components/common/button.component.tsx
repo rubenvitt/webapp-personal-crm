@@ -13,6 +13,7 @@ interface Props {
   type?: ActionType;
   isLoading?: boolean;
   customColor?: string;
+  isDisabled?: boolean;
 }
 
 export const Button: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const Button: React.FC<Props> = ({
   type = ActionType.PRIMARY,
   isLoading,
   customColor,
+  isDisabled,
 }) => {
   const [_isLoading, setLoading] = useState(false);
 
@@ -38,23 +40,32 @@ export const Button: React.FC<Props> = ({
     }
     const color = customColor || getColorForType(aType);
     return classNames(
-      _isLoading
-        ? `bg-${color}-200 focus:ring-${color}-300`
+      _isLoading || isDisabled
+        ? `bg-${color}-200 focus:ring-${color}-300 cursor-not-allowed`
         : `bg-${color}-600 hover:bg-${color}-700 focus:ring-${color}-500`,
       `text-white border-transparent`
     );
   };
 
-  const color = getItemColorForType(type);
+  const [color, setColor] = useState(getItemColorForType(type));
+
+  useEffect(() => {
+    setColor(getItemColorForType(type));
+  }, [isDisabled]);
 
   const onClick = useCallback(() => {
     if (asyncAction) {
       Logger.log("setLoading(true) on click");
       setLoading(true);
-      asyncAction().then(() => {
-        Logger.log("async fn finished");
-        setLoading(false);
-      });
+      asyncAction()
+        .then(() => {
+          Logger.log("async fn finished");
+          setLoading(false);
+        })
+        .catch(() => {
+          setColor(getItemColorForType(ActionType.DANGER));
+          setLoading(false);
+        });
     } else if (action) {
       action();
     }
@@ -63,7 +74,7 @@ export const Button: React.FC<Props> = ({
   return (
     <button
       onClick={onClick}
-      disabled={_isLoading}
+      disabled={_isLoading || isDisabled}
       className={classNames(
         color,
         className,

@@ -27,6 +27,7 @@ export const getPronounFor = (anAnrede: string, aGender: string): string => {
 export const getColorForType = (type: ActionType): string => {
   switch (type) {
     case ActionType.DANGER:
+    case ActionType.ERROR:
       return "red";
     case ActionType.WARNING:
       return "yellow";

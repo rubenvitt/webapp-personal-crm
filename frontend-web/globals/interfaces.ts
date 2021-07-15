@@ -160,6 +160,7 @@ export enum TimespanType {
 }
 
 export enum ActionType {
+  ERROR,
   DANGER,
   WARNING,
   DEFAULT,
