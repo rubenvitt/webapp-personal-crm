@@ -1,3 +1,11 @@
+import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
+import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dialog, Menu, Transition } from "@headlessui/react";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React, {
   Fragment,
   HTMLAttributes,
@@ -5,18 +13,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import Image from "next/image";
-import { useNavigationStore } from "./navigation";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
-import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
 import Avatar from "react-avatar";
-import { useCurrentUser } from "../../services/account-service";
-import Head from "next/head";
 import { Logger } from "../../globals/logging";
+import { useCurrentUser } from "../../services/account-service";
+import { useNavigationStore } from "./navigation";
 
 declare module "react" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -221,24 +221,29 @@ export const Layout: React.FC = (props: { children: ReactNode }) => {
             </button>
             <div className="flex-1 flex justify-between px-4 sm:px-6">
               <div className="flex-1 flex">
-                <form className="w-full flex md:ml-0" action="#" method="GET">
-                  <label htmlFor="search_field" className="sr-only">
-                    Search everything
+                <form
+                  className="w-full flex md:ml-0"
+                  onSubmit={(e) => {
+                    /*if (onSearch) {
+                          e.preventDefault();
+                          onSearch(searchInput.current.value);
+                        }*/
+                  }}
+                >
+                  <label htmlFor="search-field" className="sr-only">
+                    Search
                   </label>
-                  <div className="hidden relative w-full text-gray-400 focus-within:text-gray-600">
+                  <div className="relative w-full text-gray-400 focus-within:text-gray-600">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
                       <FontAwesomeIcon
-                        icon={faSearch}
-                        className="flex-shrink-0 h-5 w-5"
+                        icon={/* icons?.search ?? */ faSearch}
+                        className="h-5 w-5"
                         aria-hidden="true"
                       />
                     </div>
                     <input
-                      name="search_field"
-                      id="search_field"
-                      className="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400"
-                      placeholder="Suchen"
-                      type="search"
+                      id="search-field"
+                      className="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm"
                     />
                   </div>
                 </form>
