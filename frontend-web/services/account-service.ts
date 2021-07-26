@@ -1,9 +1,9 @@
-import { AppUser } from "../globals/interfaces";
-import useSWR from "swr";
-import { useRouter } from "next/router";
-import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../globals/urls";
-import axios from "../axios";
 import { AxiosError } from "axios";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import axios from "../axios";
+import { AppUser } from "../globals/interfaces";
+import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../globals/urls";
 
 const updateUser = async (data: AppUser) => {
   return await axios.patch("/user", data);
@@ -52,6 +52,7 @@ export const useCurrentUser: () => {
     error:
       error && error.isAxiosError && error.response?.status !== 401 && error,
     isLoading: !currentUser && !error,
+    isLoggedIn: Boolean(currentUser),
     logout,
     login,
     update,

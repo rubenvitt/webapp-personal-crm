@@ -1,13 +1,24 @@
 // noinspection JSUnusedLocalSymbols
 
-import "../styles/globals.css";
-import React from "react";
-import { Layout } from "../components/layout/layout.component";
 import { UserProvider } from "@auth0/nextjs-auth0";
+import { appWithTranslation } from "next-i18next";
+import { AppProps } from "next/app";
+import React from "react";
 import { SWRConfig } from "swr";
+import { AppLayout } from "../components/layouts/app-layout";
+import { PublicLayout } from "../components/layouts/public-layout";
 import { fetcher } from "../globals/swr.utils";
+import "../styles/globals.css";
 
-const MyApp: React.ReactNode = ({ Component, pageProps }) => {
+const MyApp: React.ComponentType<AppProps> = ({
+  Component,
+  pageProps,
+  router,
+}) => {
+  console.log("my router", router);
+  const Layout = (router.pathname as string).startsWith("/app")
+    ? AppLayout
+    : PublicLayout;
   return (
     <UserProvider profileUrl={"/api/user"}>
       <SWRConfig
@@ -15,7 +26,7 @@ const MyApp: React.ReactNode = ({ Component, pageProps }) => {
           fetcher: fetcher,
         }}
       >
-        <Layout {...pageProps}>
+        <Layout>
           <Component {...pageProps} />
         </Layout>
       </SWRConfig>
@@ -23,9 +34,4 @@ const MyApp: React.ReactNode = ({ Component, pageProps }) => {
   );
 };
 
-export default MyApp;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Element: React.FC = () => {
-  return <></>;
-};
+export default appWithTranslation(MyApp);

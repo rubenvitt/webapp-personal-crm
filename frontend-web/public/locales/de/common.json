@@ -1,0 +1,22 @@
+{
+  "app-title": "Personal CRM",
+  "menu": {
+    "add-items": {
+      "appointment": "Termin",
+      "contact": "Kontakt",
+      "log": "Tagebucheintrag",
+      "reminder": "Erinnerung"
+    },
+    "sidebar": {
+      "appointments": "Termine",
+      "contacts": "Kontakte",
+      "dashboard": "Dashboard",
+      "log": "Tagebuch",
+      "settings": "Einstellungen"
+    },
+    "user": {
+      "logout": "Abmelden",
+      "profile": "Benutzerprofil"
+    }
+  }
+}

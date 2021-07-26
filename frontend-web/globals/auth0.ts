@@ -10,10 +10,10 @@ import {
   WithApiAuthRequired,
   WithPageAuthRequired,
 } from "@auth0/nextjs-auth0";
-import { SignInWithAuth0 } from "@auth0/nextjs-auth0/dist/instance";
-import { ManagementClient } from "auth0";
 import { getLoginUrl } from "@auth0/nextjs-auth0/dist/config";
 import { withPageAuthRequiredFactory } from "@auth0/nextjs-auth0/dist/helpers";
+import { SignInWithAuth0 } from "@auth0/nextjs-auth0/dist/instance";
+import { ManagementClient } from "auth0";
 
 export const getBaseUrl = (): string => {
   switch (process.env.VERCEL_ENV) {
@@ -24,7 +24,7 @@ export const getBaseUrl = (): string => {
         (process.env.NEXT_PUBLIC_VERCEL_URL &&
           "https://" + process.env.NEXT_PUBLIC_VERCEL_URL) ||
         process.env.AUTH0_BASE_URL ||
-        "http://localhost:" + (process.env.PORT ?? "3000")
+        "http://localhost:" + (process.env.PORT ?? "3003")
       );
   }
 };
