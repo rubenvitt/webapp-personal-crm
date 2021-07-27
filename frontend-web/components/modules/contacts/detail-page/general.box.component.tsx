@@ -1,7 +1,6 @@
 import { faBirthdayCake, faUsers } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { ContentBox } from "../../../../components/modules/common/content-box.component";
 import {
   Birthday,
   DateType,
@@ -11,6 +10,7 @@ import {
   calculateAgeFromBirthday,
   calculateTimespanSince,
 } from "../../../../globals/utils";
+import { ContentBox } from "../../common/content-box.component";
 
 interface Props {
   person: PersonDetails;
