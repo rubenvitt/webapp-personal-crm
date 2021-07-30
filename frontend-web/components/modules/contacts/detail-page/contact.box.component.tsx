@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { mutate } from "swr";
-import { ContentBox } from "../../../../components/modules/common/content-box.component";
+import { ContentBox } from "../../common/content-box.component";
 import {
   MailType,
   PersonAddress,
@@ -18,8 +18,8 @@ import {
   updateMailAddress,
   updatePhoneNumber,
 } from "../../../../services/person-service";
-import { EditAddress } from "../edit/edit-address-input.component";
-import { EditRadio } from "../edit/edit-input.component";
+import { EditAddress } from "../../../../components-old/contacts/detail/edit/edit-address-input.component";
+import { EditRadio } from "./edit/edit-input.component";
 
 interface Props {
   person: PersonDetails;
@@ -36,8 +36,9 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
       title={"Kontaktdaten"}
       subTitle={`Kontaktdaten für ${person.displayName}`}
       edit={{
-        onEditAction: () => setIsEdit(true),
-        submitAction: () => {
+        onCancel: () => setIsEdit(false),
+        onEdit: () => setIsEdit(true),
+        onSubmit: () => {
           return Promise.resolve().then(() => setIsEdit(false));
         },
       }}

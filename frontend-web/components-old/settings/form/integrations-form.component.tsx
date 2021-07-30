@@ -3,8 +3,8 @@ import React from "react";
 import useSWR from "swr";
 import { TextInput } from "../../../components/elements/common/input.component";
 import { classNames } from "../../../globals/utils";
-import { FormLayout } from "../../common/form/form.layout.component";
-import { FormSection } from "../../common/form/section.component";
+import { FormLayout } from "../../../components/modules/common/form/form.layout.component";
+import { FormSection } from "../../../components/modules/common/form/section.component";
 
 export const IntegrationsForm: React.FC = ({ children }) => {
   const { data } = useSWR<{ username: string; password: string }, AxiosError>(

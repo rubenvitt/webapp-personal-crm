@@ -168,6 +168,7 @@ export enum ActionType {
   ARCHIVE,
   PRIMARY,
   SUCCESS,
+  CANCEL,
 }
 
 export interface PersonTag {

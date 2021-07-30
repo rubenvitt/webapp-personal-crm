@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import create from "zustand";
+import { BirthdayInput } from "../../../../components/elements/common/birthday-input.component";
 import { TextInput } from "../../../../components/elements/common/input.component";
 import {
   Birthday,
@@ -10,10 +11,9 @@ import {
   RichName,
 } from "../../../../globals/interfaces";
 import { Logger } from "../../../../globals/logging";
-import { BirthdayInput } from "../../../common/form/birthday.input.component";
-import { GenderInput } from "../../../common/form/gender.input.component";
-import { FormSection } from "../../../common/form/section.component";
-import { SelectInput } from "../../../common/form/select.input.component";
+import { GenderInput } from "../../../../components/elements/common/gender.input.component";
+import { FormSection } from "../../../../components/modules/common/form/section.component";
+import { SelectInput } from "../../../../components/elements/common/select.input.component";
 
 interface Props {
   personDetails?: PersonDetails;

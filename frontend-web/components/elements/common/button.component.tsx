@@ -3,27 +3,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { ActionType } from "../../../globals/interfaces";
-import { MaybeAsyncAction, WithForcedChildren } from "../../../globals/types";
+import { MaybeAsyncAction } from "../../../globals/types";
 import { classNames, getColorForType } from "../../../globals/utils";
 
-export type Props = WithForcedChildren<{
+export type Props = React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> & {
   action?: MaybeAsyncAction;
   className?: string;
   customColor?: string;
   isDisabled?: boolean;
   isLoading?: boolean;
-  type?: ActionType;
-}>;
+  actionType?: ActionType;
+};
 
-export const Button: React.FC<Props> = ({
+export function Button({
   children,
   action,
   className,
-  type = ActionType.PRIMARY,
+  actionType = ActionType.PRIMARY,
   isLoading,
   customColor,
   isDisabled,
-}) => {
+  ...rest
+}: Props): JSX.Element {
   const [_isLoading, setLoading] = useState(false);
 
   const getItemColorForType = (aType: ActionType) => {
@@ -39,26 +43,27 @@ export const Button: React.FC<Props> = ({
     );
   };
 
-  const [color, setColor] = useState(getItemColorForType(type));
+  const [color, setColor] = useState(getItemColorForType(actionType));
 
   useEffect(() => {
-    setColor(getItemColorForType(type));
+    setColor(getItemColorForType(actionType));
   }, [isDisabled, _isLoading, isLoading]);
 
   return (
     <button
       onClick={() => {
         setLoading(true);
-        Promise.resolve(action()).finally(() => {
+        Promise.resolve(action?.()).finally(() => {
           setLoading(false);
         });
       }}
-      disabled={isLoading || _isLoading || isDisabled}
+      disabled={isLoading || _isLoading || isDisabled || rest?.disabled}
       className={classNames(
         color,
         className,
         "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 "
       )}
+      {...rest}
     >
       {children}
       <Transition
@@ -77,4 +82,4 @@ export const Button: React.FC<Props> = ({
       </Transition>
     </button>
   );
-};
+}

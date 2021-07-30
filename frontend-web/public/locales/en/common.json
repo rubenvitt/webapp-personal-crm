@@ -1,3 +1,22 @@
 {
-  "app-title": "Personal CRM"
+  "app-title": "Personal CRM",
+  "menu": {
+    "add-items": {
+      "appointment": "Appointment",
+      "contact": "Contact",
+      "log": "Diary entry",
+      "reminder": "Reminder"
+    },
+    "sidebar": {
+      "appointments": "Appointments",
+      "contacts": "Contacts",
+      "dashboard": "Dashboard",
+      "log": "Diary",
+      "settings": "Settings"
+    },
+    "user": {
+      "logout": "Sign out",
+      "profile": "User profile"
+    }
+  }
 }

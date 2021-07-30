@@ -24,7 +24,7 @@ export default function Dashboard(): JSX.Element {
         {t("welcome-message", { displayname: currentUser.name })}
         <RequireRoles role="full-admin">
           <Button
-            type={ActionType.INFO}
+            actionType={ActionType.INFO}
             action={() =>
               axios.post("/dav/user/create", {
                 secret: "Hallo junger Mann. :D",

@@ -8,14 +8,14 @@ import { faCrown as fasCrown } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RadioGroup } from "@headlessui/react";
 import React, { Ref, useEffect, useRef, useState } from "react";
-import { Button } from "../../../../components/elements/common/button.component";
-import { TextInput } from "../../../../components/elements/common/input.component";
+import { Button } from "../../../../elements/common/button.component";
+import { TextInput } from "../../../../elements/common/input.component";
 import {
   ActionType,
   IsLoadingAction,
   PersonCommunicationChannel,
-} from "../../../../globals/interfaces";
-import { classNames } from "../../../../globals/utils";
+} from "../../../../../globals/interfaces";
+import { classNames } from "../../../../../globals/utils";
 
 interface InputOptions {
   title?: string;
@@ -147,8 +147,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
   inputOptions,
 }) => {
   const [touched, setTouched] = useState<boolean>();
-
-  const inputRef = useRef<HTMLInputElement>();
+  const [currentValue, setCurrentValue] = useState<string>();
 
   return (
     <li
@@ -164,10 +163,10 @@ const InputListItem: <T extends PersonCommunicationChannel>(
       </p>
       {isEdit && deleteItem && (
         <Button
-          asyncAction={() => {
+          action={() => {
             return deleteItem.action(element);
           }}
-          type={ActionType.DANGER}
+          actionType={ActionType.DANGER}
           className="self-center rounded-full "
         >
           <FontAwesomeIcon icon={faTrash} />
@@ -189,22 +188,22 @@ const InputListItem: <T extends PersonCommunicationChannel>(
           onChange={(aValue) => {
             if (aValue !== element?.value) setTouched(true);
             else setTouched(false);
+            setCurrentValue(aValue);
           }}
           isEdit={isEdit && Boolean(updateItem)}
           inputOptions={inputOptions}
-          inputRef={inputRef}
         />
       )}
       {updateItem && isEdit && touched && (
         <div className="flex space-x-1">
           <Button
-            type={ActionType.INFO}
+            actionType={ActionType.INFO}
             className={classNames("self-center")}
-            asyncAction={async () => {
+            action={async () => {
               setTouched(false);
               await updateItem.action({
                 ...element,
-                value: inputRef.current.value,
+                value: currentValue,
               });
             }}
           >
@@ -266,19 +265,16 @@ const EditInput: <T extends PersonCommunicationChannel>(
     <div className="flex flex-1 grid grid-cols-3 md:grid-cols-4">
       {isEdit ? (
         <TextInput
-          inputRef={inputRef}
-          autocomplete={autocomplete}
-          inputType={inputType}
+          ref={inputRef}
+          autoComplete={autocomplete}
+          type={inputType}
           className="col-span-3"
           placeholder={placeholder}
-          onChange={(aValue) => {
-            setValue(aValue);
+          change={(aValue) => {
             onChange?.(aValue);
           }}
-          value={value}
           title={title}
-          showLabel={false}
-          initialValue={initialElement?.value as string}
+          value={initialElement?.value as string}
         />
       ) : (
         <p className="col-span-4">{value}</p>

@@ -1,5 +1,5 @@
 import React from "react";
-import { classNames } from "../../../globals/utils";
+import { classNames } from "../../../../globals/utils";
 
 interface Props {
   title: string;

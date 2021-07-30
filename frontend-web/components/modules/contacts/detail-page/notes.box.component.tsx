@@ -1,6 +1,6 @@
 import React, { useReducer, useRef } from "react";
-import { Button } from "../../../../components/elements/common/button.component";
-import { ContentBox } from "../../../../components/modules/common/content-box.component";
+import { Button } from "../../../elements/common/button.component";
+import { ContentBox } from "../../common/content-box.component";
 import {
   Note,
   PersonDetails,
@@ -76,8 +76,8 @@ export const PersonDetailNotesBox: React.FC<Props> = () => {
                 </div>
                 <div className="mt-3 grid justify-items-end">
                   <Button
-                    asyncAction={() =>
-                      new Promise((resolve) =>
+                    action={() =>
+                      new Promise<void>((resolve) =>
                         setTimeout(() => {
                           dispatch(commentBoxRef.current.value);
                           commentBoxRef.current.value = "";

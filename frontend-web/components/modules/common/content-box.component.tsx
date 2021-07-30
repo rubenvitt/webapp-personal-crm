@@ -94,7 +94,7 @@ export function ContentBox({
                   ) : (
                     <Button
                       key={"1"}
-                      type={ActionType.SUCCESS}
+                      actionType={ActionType.SUCCESS}
                       className={classNames("block")}
                       action={submit}
                     >

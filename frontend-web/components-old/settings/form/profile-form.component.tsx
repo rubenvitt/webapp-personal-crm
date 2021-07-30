@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import { TextInput } from "../../../components/elements/common/input.component";
 import { classNames } from "../../../globals/utils";
 import { useCurrentUser } from "../../../services/account-service";
-import { FormLayout } from "../../common/form/form.layout.component";
-import { FormSection } from "../../common/form/section.component";
+import { FormLayout } from "../../../components/modules/common/form/form.layout.component";
+import { FormSection } from "../../../components/modules/common/form/section.component";
 
 interface Props {
   //

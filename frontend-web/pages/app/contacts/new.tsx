@@ -1,6 +1,6 @@
 import React from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
-import { CreatePersonForm } from "../../../components-old/contacts/detail/create/create-form.component";
+import { CreatePersonForm } from "../../../components/modules/contacts/create/create-form.component";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
 

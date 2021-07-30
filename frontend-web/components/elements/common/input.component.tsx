@@ -3,7 +3,7 @@ import { faClipboard } from "@fortawesome/pro-light-svg-icons";
 import { faExclamation } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import _uniqueId from "lodash/uniqueId";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useCopyToClipboard } from "react-use";
 import { ActionType } from "../../../globals/interfaces";
 import { MaybeAsyncAction } from "../../../globals/types";
@@ -47,18 +47,28 @@ export const TextInput: React.FC<Props> = ({
   const [_value, setValue] = useState<string>(String(value ?? ""));
   const [color] = useState(getColorForType(ActionType.PRIMARY));
 
+  useEffect(() => {
+    setValue(value as string);
+  }, [value]);
+
   return (
     <div className={className}>
-      <label
-        htmlFor={id}
-        className={classNames(
-          error ? "text-red-700" : disabled ? "text-gray-500" : "text-gray-700",
-          "block text-sm font-medium"
-        )}
-      >
-        {label}
-        {required ? "*" : ""} {error && (label ? "• " : "") + error}
-      </label>
+      {label && (
+        <label
+          htmlFor={id}
+          className={classNames(
+            error
+              ? "text-red-700"
+              : disabled
+              ? "text-gray-500"
+              : "text-gray-700",
+            "block text-sm font-medium"
+          )}
+        >
+          {label}
+          {required ? "*" : ""} {error && (label ? "• " : "") + error}
+        </label>
+      )}
       <div
         onClick={
           copyOnly

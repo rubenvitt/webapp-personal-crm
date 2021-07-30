@@ -1,37 +1,45 @@
 import { faSpinner } from "@fortawesome/pro-light-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
-import { classNames } from "../../../globals/utils";
+import React, { Fragment, useRef, useState } from "react";
+import { classNames } from "../../../../globals/utils";
+import {
+  MaybeAsyncAction,
+  WithForcedChildren,
+} from "../../../../globals/types";
+import { Button } from "../../../elements/common/button.component";
+import { ActionType } from "../../../../globals/interfaces";
 
-interface Props {
+type Props = WithForcedChildren<{
   cancel?: {
     label?: string;
-    action: () => void;
+    action: MaybeAsyncAction;
   };
   save?: {
     label?: string;
-    action: () => Promise<void>;
+    action: MaybeAsyncAction;
   };
   className?: string;
-}
+}>;
 
-export const FormLayout: React.FC<Props> = ({
+export function FormLayout({
   children,
   cancel,
   save,
   className,
-}) => {
+}: Props): JSX.Element {
   const [isLoading, setLoading] = useState(false);
+  const form = useRef<HTMLFormElement>();
   return (
     <form
+      ref={form}
       className={classNames(className, "space-y-6")}
       onSubmit={(event) => {
         event.preventDefault();
         if (!isLoading) {
-          save?.action().then(() => {
-            setLoading(false);
-          });
+          if (save?.action) {
+            Promise.resolve(save.action).then(() => setLoading(false));
+          }
         }
       }}
     >
@@ -39,23 +47,23 @@ export const FormLayout: React.FC<Props> = ({
 
       <div className="flex justify-end">
         {cancel && (
-          <button
-            onClick={cancel.action}
-            type="button"
-            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-          >
+          <Button action={cancel.action} actionType={ActionType.DEFAULT}>
             {cancel.label ?? "Abbrechen"}
-          </button>
+          </Button>
         )}
-        <button
-          type="submit"
-          disabled={isLoading}
+        <Button
+          actionType={ActionType.PRIMARY}
+          isDisabled={isLoading}
+          action={() => {
+            return form.current.submit();
+          }}
           className={classNames(
             isLoading
               ? "bg-primary-400"
               : "bg-primary-600 hover:bg-primary-700",
             "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           )}
+          type="submit"
         >
           {save?.label ?? "Speichern"}
           <Transition
@@ -76,8 +84,8 @@ export const FormLayout: React.FC<Props> = ({
               />
             </div>
           </Transition>
-        </button>
+        </Button>
       </div>
     </form>
   );
-};
+}

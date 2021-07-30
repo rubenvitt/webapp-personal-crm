@@ -2,7 +2,7 @@
 
 import React from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../../../api-functions/defaults";
-import { EditPersonForm } from "../../../../components-old/contacts/detail/edit/edit-form.component";
+import { EditPersonForm } from "../../../../components/modules/contacts/detail-page/edit/edit-form.component";
 import { usePerson } from "../../../../services/person-service";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps({

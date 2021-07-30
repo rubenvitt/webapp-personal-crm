@@ -3,19 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useReducer, useRef } from "react";
 import { PersonTag } from "../../../globals/interfaces";
 import { classNames } from "../../../globals/utils";
+import { MaybeAsyncAction } from "../../../globals/types";
 
 interface Props {
   tagList: PersonTag[];
   className?: string;
-  withCreation?: boolean;
-  onClick?: (personTag: PersonTag) => void;
+  onCreate?: MaybeAsyncAction<string>;
+  onClick?: MaybeAsyncAction<PersonTag>;
 }
 
 export const PersonTagList: React.FC<Props> = ({
   tagList = [],
   className,
-  withCreation,
   onClick,
+  onCreate,
 }) => {
   const [tags, addTag] = useReducer(
     (prevState: PersonTag[], element: string): PersonTag[] => {
@@ -53,17 +54,18 @@ export const PersonTagList: React.FC<Props> = ({
           </span>
         );
       })}
-      {withCreation && (
+      {onCreate && (
         <form
           onSubmit={(event) => {
-            addTag(input.current.value);
-            input.current.value = "";
             event.preventDefault();
+            Promise.resolve(onCreate(input.current.value)).then(() => {
+              input.current.value = "";
+            });
           }}
         >
           <input
             ref={input}
-            className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-transparent text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-transparent text-blue-800 border border-transparent focus:border-transparent hover:border-blue-500 hover:border-offset-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="..."
           />
         </form>

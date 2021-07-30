@@ -41,7 +41,7 @@ export const OnboardProgressContent: React.FC<Props> = ({
         </Button>
         <Button
           asyncAction={next?.onSubmit}
-          type={ActionType.PRIMARY}
+          actionType={ActionType.PRIMARY}
           isDisabled={next?.disabled}
         >
           {next?.label ?? "Weiter"}

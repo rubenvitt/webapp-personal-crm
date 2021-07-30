@@ -1,7 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
-import { TextInput } from "../../../components/elements/common/input.component";
+import { TextInput } from "./input.component";
 import { Gendered } from "../../../globals/interfaces";
 import { classNames } from "../../../globals/utils";
 
@@ -45,9 +45,9 @@ export const GenderInput: React.FC<Props> = ({
   }, [genderValue, anredeValue]);
 
   useEffect(() => {
-    if (getShortValueFor(genderValue) === "m" && anredeValue !== "Sie") {
+    if (getShortValueFor(genderValue) === "m" && anredeValue === "Sie") {
       setAnredeValue("Er");
-    } else if (getShortValueFor(genderValue) === "w" && anredeValue !== "Er") {
+    } else if (getShortValueFor(genderValue) === "w" && anredeValue === "Er") {
       setAnredeValue("Sie");
     } else {
       //
@@ -70,11 +70,11 @@ export const GenderInput: React.FC<Props> = ({
         >
           <TextInput
             disabled={disabled}
-            onChange={(aValue) => {
+            change={(aValue) => {
               setGenderValue(aValue);
             }}
             title={"Geschlecht"}
-            autocomplete={"gender"}
+            autoComplete="gender"
             value={genderValue}
           />
           <Transition
@@ -110,7 +110,7 @@ export const GenderInput: React.FC<Props> = ({
         title={"Anrede"}
         placeholder={"z.B.: 'Sie' geht im Wald"}
         value={anredeValue}
-        onChange={(aValue) => {
+        change={(aValue) => {
           setAnredeValue(aValue);
         }}
       />

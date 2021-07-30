@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { classNames } from "../../../globals/utils";
+import { WithForcedChildren } from "../../../globals/types";
 
-interface Props {
+type Props = WithForcedChildren<{
   className?: string;
   buttonClassName?: string;
   id: string;
@@ -12,9 +13,9 @@ interface Props {
   title?: string;
   onChange: (value: string) => void;
   rounded?: boolean;
-}
+}>;
 
-export const SelectInput: React.FC<Props> = ({
+export function SelectInput({
   className,
   id,
   initialValue,
@@ -25,7 +26,7 @@ export const SelectInput: React.FC<Props> = ({
   children,
   onChange,
   buttonClassName,
-}) => {
+}: Props): JSX.Element {
   const ref = useRef<HTMLSelectElement>();
   const [value, setValue] = useState<string>(initialValue);
 
@@ -76,4 +77,4 @@ export const SelectInput: React.FC<Props> = ({
       </select>
     </div>
   );
-};
+}

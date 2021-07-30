@@ -45,7 +45,7 @@ export function ConfirmDialog({
         {(cancel?.visible ?? true) && (
           <Button
             action={cancel?.action ?? onClose}
-            type={cancel?.type ?? ActionType.ARCHIVE}
+            actionType={cancel?.type ?? ActionType.ARCHIVE}
           >
             {cancel?.label ?? "Abbrechen"}
           </Button>
@@ -53,7 +53,7 @@ export function ConfirmDialog({
         {(success?.visible ?? true) && (
           <Button
             action={success?.action}
-            type={success?.type ?? ActionType.PRIMARY}
+            actionType={success?.type ?? ActionType.PRIMARY}
           >
             {success?.label ?? "OK"}
           </Button>

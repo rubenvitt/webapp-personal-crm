@@ -2,10 +2,10 @@
 
 import React, { useEffect } from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../../../api-functions/defaults";
-import { PersonContactBox } from "../../../../components-old/contacts/detail/boxes/contact.box.component";
-import { PersonDetailNotesBox } from "../../../../components-old/contacts/detail/boxes/notes.box.component";
+import { PersonContactBox } from "../../../../components/modules/contacts/detail-page/contact.box.component";
+import { PersonDetailNotesBox } from "../../../../components/modules/contacts/detail-page/notes.box.component";
 import { PersonBox } from "../../../../components-old/contacts/detail/person-detail-box.component";
-import { PersonTagList } from "../../../../components-old/contacts/detail/person-tag-list.component";
+import { PersonTagList } from "../../../../components/modules/contacts/person-tag-list.component";
 import { LogList } from "../../../../components-old/log/log-list.component";
 import { ContentBox } from "../../../../components/modules/common/content-box.component";
 import { PersonDetailGeneralBox } from "../../../../components/modules/contacts/detail-page/general.box.component";
@@ -53,7 +53,7 @@ const ContactDetailPage: React.ReactNode = ({ id }) => {
           }
         >
           <PersonTagList
-            withCreation
+            onCreate={(personTag) => undefined}
             onClick={(personTag) => alert(`clicked ${personTag.title}`)}
             className="flex-wrap"
             tagList={person.groups}
