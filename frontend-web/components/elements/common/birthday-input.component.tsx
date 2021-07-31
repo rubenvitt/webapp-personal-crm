@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import create from "zustand";
 import { Birthday, DateType } from "../../../global/interfaces";
 import { Logger } from "../../../global/logging";
-import { daysFor, Month, nameFor } from "../../../globals/month";
+import { daysFor, Month, nameFor } from "../../../global/month";
 import { classNames } from "../../../global/utils";
 import { SelectInput } from "./select.input.component";
 

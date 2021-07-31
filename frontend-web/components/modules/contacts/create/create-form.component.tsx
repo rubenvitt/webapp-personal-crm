@@ -1,5 +1,5 @@
 import { mutate } from "swr";
-import { usePersonNavigate } from "../../../../globals/person-utils";
+import { usePersonNavigate } from "../../../../global/person-utils";
 import { URL_API_Persons } from "../../../../global/urls";
 import { createPerson } from "../../../../services/person-service";
 import { FormLayout } from "../../common/form/form.layout.component";

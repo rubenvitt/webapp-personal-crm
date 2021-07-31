@@ -9,7 +9,7 @@ import { PersonTagList } from "../../../../components/modules/contacts/person-ta
 import { ContentBox } from "../../../../components/modules/common/content-box.component";
 import { PersonDetailGeneralBox } from "../../../../components/modules/contacts/detail-page/general.box.component";
 import { Logger } from "../../../../global/logging";
-import { usePersonNavigate } from "../../../../globals/person-utils";
+import { usePersonNavigate } from "../../../../global/person-utils";
 import { useLogEntry } from "../../../../services/log-service";
 import { usePerson } from "../../../../services/person-service";
 import { DiaryList } from "../../../../components/modules/diary/diary-list.component";
