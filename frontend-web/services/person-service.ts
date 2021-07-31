@@ -11,7 +11,7 @@ import axios from "../axios";
 import useSWR, { mutate as mutateGlobal } from "swr";
 import { URL_API_Persons } from "../global/urls";
 import { AxiosError } from "axios";
-import { usePersonNavigate } from "../globals/person-utils";
+import { usePersonNavigate } from "../global/person-utils";
 import { Omit } from "ast-types/types";
 
 export const findAllPersons: () => Promise<Person[]> = async () => {
