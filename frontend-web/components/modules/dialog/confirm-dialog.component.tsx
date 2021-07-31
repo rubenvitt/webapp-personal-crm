@@ -2,6 +2,7 @@ import { ActionType } from "../../../global/interfaces";
 import { WithForcedChildren } from "../../../global/types";
 import { Button } from "../../elements/common/button.component";
 import { Dialog } from "./dialog.component";
+import { Dialog as HeadlessDialog } from "@headlessui/react";
 
 type Props = WithForcedChildren<{
   withClose?: boolean;
@@ -33,13 +34,11 @@ export function ConfirmDialog({
   cancel,
   open,
 }: Props): JSX.Element {
-  if (!open) {
-    return <></>;
-  }
-
   return (
-    <Dialog withClose={withClose} onClose={onClose}>
-      <h2 className="font-bold text-lg">{title}</h2>
+    <Dialog open={open} withClose={withClose} onClose={onClose}>
+      <HeadlessDialog.Title as="h3" className="font-bold text-lg">
+        {title}
+      </HeadlessDialog.Title>
       <div>{children}</div>
       <div className="flex justify-end space-x-1 mt-2 pt-2 border-t">
         {(cancel?.visible ?? true) && (
