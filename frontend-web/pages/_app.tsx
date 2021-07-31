@@ -15,7 +15,6 @@ const MyApp: React.ComponentType<AppProps> = ({
   pageProps,
   router,
 }) => {
-  console.log("my router", router);
   const Layout = (router.pathname as string).startsWith("/app")
     ? AppLayout
     : PublicLayout;
