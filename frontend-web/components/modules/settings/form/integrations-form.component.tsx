@@ -1,10 +1,10 @@
 import { AxiosError } from "axios";
 import React from "react";
 import useSWR from "swr";
-import { TextInput } from "../../../components/elements/common/input.component";
-import { classNames } from "../../../globals/utils";
-import { FormLayout } from "../../../components/modules/common/form/form.layout.component";
-import { FormSection } from "../../../components/modules/common/form/section.component";
+import { TextInput } from "../../../elements/common/input.component";
+import { classNames } from "../../../../global/utils";
+import { FormLayout } from "../../common/form/form.layout.component";
+import { FormSection } from "../../common/form/section.component";
 
 export const IntegrationsForm: React.FC = ({ children }) => {
   const { data } = useSWR<{ username: string; password: string }, AxiosError>(
@@ -21,23 +21,30 @@ export const IntegrationsForm: React.FC = ({ children }) => {
       >
         <TextInput
           title="DAV URL"
+          label="DAV URL"
           className="col-span-4 sm:col-span-4"
-          clickToCopy
+          copyOnly
+          change={() => undefined}
           disabled
           value={url?.url}
         />
         <TextInput
           title="DAV username"
+          label="DAV username"
           className="col-span-4 sm:col-span-2"
           disabled
-          clickToCopy
+          copyOnly
+          change={() => undefined}
           value={data?.username}
         />
         <TextInput
           title="DAV password"
+          label="DAV password"
           className="col-span-4 sm:col-span-2"
           disabled
-          clickToCopy
+          copyOnly
+          type="password"
+          change={() => undefined}
           value={data?.password}
         />
       </FormSection>

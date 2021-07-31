@@ -10,8 +10,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../api-functions/defaults";
-import { IntegrationsForm } from "../../components-old/settings/form/integrations-form.component";
-import { ProfileForm } from "../../components-old/settings/form/profile-form.component";
+import { IntegrationsForm } from "../../components/modules/settings/form/integrations-form.component";
+import { ProfileForm } from "../../components/modules/settings/form/profile-form.component";
 
 interface NavigationItem {
   label: string;

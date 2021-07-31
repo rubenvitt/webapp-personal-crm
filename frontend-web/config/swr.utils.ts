@@ -1,6 +1,6 @@
 import axios from "../axios";
 import { AxiosRequestConfig } from "axios";
-import { Logger } from "./logging";
+import { Logger } from "../global/logging";
 
 export const fetcher = <T>(
   ...args: [url: string, config?: AxiosRequestConfig]

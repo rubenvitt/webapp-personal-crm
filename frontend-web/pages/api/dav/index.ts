@@ -1,6 +1,6 @@
 import nextConnect from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
-import { withApiAuthRequired } from "../../../globals/auth0";
+import { withApiAuthRequired } from "../../../config/auth0";
 
 const handler = nextConnect();
 

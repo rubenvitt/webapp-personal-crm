@@ -6,10 +6,10 @@ import {
   PersonMail,
   PersonPhone,
   UpdatePerson,
-} from "../globals/interfaces";
+} from "../global/interfaces";
 import axios from "../axios";
 import useSWR, { mutate as mutateGlobal } from "swr";
-import { URL_API_Persons } from "../globals/urls";
+import { URL_API_Persons } from "../global/urls";
 import { AxiosError } from "axios";
 import { usePersonNavigate } from "../globals/person-utils";
 import { Omit } from "ast-types/types";

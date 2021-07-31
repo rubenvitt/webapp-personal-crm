@@ -1,8 +1,9 @@
-import { Button } from "../../components/elements/common/button.component";
-import { ActionType } from "../../globals/interfaces";
-import { classNames } from "../../globals/utils";
+import { Button } from "../../elements/common/button.component";
+import { ActionType } from "../../../global/interfaces";
+import { classNames } from "../../../global/utils";
+import { WithForcedChildren } from "../../../global/types";
 
-interface Props {
+type Props = WithForcedChildren<{
   stepId: string;
   className?: string;
   next?: {
@@ -15,14 +16,14 @@ interface Props {
     label?: string;
     disabled?: boolean;
   };
-}
+}>;
 
-export const OnboardProgressContent: React.FC<Props> = ({
+export function OnboardProgressContent({
   children,
   className,
   next,
   back,
-}) => {
+}: Props): JSX.Element {
   return (
     <div
       className={classNames(
@@ -33,14 +34,14 @@ export const OnboardProgressContent: React.FC<Props> = ({
       <div className="px-4 py-5 sm:p-6">{children}</div>
       <div className="px-4 py-4 sm:px-6 space-x-2 justify-end flex">
         <Button
-          asyncAction={back?.onSubmit}
+          action={back?.onSubmit}
           customColor="gray"
           isDisabled={back?.disabled}
         >
           {back?.label ?? "Zurück"}
         </Button>
         <Button
-          asyncAction={next?.onSubmit}
+          action={next?.onSubmit}
           actionType={ActionType.PRIMARY}
           isDisabled={next?.disabled}
         >
@@ -49,4 +50,4 @@ export const OnboardProgressContent: React.FC<Props> = ({
       </div>
     </div>
   );
-};
+}

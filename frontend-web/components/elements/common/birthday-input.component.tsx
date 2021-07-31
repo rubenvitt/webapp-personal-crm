@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import create from "zustand";
-import { Birthday, DateType } from "../../../globals/interfaces";
-import { Logger } from "../../../globals/logging";
+import { Birthday, DateType } from "../../../global/interfaces";
+import { Logger } from "../../../global/logging";
 import { daysFor, Month, nameFor } from "../../../globals/month";
-import { classNames } from "../../../globals/utils";
+import { classNames } from "../../../global/utils";
 import { SelectInput } from "./select.input.component";
 
 interface Props {

@@ -8,8 +8,8 @@ import {
   PersonMail,
   PersonPhone,
   PhoneType,
-} from "../../../../globals/interfaces";
-import { URL_API_Persons } from "../../../../globals/urls";
+} from "../../../../global/interfaces";
+import { URL_API_Persons } from "../../../../global/urls";
 import {
   addMailAddress,
   addPhoneNumber,
@@ -18,7 +18,7 @@ import {
   updateMailAddress,
   updatePhoneNumber,
 } from "../../../../services/person-service";
-import { EditAddress } from "../../../../components-old/contacts/detail/edit/edit-address-input.component";
+import { EditAddress } from "./edit/edit-address-input.component";
 import { EditRadio } from "./edit/edit-input.component";
 
 interface Props {

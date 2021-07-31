@@ -1,18 +1,18 @@
 import React from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../api-functions/defaults";
-import { LogList } from "../../components-old/log/log-list.component";
+import { DiaryList } from "../../components/modules/diary/diary-list.component";
 import { useLogEntry } from "../../services/log-service";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
 
-const Log: React.FC = () => {
+const Diary: React.FC = () => {
   const { logEntries } = useLogEntry();
 
   return (
     <div className="flow-root m-12">
-      <LogList logEntries={logEntries} />
+      <DiaryList logEntries={logEntries} />
     </div>
   );
 };
 
-export default Log;
+export default Diary;

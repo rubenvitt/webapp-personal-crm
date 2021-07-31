@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { WithChildren } from "../../../globals/types";
+import { WithChildren } from "../../../global/types";
 import { useCurrentUser } from "../../../services/account-service";
 
 type Props = WithChildren<{

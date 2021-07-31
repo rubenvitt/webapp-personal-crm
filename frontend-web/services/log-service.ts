@@ -1,4 +1,4 @@
-import { IdOnly, LogEntry, LogEntryType } from "../globals/interfaces";
+import { IdOnly, LogEntry, LogEntryType } from "../global/interfaces";
 import useSWR from "swr";
 
 const entries: LogEntry[] = [

@@ -1,7 +1,7 @@
 import { faClose } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { WithForcedChildren } from "../../../globals/types";
+import { WithForcedChildren } from "../../../global/types";
 
 type Props = WithForcedChildren<{
   onClose: () => void;

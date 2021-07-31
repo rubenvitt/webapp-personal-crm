@@ -1,16 +1,16 @@
 import React from "react";
 import Avatar from "react-avatar";
 import { mutate } from "swr";
-import { IconSwitch } from "../../../components/elements/common/icon-switch.component";
-import { PersonDetails } from "../../../globals/interfaces";
-import { URL_API_Persons } from "../../../globals/urls";
+import { IconSwitch } from "../../../elements/common/icon-switch.component";
+import { PersonDetails } from "../../../../global/interfaces";
+import { URL_API_Persons } from "../../../../global/urls";
 import {
   calculateAgeFromBirthday,
   calculateTimespanSince,
   classNames,
   getPronounFor,
-} from "../../../globals/utils";
-import { favoritePerson } from "../../../services/person-service";
+} from "../../../../global/utils";
+import { favoritePerson } from "../../../../services/person-service";
 import { PersonDetailActions } from "./person-detail-actions.component";
 
 interface Props {
@@ -62,7 +62,7 @@ export const PersonBox: React.FC<Props> = ({ person, children, aside }) => {
                   {person?.displayName}
                 </h1>
                 <IconSwitch
-                  mutate={async (state) => {
+                  change={async (state) => {
                     mutate(
                       URL_API_Persons + "/" + person._id,
                       {

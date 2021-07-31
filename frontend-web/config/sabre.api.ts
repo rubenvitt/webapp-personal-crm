@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Logger } from "./logging";
+import { Logger } from "../global/logging";
 import {
   AccessToken,
   ClientCredentials,

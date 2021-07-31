@@ -3,14 +3,14 @@ import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
-import { ActionType } from "../../../globals/interfaces";
-import { Logger } from "../../../globals/logging";
+import { ActionType } from "../../../global/interfaces";
+import { Logger } from "../../../global/logging";
 import {
   MaybeAsyncAction,
   WithChildren,
   WithTypedChildren,
-} from "../../../globals/types";
-import { classNames, getColorForType } from "../../../globals/utils";
+} from "../../../global/types";
+import { classNames, getColorForType } from "../../../global/utils";
 
 type ButtonProps = WithChildren<{
   customDropdownIcon?: IconDefinition;

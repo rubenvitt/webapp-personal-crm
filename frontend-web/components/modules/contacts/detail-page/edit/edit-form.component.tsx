@@ -1,5 +1,5 @@
 import React from "react";
-import { PersonDetails } from "../../../../../globals/interfaces";
+import { PersonDetails } from "../../../../../global/interfaces";
 import {
   usePerson,
   usePersonMutation,
@@ -8,7 +8,7 @@ import { FormLayout } from "../../../common/form/form.layout.component";
 import {
   EssentialFormSection,
   useEssentialFormStore,
-} from "../../../../../components-old/contacts/detail/form/essential-form-section.component";
+} from "./essential-form-section.component";
 
 interface Props {
   person: PersonDetails;

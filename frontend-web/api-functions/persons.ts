@@ -6,10 +6,10 @@ import {
   PersonMail,
   PersonPhone,
   UpdatePerson,
-} from "../globals/interfaces";
+} from "../global/interfaces";
 import { Contact, Person as PersonModel } from "../models/Person";
 import { FilterQuery, Types, UpdateWriteOpResult } from "mongoose";
-import { Logger } from "../globals/logging";
+import { Logger } from "../global/logging";
 
 export async function apiFindPersonDetailsFor(
   aPersonId: string

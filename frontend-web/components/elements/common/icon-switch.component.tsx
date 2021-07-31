@@ -4,8 +4,8 @@ import { faStar as farStar } from "@fortawesome/pro-regular-svg-icons";
 import { faStar as fasStar } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { MaybeAsyncAction } from "../../../globals/types";
-import { classNames } from "../../../globals/utils";
+import { MaybeAsyncAction } from "../../../global/types";
+import { classNames } from "../../../global/utils";
 
 type Props = {
   change: MaybeAsyncAction<boolean>;

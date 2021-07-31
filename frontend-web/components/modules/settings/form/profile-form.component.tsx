@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
-import { TextInput } from "../../../components/elements/common/input.component";
-import { classNames } from "../../../globals/utils";
-import { useCurrentUser } from "../../../services/account-service";
-import { FormLayout } from "../../../components/modules/common/form/form.layout.component";
-import { FormSection } from "../../../components/modules/common/form/section.component";
+import { TextInput } from "../../../elements/common/input.component";
+import { classNames } from "../../../../global/utils";
+import { useCurrentUser } from "../../../../services/account-service";
+import { FormLayout } from "../../common/form/form.layout.component";
+import { FormSection } from "../../common/form/section.component";
+import { Logger } from "../../../../global/logging";
 
 interface Props {
   //
@@ -15,6 +16,8 @@ export const ProfileForm: React.FC<Props> = () => {
   const givenNameRef = useRef<HTMLInputElement>();
   const familyNameRef = useRef<HTMLInputElement>();
   const pictureRef = useRef<HTMLInputElement>();
+
+  Logger.log("currentUser", currentUser);
 
   return (
     <FormLayout
@@ -35,22 +38,28 @@ export const ProfileForm: React.FC<Props> = () => {
         description="Change your name and personal information"
       >
         <TextInput
-          inputRef={givenNameRef}
+          ref={givenNameRef}
+          change={(s) => undefined}
           title="Vorname"
+          label="Vorname"
           className="col-span-4 sm:col-span-2"
-          initialValue={currentUser?.given_name}
+          value={currentUser?.given_name ?? currentUser?.name}
         />
         <TextInput
-          inputRef={familyNameRef}
+          ref={familyNameRef}
+          change={(s) => undefined}
           title="Nachname"
+          label="Nachname"
           className="col-span-4 sm:col-span-2"
-          initialValue={currentUser?.family_name}
+          value={currentUser?.family_name}
         />
         <TextInput
-          inputRef={pictureRef}
+          ref={pictureRef}
+          change={(s) => undefined}
           className={"col-span-4"}
-          initialValue={currentUser?.picture}
+          value={currentUser?.picture}
           title="Profilbild"
+          label="Profilbild"
         />
       </FormSection>
       <FormSection
@@ -60,7 +69,7 @@ export const ProfileForm: React.FC<Props> = () => {
           "Change your password, mail address and add Login Provider"
         }
       >
-        <TextInput title={"test"} />
+        <TextInput change={(s) => undefined} label="test" title={"test"} />
       </FormSection>
     </FormLayout>
   );

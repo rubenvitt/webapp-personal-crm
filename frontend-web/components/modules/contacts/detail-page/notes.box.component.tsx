@@ -5,8 +5,8 @@ import {
   Note,
   PersonDetails,
   TimespanType,
-} from "../../../../globals/interfaces";
-import { calculateTimespanSince } from "../../../../globals/utils";
+} from "../../../../global/interfaces";
+import { calculateTimespanSince } from "../../../../global/utils";
 
 interface Props {
   person: PersonDetails;

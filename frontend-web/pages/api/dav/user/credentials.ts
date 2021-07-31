@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import { decryptText } from "../../../../globals/sabre.api";
+import { decryptText } from "../../../../config/sabre.api";
 import {
   getSession,
   managementClient,
   withApiAuthRequired,
-} from "../../../../globals/auth0";
-import { Logger } from "../../../../globals/logging";
+} from "../../../../config/auth0";
+import { Logger } from "../../../../global/logging";
 import { AxiosError } from "axios";
 
 const handler = nextConnect();

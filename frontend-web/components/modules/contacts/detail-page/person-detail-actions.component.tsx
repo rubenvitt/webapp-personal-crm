@@ -16,10 +16,10 @@ import {
   DropDownButton,
   DropDownGroup,
   DropDownItem,
-} from "../../../components/elements/common/drop-down-button.component";
-import { ConfirmDialog } from "../../../components/modules/dialog/confirm-dialog.component";
-import { ActionType, PersonDetails } from "../../../globals/interfaces";
-import { usePersonMutation } from "../../../services/person-service";
+} from "../../../elements/common/drop-down-button.component";
+import { ConfirmDialog } from "../../dialog/confirm-dialog.component";
+import { ActionType, PersonDetails } from "../../../../global/interfaces";
+import { usePersonMutation } from "../../../../services/person-service";
 
 interface Props {
   person: PersonDetails;
@@ -46,25 +46,35 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
           className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
         >
           <DropDownGroup>
-            <DropDownItem title={"erstellen"} icon={{ active: faPlus }} />
+            <DropDownItem action={() => undefined} icon={{ active: faPlus }}>
+              erstellen
+            </DropDownItem>
           </DropDownGroup>
           <DropDownGroup>
             <DropDownItem
-              title={"Geburtstag"}
+              action={() => undefined}
               icon={{ active: faTimes, inactive: fasBell }}
-            />
+            >
+              Geburtstag
+            </DropDownItem>
             <DropDownItem
-              title={"Jahrestag"}
+              action={() => undefined}
               icon={{ active: faTimes, inactive: fasBell }}
-            />
+            >
+              Jahrestag
+            </DropDownItem>
             <DropDownItem
-              title={"Geschenk"}
+              action={() => undefined}
               icon={{ active: faPlus, inactive: farBell }}
-            />
+            >
+              Geschenk
+            </DropDownItem>
             <DropDownItem
-              title={"Kontakt halten"}
+              action={() => undefined}
               icon={{ active: faPlus, inactive: farBell }}
-            />
+            >
+              Kontakt halten
+            </DropDownItem>
           </DropDownGroup>
         </DropDownButton>
         <DropDownButton
@@ -74,29 +84,39 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
           className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
         >
           <DropDownGroup>
-            <DropDownItem title={"Eintrag hinzufügen"} />
-            <DropDownItem title={"Notiz schreiben"} />
-            <DropDownItem title={"Erinnerung erstellen"} />
+            <DropDownItem action={() => undefined}>
+              Eintrag hinzufügen
+            </DropDownItem>
+            <DropDownItem action={() => undefined}>
+              Notiz schreiben
+            </DropDownItem>
+            <DropDownItem action={() => undefined}>
+              Erinnerung erstellen
+            </DropDownItem>
           </DropDownGroup>
           <DropDownGroup>
             <DropDownItem
-              title={"Bearbeiten"}
               icon={{ active: faEdit }}
-              onClick={() => push(asPath + "/edit")}
-            />
+              action={() => push(asPath + "/edit")}
+            >
+              Bearbeiten
+            </DropDownItem>
             <DropDownItem
-              title={"Archivieren"}
               type={ActionType.ARCHIVE}
               icon={{ active: faArchive }}
-            />
+              action={() => undefined}
+            >
+              Archivieren
+            </DropDownItem>
             <DropDownItem
-              title={"Löschen"}
-              onClick={() => {
-                setShowDeleteDialog(true);
-              }}
               type={ActionType.DANGER}
               icon={{ active: faTrash }}
-            />
+              action={() => {
+                setShowDeleteDialog(true);
+              }}
+            >
+              Löschen
+            </DropDownItem>
           </DropDownGroup>
         </DropDownButton>
       </div>
@@ -110,8 +130,10 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
           action: () => deletePerson(),
         }}
       >
-        Soll <b className="text-red-500">{person.displayName}</b> wirklich
-        unwiderruflich entfernt werden?
+        <>
+          Soll <b className="text-red-500">{person.displayName}</b> wirklich
+          unwiderruflich entfernt werden?
+        </>
       </ConfirmDialog>
     </>
   );

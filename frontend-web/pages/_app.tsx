@@ -7,7 +7,7 @@ import React from "react";
 import { SWRConfig } from "swr";
 import { AppLayout } from "../components/layouts/app-layout";
 import { PublicLayout } from "../components/layouts/public-layout";
-import { fetcher } from "../globals/swr.utils";
+import { fetcher } from "../config/swr.utils";
 import "../styles/globals.css";
 
 const MyApp: React.ComponentType<AppProps> = ({

@@ -2,7 +2,7 @@ import { faBlinds } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { classNames } from "../../globals/utils";
+import { classNames } from "../../../global/utils";
 
 interface Props {
   content: string;

@@ -1,5 +1,5 @@
-import { ActionType } from "../../../globals/interfaces";
-import { WithForcedChildren } from "../../../globals/types";
+import { ActionType } from "../../../global/interfaces";
+import { WithForcedChildren } from "../../../global/types";
 import { Button } from "../../elements/common/button.component";
 import { Dialog } from "./dialog.component";
 

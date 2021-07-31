@@ -2,8 +2,8 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
 import { TextInput } from "./input.component";
-import { Gendered } from "../../../globals/interfaces";
-import { classNames } from "../../../globals/utils";
+import { Gendered } from "../../../global/interfaces";
+import { classNames } from "../../../global/utils";
 
 interface Props {
   disabled: boolean;

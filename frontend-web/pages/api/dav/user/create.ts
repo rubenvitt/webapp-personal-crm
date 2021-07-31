@@ -4,10 +4,10 @@ import {
   getSession,
   managementClient,
   withApiAuthRequired,
-} from "../../../../globals/auth0";
+} from "../../../../config/auth0";
 import * as crypto from "crypto";
-import { createNewUser, encryptText } from "../../../../globals/sabre.api";
-import { Logger } from "../../../../globals/logging";
+import { createNewUser, encryptText } from "../../../../config/sabre.api";
+import { Logger } from "../../../../global/logging";
 import { AxiosError } from "axios";
 
 const handler = nextConnect();

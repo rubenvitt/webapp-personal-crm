@@ -4,15 +4,15 @@ import React, { useEffect } from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../../../api-functions/defaults";
 import { PersonContactBox } from "../../../../components/modules/contacts/detail-page/contact.box.component";
 import { PersonDetailNotesBox } from "../../../../components/modules/contacts/detail-page/notes.box.component";
-import { PersonBox } from "../../../../components-old/contacts/detail/person-detail-box.component";
+import { PersonBox } from "../../../../components/modules/contacts/detail-page/person-detail-box.component";
 import { PersonTagList } from "../../../../components/modules/contacts/person-tag-list.component";
-import { LogList } from "../../../../components-old/log/log-list.component";
 import { ContentBox } from "../../../../components/modules/common/content-box.component";
 import { PersonDetailGeneralBox } from "../../../../components/modules/contacts/detail-page/general.box.component";
-import { Logger } from "../../../../globals/logging";
+import { Logger } from "../../../../global/logging";
 import { usePersonNavigate } from "../../../../globals/person-utils";
 import { useLogEntry } from "../../../../services/log-service";
 import { usePerson } from "../../../../services/person-service";
+import { DiaryList } from "../../../../components/modules/diary/diary-list.component";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps({
   additionalProps: (context) => {
@@ -48,7 +48,7 @@ const ContactDetailPage: React.ReactNode = ({ id }) => {
                 action: () => undefined,
               }}
             >
-              <LogList logEntries={logEntries} />
+              <DiaryList logEntries={logEntries} />
             </ContentBox>
           }
         >

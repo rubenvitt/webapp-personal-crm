@@ -5,11 +5,11 @@ import {
   Birthday,
   DateType,
   PersonDetails,
-} from "../../../../globals/interfaces";
+} from "../../../../global/interfaces";
 import {
   calculateAgeFromBirthday,
   calculateTimespanSince,
-} from "../../../../globals/utils";
+} from "../../../../global/utils";
 import { ContentBox } from "../../common/content-box.component";
 
 interface Props {

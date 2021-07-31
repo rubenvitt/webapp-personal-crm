@@ -1,9 +1,9 @@
 import { faTrash } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useReducer, useRef } from "react";
-import { PersonTag } from "../../../globals/interfaces";
-import { classNames } from "../../../globals/utils";
-import { MaybeAsyncAction } from "../../../globals/types";
+import { PersonTag } from "../../../global/interfaces";
+import { classNames } from "../../../global/utils";
+import { MaybeAsyncAction } from "../../../global/types";
 
 interface Props {
   tagList: PersonTag[];

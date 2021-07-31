@@ -9,7 +9,7 @@ import { TFunction, useTranslation } from "next-i18next";
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import create from "zustand";
-import { NavElement, Navigation } from "../globals/interfaces";
+import { NavElement, Navigation } from "../global/interfaces";
 
 const useNavigationStore = create<Navigation>((set, get) => ({
   userNav: [

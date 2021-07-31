@@ -1,5 +1,7 @@
+// noinspection JSUnusedGlobalSymbols
+
 import mongoose, { Types } from "mongoose";
-import { Logger } from "../globals/logging";
+import { Logger } from "../global/logging";
 
 const PersonSchema = new mongoose.Schema({
   displayName: {

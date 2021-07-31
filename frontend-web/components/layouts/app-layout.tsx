@@ -15,7 +15,7 @@ import React, {
   useState,
 } from "react";
 import Avatar from "react-avatar";
-import { Logger } from "../../globals/logging";
+import { Logger } from "../../global/logging";
 import { useNavigation } from "../../hooks/navigation";
 import { useCurrentUser } from "../../services/account-service";
 

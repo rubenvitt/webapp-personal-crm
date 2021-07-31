@@ -4,8 +4,8 @@ import {
   getSession,
   managementClient,
   withApiAuthRequired,
-} from "../../../globals/auth0";
-import { givenOrNull } from "../../../globals/utils";
+} from "../../../config/auth0";
+import { givenOrNull } from "../../../global/utils";
 
 const handler = nextConnect();
 

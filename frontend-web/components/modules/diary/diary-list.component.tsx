@@ -6,8 +6,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/dist/client/link";
 import React from "react";
-import { LogEntry, LogEntryType } from "../../globals/interfaces";
-import { classNames } from "../../globals/utils";
+import { LogEntry, LogEntryType } from "../../../global/interfaces";
+import { classNames } from "../../../global/utils";
 
 interface Props {
   logEntries?: LogEntry[];
@@ -40,12 +40,12 @@ function getIconForType(type: LogEntryType) {
   }
 }
 
-export const LogList: React.FC<Props> = ({ logEntries }) => {
+export function DiaryList({ logEntries }: Props): JSX.Element {
   return (
     <>
       <ul className="-mb-8">
         {logEntries?.map((entry, index) => (
-          <LogListItem
+          <DiaryListItem
             key={entry._id}
             entry={entry}
             isLast={logEntries.length - 1 === index}
@@ -54,9 +54,9 @@ export const LogList: React.FC<Props> = ({ logEntries }) => {
       </ul>
     </>
   );
-};
+}
 
-const LogListItem: React.FC<EntryProps> = ({ entry, isLast }) => {
+function DiaryListItem({ entry, isLast }: EntryProps): JSX.Element {
   return (
     <li key={entry._id}>
       <div className="relative pb-8">
@@ -111,4 +111,4 @@ const LogListItem: React.FC<EntryProps> = ({ entry, isLast }) => {
       </div>
     </li>
   );
-};
+}

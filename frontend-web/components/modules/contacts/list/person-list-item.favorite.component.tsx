@@ -1,6 +1,6 @@
 import React from "react";
 import Avatar from "react-avatar";
-import { usePersonNavigate } from "../../../globals/person-utils";
+import { usePersonNavigate } from "../../../../globals/person-utils";
 import { ItemProps } from "./person-list.component";
 
 export const PersonListItemFavorite: React.FC<ItemProps> = ({ person }) => {

@@ -5,7 +5,7 @@ import { withAuthenticatedTranslatedServerSideProps } from "../../api-functions/
 import axios from "../../axios";
 import { Button } from "../../components/elements/common/button.component";
 import { RequireRoles } from "../../components/modules/common/require-roles.component";
-import { ActionType } from "../../globals/interfaces";
+import { ActionType } from "../../global/interfaces";
 import { useCurrentUser } from "../../services/account-service";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps({

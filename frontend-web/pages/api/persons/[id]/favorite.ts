@@ -1,7 +1,7 @@
 import nextConnect from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
 import { apiFavoritePerson } from "../../../../api-functions/persons";
-import { Logger } from "../../../../globals/logging";
+import { Logger } from "../../../../global/logging";
 
 const handler = nextConnect();
 

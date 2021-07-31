@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { classNames } from "../../../globals/utils";
-import { WithForcedChildren } from "../../../globals/types";
+import { classNames } from "../../../global/utils";
+import { WithForcedChildren } from "../../../global/types";
 
 type Props = WithForcedChildren<{
   className?: string;

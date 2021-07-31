@@ -5,7 +5,7 @@ import {
   apiCreatePerson,
   apiFindAllPersons,
 } from "../../../api-functions/persons";
-import { Logger } from "../../../globals/logging";
+import { Logger } from "../../../global/logging";
 
 const handler = nextConnect();
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {

@@ -5,7 +5,7 @@ import {
   apiUpdatePerson,
 } from "../../../../api-functions/persons";
 import nextConnect from "next-connect";
-import { Logger } from "../../../../globals/logging";
+import { Logger } from "../../../../global/logging";
 
 const handler = nextConnect();
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {

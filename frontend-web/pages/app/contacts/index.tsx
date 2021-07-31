@@ -1,8 +1,8 @@
 import React from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
-import { PersonListItem } from "../../../components-old/contacts/list/person-list-item.component";
-import { PersonListItemFavorite } from "../../../components-old/contacts/list/person-list-item.favorite.component";
-import { PersonList } from "../../../components-old/contacts/list/person-list.component";
+import { PersonListItem } from "../../../components/modules/contacts/list/person-list-item.component";
+import { PersonListItemFavorite } from "../../../components/modules/contacts/list/person-list-item.favorite.component";
+import { PersonList } from "../../../components/modules/contacts/list/person-list.component";
 import { usePersons } from "../../../services/person-service";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();

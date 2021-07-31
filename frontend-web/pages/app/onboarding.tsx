@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import useSWR from "swr";
 import create from "zustand";
 import { withAuthenticatedTranslatedServerSideProps } from "../../api-functions/defaults";
-import { AcceptableDocument } from "../../components-old/common/acceptable-document.component";
-import { OnboardProgressContent } from "../../components-old/onboard/onboard-progress-content.component";
-import { OnboardProgressNav } from "../../components-old/onboard/onboard-progress-nav.component";
-import { Logger } from "../../globals/logging";
+import { AcceptableDocument } from "../../components/elements/common/acceptable-document.component";
+import { OnboardProgressContent } from "../../components/modules/onboard/onboard-progress-content.component";
+import { OnboardProgressNav } from "../../components/modules/onboard/onboard-progress-nav.component";
+import { Logger } from "../../global/logging";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
 
@@ -55,8 +55,8 @@ const Onboarding: React.ReactNode = () => {
 
   return (
     <>
-      <OnboardProgressNav
-        steps={[
+      <OnboardProgressNav>
+        {[
           {
             id: "privacy",
             name: "Privacy Policy & Terms of Service",
@@ -82,7 +82,7 @@ const Onboarding: React.ReactNode = () => {
             status: "upcomming",
           },
         ]}
-      />
+      </OnboardProgressNav>
       <OnboardProgressContent
         stepId="1"
         next={{

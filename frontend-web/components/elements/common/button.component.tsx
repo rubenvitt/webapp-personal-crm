@@ -2,9 +2,9 @@ import { faSpinner } from "@fortawesome/pro-light-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
-import { ActionType } from "../../../globals/interfaces";
-import { MaybeAsyncAction } from "../../../globals/types";
-import { classNames, getColorForType } from "../../../globals/utils";
+import { ActionType } from "../../../global/interfaces";
+import { MaybeAsyncAction } from "../../../global/types";
+import { classNames, getColorForType } from "../../../global/utils";
 
 export type Props = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,

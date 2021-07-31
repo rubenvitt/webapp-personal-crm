@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
-import { LogEntry, LogEntryType } from "../../../globals/interfaces";
+import { LogEntry, LogEntryType } from "../../../global/interfaces";
 
 export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
 

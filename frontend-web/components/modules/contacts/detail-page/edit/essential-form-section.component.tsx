@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import create from "zustand";
-import { BirthdayInput } from "../../../../components/elements/common/birthday-input.component";
-import { TextInput } from "../../../../components/elements/common/input.component";
+import { BirthdayInput } from "../../../../elements/common/birthday-input.component";
+import { TextInput } from "../../../../elements/common/input.component";
 import {
   Birthday,
   Birthdayed,
@@ -9,11 +9,11 @@ import {
   Gendered,
   PersonDetails,
   RichName,
-} from "../../../../globals/interfaces";
-import { Logger } from "../../../../globals/logging";
-import { GenderInput } from "../../../../components/elements/common/gender.input.component";
-import { FormSection } from "../../../../components/modules/common/form/section.component";
-import { SelectInput } from "../../../../components/elements/common/select.input.component";
+} from "../../../../../global/interfaces";
+import { Logger } from "../../../../../global/logging";
+import { GenderInput } from "../../../../elements/common/gender.input.component";
+import { FormSection } from "../../../common/form/section.component";
+import { SelectInput } from "../../../../elements/common/select.input.component";
 
 interface Props {
   personDetails?: PersonDetails;
@@ -185,7 +185,7 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           required={
             !formValue.firstName && !formValue.lastName && !formValue.nickName
           }
-          onChange={setFirstName}
+          change={setFirstName}
           value={formValue.firstName}
           title={"Vorname"}
           className={"col-span-4 sm:col-span-2"}
@@ -194,7 +194,7 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           required={
             !formValue.firstName && !formValue.lastName && !formValue.nickName
           }
-          onChange={setLastName}
+          change={setLastName}
           value={formValue.lastName}
           title={"Nachname"}
           className={"col-span-4 sm:col-span-2"}
@@ -203,7 +203,7 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           required={
             !formValue.firstName && !formValue.lastName && !formValue.nickName
           }
-          onChange={setNickName}
+          change={setNickName}
           value={formValue.nickName}
           title={"Spitzname"}
           className={"col-span-4 sm:col-span-2"}

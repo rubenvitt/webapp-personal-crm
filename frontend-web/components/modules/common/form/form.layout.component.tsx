@@ -2,13 +2,10 @@ import { faSpinner } from "@fortawesome/pro-light-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
 import React, { Fragment, useRef, useState } from "react";
-import { classNames } from "../../../../globals/utils";
-import {
-  MaybeAsyncAction,
-  WithForcedChildren,
-} from "../../../../globals/types";
+import { classNames } from "../../../../global/utils";
+import { MaybeAsyncAction, WithForcedChildren } from "../../../../global/types";
 import { Button } from "../../../elements/common/button.component";
-import { ActionType } from "../../../../globals/interfaces";
+import { ActionType } from "../../../../global/interfaces";
 
 type Props = WithForcedChildren<{
   cancel?: {

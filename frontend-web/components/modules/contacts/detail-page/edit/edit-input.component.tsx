@@ -14,8 +14,8 @@ import {
   ActionType,
   IsLoadingAction,
   PersonCommunicationChannel,
-} from "../../../../../globals/interfaces";
-import { classNames } from "../../../../../globals/utils";
+} from "../../../../../global/interfaces";
+import { classNames } from "../../../../../global/utils";
 
 interface InputOptions {
   title?: string;

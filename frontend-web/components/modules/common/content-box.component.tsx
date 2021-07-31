@@ -4,9 +4,9 @@ import _uniqueId from "lodash/uniqueId";
 import React, { useState } from "react";
 import { isMobile } from "react-device-detect";
 import UseKey from "react-use/lib/component/UseKey";
-import { ActionType } from "../../../globals/interfaces";
-import { MaybeAsyncAction, WithForcedChildren } from "../../../globals/types";
-import { classNames } from "../../../globals/utils";
+import { ActionType } from "../../../global/interfaces";
+import { MaybeAsyncAction, WithForcedChildren } from "../../../global/types";
+import { classNames } from "../../../global/utils";
 import { Button } from "../../elements/common/button.component";
 
 type Props = WithForcedChildren<{

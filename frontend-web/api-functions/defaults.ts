@@ -1,7 +1,7 @@
 import { PageRoute } from "@auth0/nextjs-auth0";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { withPageAuthRequired } from "../globals/auth0";
+import { withPageAuthRequired } from "../config/auth0";
 
 export function withAuthenticatedTranslatedServerSideProps(props?: {
   additionalProps?: (context: GetServerSidePropsContext) => unknown;

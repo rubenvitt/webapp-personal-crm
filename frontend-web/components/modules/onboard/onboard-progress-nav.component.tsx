@@ -1,6 +1,7 @@
 import { faCheck } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { WithTypedChildren } from "../../../global/types";
 
 interface Step {
   id: string;
@@ -9,16 +10,14 @@ interface Step {
   status: "current" | "complete" | "upcomming";
 }
 
-interface Props {
-  steps: Step[];
-}
+type Props = WithTypedChildren<Step[]>;
 
-export const OnboardProgressNav: React.FC<Props> = ({ steps }) => {
+export function OnboardProgressNav({ children }: Props): JSX.Element {
   return (
     <>
       <nav aria-label="Progress">
         <ol className="border shadow rounded-t-lg divide-y divide-gray-300 md:flex md:divide-y-0">
-          {steps.map((step, stepIdx) => (
+          {children.map((step, stepIdx) => (
             <li key={step.name} className="relative md:flex-1 md:flex">
               {step.status === "complete" ? (
                 <a href={step.href} className="group flex items-center w-full">
@@ -62,7 +61,7 @@ export const OnboardProgressNav: React.FC<Props> = ({ steps }) => {
                 </a>
               )}
 
-              {stepIdx !== steps.length - 1 ? (
+              {stepIdx !== children.length - 1 ? (
                 <>
                   {/* Arrow separator for lg screens and up */}
                   <div
@@ -91,4 +90,4 @@ export const OnboardProgressNav: React.FC<Props> = ({ steps }) => {
       </nav>
     </>
   );
-};
+}

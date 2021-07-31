@@ -1,5 +1,6 @@
-import { Person } from "../../../globals/interfaces";
-import { classNames } from "../../../globals/utils";
+import { Person } from "../../../../global/interfaces";
+import { classNames } from "../../../../global/utils";
+import React from "react";
 
 export interface ItemProps {
   person: Person;
@@ -10,12 +11,12 @@ interface Props {
   loading?: boolean;
   title: string;
   className?: string;
-  Item: React.FC<ItemProps>;
+  Item: (props: ItemProps) => JSX.Element;
   hideOnEmpty?: boolean;
   grid?: boolean;
 }
 
-export const PersonList: React.FC<Props> = ({
+export function PersonList({
   persons,
   loading,
   title,
@@ -23,7 +24,7 @@ export const PersonList: React.FC<Props> = ({
   Item,
   hideOnEmpty,
   grid = true,
-}) => {
+}: Props): JSX.Element {
   if (hideOnEmpty && !(persons?.length > 0)) {
     return <></>;
   }
@@ -48,4 +49,4 @@ export const PersonList: React.FC<Props> = ({
       </ul>
     </div>
   );
-};
+}

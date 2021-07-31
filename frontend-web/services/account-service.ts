@@ -2,8 +2,8 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import axios from "../axios";
-import { AppUser } from "../globals/interfaces";
-import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../globals/urls";
+import { AppUser } from "../global/interfaces";
+import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../global/urls";
 
 const updateUser = async (data: AppUser) => {
   return await axios.patch("/user", data);
