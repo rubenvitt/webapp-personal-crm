@@ -1,13 +1,13 @@
-import { useRouter } from "next/router";
 import { IdOnly } from "./interfaces";
+import { useAppRouter } from "./router";
 
 export const usePersonNavigate: () => {
   navigateTo: (aPerson?: IdOnly) => Promise<boolean>;
 } = () => {
-  const { push } = useRouter();
+  const { push } = useAppRouter();
 
   const navigateTo = (aPerson?: IdOnly) => {
-    return push("/app/contacts/" + (aPerson?._id ?? ""));
+    return push("/contacts/" + (aPerson?._id ?? ""));
   };
 
   return { navigateTo };
