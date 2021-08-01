@@ -32,16 +32,16 @@ function classNames(...classes) {
 
 export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { sidebarNav, userNav, addItemsNav, setSidebarCurrent } =
-    useNavigation();
+  const { sidebarNav, userNav, addItemsNav } = useNavigation();
   const router = useRouter();
   // TODO: change to real method & use authentication context
   const { currentUser } = useCurrentUser();
+  const [currentLink, setCurrentLink] = useState<string>();
 
   useEffect(() => {
     Logger.log("Set sidebar current to", router.pathname);
-    setSidebarCurrent(router.pathname);
-  }, [router.pathname]);
+    setCurrentLink(router.pathname);
+  }, [router.pathname, sidebarNav]);
   const { t } = useTranslation("common");
 
   return (
@@ -72,17 +72,17 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
               <Link href={item.href} key={item.name}>
                 <a
                   className={classNames(
-                    item.current
+                    item.href === currentLink
                       ? "bg-primary-800 text-white"
                       : "text-primary-100 hover:bg-primary-800 hover:text-white",
                     "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                   )}
-                  aria-current={item.current ? "page" : undefined}
+                  aria-current={item.href === currentLink ? "page" : undefined}
                 >
                   <FontAwesomeIcon
                     icon={item.icon}
                     className={classNames(
-                      item.current
+                      item.href === currentLink
                         ? "text-white"
                         : "text-primary-300 group-hover:text-white",
                       "h-6 w-6 text-xl"
@@ -170,17 +170,19 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                           <a
                             onClick={() => setMobileMenuOpen(false)}
                             className={classNames(
-                              item.current
+                              item.href === currentLink
                                 ? "bg-primary-800 text-white"
                                 : "text-primary-100 hover:bg-primary-800 hover:text-white",
                               "group py-2 px-3 rounded-md flex items-center text-sm font-medium"
                             )}
-                            aria-current={item.current ? "page" : undefined}
+                            aria-current={
+                              item.href === currentLink ? "page" : undefined
+                            }
                           >
                             <FontAwesomeIcon
                               icon={item.icon}
                               className={classNames(
-                                item.current
+                                item.href === currentLink
                                   ? "text-white"
                                   : "text-primary-300 group-hover:text-white",
                                 "mr-3 h-6 w-6 text-lg"

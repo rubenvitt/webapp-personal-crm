@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import create from "zustand";
 import { NavElement, Navigation } from "../global/interfaces";
 
-const useNavigationStore = create<Navigation>((set, get) => ({
+const useNavigationStore = create<Navigation>(() => ({
   userNav: [
     { name: "user.profile", href: "/app/settings" },
     { name: "user.logout", href: "/api/auth/logout" },
@@ -34,15 +34,6 @@ const useNavigationStore = create<Navigation>((set, get) => ({
     { name: "sidebar.log", href: "/app/diary", icon: faList },
     { name: "sidebar.settings", href: "/app/settings", icon: faCog },
   ],
-  setSidebarCurrent: (path) => {
-    const navElements = get().sidebarNav;
-    navElements.forEach((value) => {
-      value.current = value.href === path;
-    });
-    set({
-      sidebarNav: navElements,
-    });
-  },
 }));
 
 function translateNav(addItemsNav: NavElement[], t: TFunction): NavElement[] {
@@ -55,8 +46,7 @@ function translateNav(addItemsNav: NavElement[], t: TFunction): NavElement[] {
 }
 
 export function useNavigation(): Navigation {
-  const { addItemsNav, userNav, sidebarNav, footerNav, setSidebarCurrent } =
-    useNavigationStore();
+  const { addItemsNav, userNav, sidebarNav, footerNav } = useNavigationStore();
   const [_addItemsNav, setAddItemsNav] = useState(addItemsNav);
   const [_userNav, setUserNAv] = useState(userNav);
   const [_sidebarNav, setSidebarNav] = useState(sidebarNav);
@@ -81,7 +71,6 @@ export function useNavigation(): Navigation {
   }, [footerNav, locale]);
 
   return {
-    setSidebarCurrent,
     addItemsNav: _addItemsNav,
     userNav: _userNav,
     sidebarNav: _sidebarNav,

@@ -7,7 +7,6 @@ export interface NavElement {
   onClick?: () => void;
   name: string;
   active?: boolean;
-  current?: boolean;
   icon?: IconDefinition;
 }
 
@@ -16,7 +15,6 @@ export interface Navigation {
   userNav: NavElement[];
   addItemsNav: NavElement[];
   footerNav: NavElement[];
-  setSidebarCurrent: (path: string) => void;
 }
 
 export interface User {
