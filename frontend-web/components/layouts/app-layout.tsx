@@ -280,7 +280,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                       >
                         <Menu.Items
                           static
-                          className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                          className="z-20 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                         >
                           {userNav.map((item) => (
                             <Menu.Item key={item.name}>

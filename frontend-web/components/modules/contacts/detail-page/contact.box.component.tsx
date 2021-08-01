@@ -58,6 +58,7 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                           (value) => value._id !== element._id
                         ),
                       ],
+                      ...person.contact,
                     },
                   },
                   false
@@ -82,6 +83,7 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                           type: PhoneType.MOBILE,
                         },
                       ],
+                      ...person.contact,
                     },
                   },
                   false
@@ -102,31 +104,20 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                     ...person,
                     contact: {
                       phone: [
-                        person.contact.phone.map((elem) => {
+                        ...person.contact.phone.map((elem) => {
                           if (elem._id === value._id) {
                             return { ...elem, value: value.value };
                           }
                           return elem;
                         }),
                       ],
+                      ...person.contact,
                     },
                   },
                   false
                 );
                 await updatePhoneNumber(person, value);
-                mutate(`${URL_API_Persons}/${person._id}`, {
-                  ...person,
-                  contact: {
-                    phone: [
-                      ...person.contact.phone.map((elem) => {
-                        if (elem._id === value._id) {
-                          return { ...elem, value: value.value };
-                        }
-                        return elem;
-                      }),
-                    ],
-                  },
-                });
+                mutate(`${URL_API_Persons}/${person._id}`);
               },
             }}
             isEdit={isEdit}
@@ -151,6 +142,7 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                   ...person,
                   contact: {
                     mail: [...(person.contact.mail ?? []), element],
+                    ...person.contact,
                   },
                 });
                 await addMailAddress(person, element);
@@ -173,24 +165,13 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                           return elem;
                         }),
                       ],
+                      ...person.contact,
                     },
                   },
                   false
                 );
                 await updateMailAddress(person, value);
-                mutate(`${URL_API_Persons}/${person._id}`, {
-                  ...person,
-                  contact: {
-                    phone: [
-                      person.contact.phone.map((elem) => {
-                        if (elem._id === value._id) {
-                          return { ...elem, value: value.value };
-                        }
-                        return elem;
-                      }),
-                    ],
-                  },
-                });
+                mutate(`${URL_API_Persons}/${person._id}`);
               },
             }}
             deleteItem={{
@@ -205,6 +186,7 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                           (value) => value._id !== element._id
                         ),
                       ],
+                      ...person.contact,
                     },
                   },
                   false

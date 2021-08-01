@@ -150,91 +150,98 @@ const InputListItem: <T extends PersonCommunicationChannel>(
   const [touched, setTouched] = useState<boolean>();
   const [currentValue, setCurrentValue] = useState<string>();
 
+  const currentSelected = element._id === selectedId;
   return (
     <li
       key={element._id}
       className={classNames(
         isEdit && "py-1",
-        isEdit && selectedId === element._id && "border-primary-500",
-        "flex justify-center items-center px-3 border-2 space-x-2 border-transparent rounded-md"
+        isEdit && currentSelected && "border-primary-500",
+        "justify-center px-3 border-2 border-transparent rounded-md"
       )}
     >
-      <p className={classNames(isEdit ? "hidden" : "block", "w-6")}>
-        {element._id === selectedId && <FontAwesomeIcon icon={faStars} />}
-      </p>
-      {isEdit && deleteItem && (
-        <Button
-          action={() => {
-            return deleteItem.action(element);
-          }}
-          actionType={ActionType.DANGER}
-          className="self-center rounded-full "
-        >
-          <FontAwesomeIcon icon={faTrash} />
-        </Button>
-      )}
-      {CustomEditInput ? (
-        <CustomEditInput
-          isEdit={isEdit && Boolean(updateItem)}
-          onChange={(aValue) => {
-            if (aValue !== element?.value) setTouched(true);
-            else setTouched(false);
-          }}
-          initialElement={element}
-          inputOptions={inputOptions}
-        />
-      ) : (
-        <EditInput
-          initialElement={element}
-          onChange={(aValue) => {
-            if (aValue !== element?.value) setTouched(true);
-            else setTouched(false);
-            setCurrentValue(aValue);
-          }}
-          isEdit={isEdit && Boolean(updateItem)}
-          inputOptions={inputOptions}
-        />
-      )}
-      {updateItem && isEdit && touched && (
-        <div className="flex space-x-1">
-          <Button
-            actionType={ActionType.INFO}
-            className={classNames("self-center")}
-            action={async () => {
-              setTouched(false);
-              await updateItem.action({
-                ...element,
-                value: currentValue,
-              });
-            }}
-          >
-            Update
-          </Button>
-        </div>
-      )}
-      <RadioGroup.Option
-        value={element._id}
-        className={({ active }) =>
-          classNames(
-            !isEdit ? "hidden" : "relative block cursor-pointer py-4",
-            active ? "" : "",
-            "rounded-lg px-4 focus:outline-none"
-          )
-        }
+      <form
+        className="flex items-center space-x-2"
+        onSubmit={async (event) => {
+          event.preventDefault();
+          setTouched(false);
+          await updateItem.action({
+            ...element,
+            value: currentValue,
+          });
+        }}
       >
-        {({ checked, active }) => (
-          <div className="flex space-x-2">
-            <FontAwesomeIcon
-              title="Als Standardnummer markieren"
-              className={classNames(
-                checked || isEdit ? "block" : "hidden",
-                "text-2xl"
-              )}
-              icon={checked ? fasCrown : active ? farCrown : faCircle}
-            />
+        <p className={classNames(isEdit ? "hidden" : "block", "w-6")}>
+          {currentSelected && <FontAwesomeIcon icon={faStars} />}
+        </p>
+        {isEdit && deleteItem && (
+          <Button
+            action={() => {
+              return deleteItem.action(element);
+            }}
+            actionType={ActionType.DANGER}
+            className="self-center rounded-full "
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
+        )}
+        {CustomEditInput ? (
+          <CustomEditInput
+            isEdit={isEdit && Boolean(updateItem)}
+            onChange={(aValue) => {
+              if (aValue !== element?.value) setTouched(true);
+              else setTouched(false);
+            }}
+            initialElement={element}
+            inputOptions={inputOptions}
+          />
+        ) : (
+          <EditInput
+            initialElement={element}
+            onChange={(aValue) => {
+              if (aValue !== element?.value) setTouched(true);
+              else setTouched(false);
+              setCurrentValue(aValue);
+            }}
+            isEdit={isEdit && Boolean(updateItem)}
+            inputOptions={inputOptions}
+          />
+        )}
+        {updateItem && isEdit && touched && (
+          <div className="flex space-x-1">
+            <Button
+              actionType={ActionType.INFO}
+              className={classNames("self-center")}
+              type="submit"
+            >
+              Update
+            </Button>
           </div>
         )}
-      </RadioGroup.Option>
+        <RadioGroup.Option
+          value={element._id}
+          className={({ active }) =>
+            classNames(
+              !isEdit ? "hidden" : "relative block cursor-pointer py-4",
+              active ? "" : "",
+              "rounded-lg px-4 focus:outline-none"
+            )
+          }
+        >
+          {({ checked, active }) => (
+            <div className="flex space-x-2">
+              <FontAwesomeIcon
+                title="Als Standardnummer markieren"
+                className={classNames(
+                  checked || isEdit ? "block" : "hidden",
+                  "text-2xl"
+                )}
+                icon={checked ? fasCrown : active ? farCrown : faCircle}
+              />
+            </div>
+          )}
+        </RadioGroup.Option>
+      </form>
     </li>
   );
 };
@@ -263,13 +270,13 @@ const EditInput: <T extends PersonCommunicationChannel>(
   useEffect(() => setValue(initialElement?.value as string), [isEdit]);
 
   return (
-    <div className="flex flex-1 grid grid-cols-3 md:grid-cols-4">
+    <div className="flex flex-1">
       {isEdit ? (
         <TextInput
           inputRef={inputRef}
           autoComplete={autocomplete}
           type={inputType}
-          className="col-span-3"
+          className="flex-1 mr-3"
           placeholder={placeholder}
           change={(aValue) => {
             onChange?.(aValue);

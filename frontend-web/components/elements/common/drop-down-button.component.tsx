@@ -16,7 +16,6 @@ type ButtonProps = WithChildren<{
   customDropdownIcon?: IconDefinition;
   className: string;
   type?: ActionType;
-  children: JSX.Element[];
   title: JSX.Element | string;
   titleText?: string;
 }>;
