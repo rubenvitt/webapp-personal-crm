@@ -46,22 +46,12 @@ export const createPerson: (aPerson: CreatePerson) => Promise<IdOnly> = async (
 export const updatePerson: (aPerson: UpdatePerson) => Promise<unknown> = async (
   aPerson
 ) => {
-  Logger.log("UPDATING PERSON", aPerson);
-  return axios.get("/test");
-  /*return axios
-    .post<unknown>("/persons/" + aPerson._id, aPerson)
+  return axios
+    .put<unknown>("/persons/" + aPerson._id, aPerson)
     .then((value) => {
       Logger.log("Response", value);
       return value.data;
-    })
-    .catch(function (error) {
-      console.log(
-        "There has been a problem with your fetch operation: ",
-        error.response
-      );
-      // ADD THIS THROW error
-      throw error;
-    });*/
+    });
 };
 
 export const deletePerson: (aPerson: IdOnly) => Promise<void> = async (

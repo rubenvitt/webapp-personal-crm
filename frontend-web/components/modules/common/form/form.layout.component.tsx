@@ -53,9 +53,6 @@ export function FormLayout({
         <Button
           actionType={ActionType.PRIMARY}
           isDisabled={isLoading}
-          action={() => {
-            return form.current.submit();
-          }}
           className={classNames(
             isLoading
               ? "bg-primary-400"
