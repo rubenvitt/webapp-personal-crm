@@ -1,5 +1,5 @@
 import { ActionType } from "../../../global/interfaces";
-import { WithForcedChildren } from "../../../global/types";
+import { MaybeAsyncAction, WithForcedChildren } from "../../../global/types";
 import { Button } from "../../elements/common/button.component";
 import { Dialog } from "./dialog.component";
 import { Dialog as HeadlessDialog } from "@headlessui/react";
@@ -18,7 +18,7 @@ type Props = WithForcedChildren<{
   };
   success?: {
     label?: string;
-    action: () => Promise<void>;
+    action: MaybeAsyncAction;
     visible?: boolean;
     type?: ActionType;
     isLoading?: boolean;

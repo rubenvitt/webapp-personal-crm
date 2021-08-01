@@ -29,29 +29,10 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
       <FormLayout
         cancel={{ action: navigateTo }}
         save={{
-          /*action: async () => {
-                                                                        console.log("update person");
-                                                                        mutatePerson(
-                                                                          {
-                                                                            _id: person._id,
-                                                                            ...essentialFormValue,
-                                                                          },
-                                                                          false
-                                                                        )
-                                                                          .then(() => {
-                                                                            mutatePerson(
-                                                                              updatePerson({
-                                                                                _id: person._id,
-                                                                                ...essentialFormValue,
-                                                                              })
-                                                                            );
-                                                                          })
-                                                                          .then(() => {
-                                                                            mutate(URL_API_Persons);
-                                                                          });
-                                                                      },*/
           action: () => {
-            return updatePerson(essentialFormValue).then(navigateTo);
+            return Promise.resolve(updatePerson(essentialFormValue)).then(
+              navigateTo
+            );
           },
         }}
       >

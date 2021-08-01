@@ -23,16 +23,21 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  Logger.log("update user:", req.body);
+  Logger.log("I am here");
+  res.status(200).send({});
 
-  const result = await apiUpdatePerson(req.body);
-  Logger.log("returning:", result);
-  if (result.n === result.ok) {
-    await res.status(200).send(null);
-  } else {
-    await res.status(400).json({
-      status: "Person with id " + req.body._id + " not updated",
-    });
+  if (false) {
+    Logger.log("update user:", req.body);
+
+    const result = await apiUpdatePerson(req.body);
+    Logger.log("returning:", result);
+    if (result.n === result.ok) {
+      await res.status(200).send(null);
+    } else {
+      await res.status(400).json({
+        status: "Person with id " + req.body._id + " not updated",
+      });
+    }
   }
 });
 

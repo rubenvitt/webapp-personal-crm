@@ -1,9 +1,10 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
 import { TextInput } from "./input.component";
 import { Gendered } from "../../../global/interfaces";
 import { classNames } from "../../../global/utils";
+import { faCheck } from "@fortawesome/pro-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   disabled: boolean;
@@ -148,7 +149,11 @@ const Option: React.FC<{
             "absolute inset-y-0 left-0 flex items-center pl-1.5 group-hover:text-white text-primary-600"
           )}
         >
-          <CheckIcon className="h-5 w-5" aria-hidden="true" />
+          <FontAwesomeIcon
+            icon={faCheck}
+            className="h-5 w-5"
+            aria-hidden={true}
+          />
         </span>
       ) : null}
     </Listbox.Option>

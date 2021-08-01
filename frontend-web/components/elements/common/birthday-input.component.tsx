@@ -343,7 +343,7 @@ export const BirthdayInput: React.FC<Props> = ({
                     event.currentTarget.value,
                 });
               }}
-              value={monthYear ? Month[monthYear.split("-")[1]] : 0}
+              value={monthYear ? monthYear.split("-")[1] : 0}
               className={classNames(
                 dateType === DateType.YEAR_MONTH ? "block" : "hidden",
                 "flex-1 border rounded-bl-md border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"

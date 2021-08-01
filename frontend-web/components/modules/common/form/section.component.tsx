@@ -1,18 +1,19 @@
 import React from "react";
 import { classNames } from "../../../../global/utils";
+import { WithChildren } from "../../../../global/types";
 
-interface Props {
+type Props = WithChildren<{
   title: string;
   description: string;
   titleAsRow?: boolean;
-}
+}>;
 
-export const FormSection: React.FC<Props> = ({
+export function FormSection({
   children,
   title,
   description,
   titleAsRow,
-}) => {
+}: Props): JSX.Element {
   return (
     <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
       <div
@@ -33,4 +34,4 @@ export const FormSection: React.FC<Props> = ({
       </div>
     </div>
   );
-};
+}

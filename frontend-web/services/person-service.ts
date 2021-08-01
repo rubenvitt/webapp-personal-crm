@@ -13,6 +13,8 @@ import { URL_API_Persons } from "../global/urls";
 import { AxiosError } from "axios";
 import { usePersonNavigate } from "../global/person-utils";
 import { Omit } from "ast-types/types";
+import { MaybeAsyncAction } from "../global/types";
+import { Logger } from "../global/logging";
 
 export const findAllPersons: () => Promise<Person[]> = async () => {
   return axios
@@ -41,12 +43,25 @@ export const createPerson: (aPerson: CreatePerson) => Promise<IdOnly> = async (
     .catch(() => undefined);
 };
 
-export const updatePerson: (aPerson: UpdatePerson) => Promise<void> = async (
+export const updatePerson: (aPerson: UpdatePerson) => Promise<unknown> = async (
   aPerson
 ) => {
-  return axios
-    .put<void>("/persons/" + aPerson._id, aPerson)
-    .then((value) => value.data);
+  Logger.log("UPDATING PERSON", aPerson);
+  return axios.get("/test");
+  /*return axios
+    .post<unknown>("/persons/" + aPerson._id, aPerson)
+    .then((value) => {
+      Logger.log("Response", value);
+      return value.data;
+    })
+    .catch(function (error) {
+      console.log(
+        "There has been a problem with your fetch operation: ",
+        error.response
+      );
+      // ADD THIS THROW error
+      throw error;
+    });*/
 };
 
 export const deletePerson: (aPerson: IdOnly) => Promise<void> = async (
@@ -137,10 +152,10 @@ const useCacheInvalidations = () => {
   };
 };
 
-export const usePersonMutation: (aPerson: IdOnly) => {
-  deletePerson: () => Promise<void>;
-  updatePerson: (essentialFormValue: unknown) => Promise<void>;
-} = (aPerson: IdOnly) => {
+export function usePersonMutation(aPerson: IdOnly): {
+  deletePerson: MaybeAsyncAction;
+  updatePerson: MaybeAsyncAction<unknown>;
+} {
   const url = URL_API_Persons + "/" + aPerson._id;
   const { mutate } = useSWR<PersonDetails>(url);
   const { invalidateFavorites, invalidatePersons } = useCacheInvalidations();
@@ -175,7 +190,7 @@ export const usePersonMutation: (aPerson: IdOnly) => {
     deletePerson: mutateDelete,
     updatePerson: mutateUpdate,
   };
-};
+}
 
 export const usePersons: (filters?: string) => {
   persons?: Person[];

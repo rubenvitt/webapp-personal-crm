@@ -116,6 +116,7 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
           <Button
             isLoading={isAdding}
             className={classNames(isEdit ? "block" : "hidden")}
+            type="submit"
           >
             Hinzufügen
           </Button>
@@ -265,7 +266,7 @@ const EditInput: <T extends PersonCommunicationChannel>(
     <div className="flex flex-1 grid grid-cols-3 md:grid-cols-4">
       {isEdit ? (
         <TextInput
-          ref={inputRef}
+          inputRef={inputRef}
           autoComplete={autocomplete}
           type={inputType}
           className="col-span-3"

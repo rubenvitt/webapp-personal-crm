@@ -3,7 +3,7 @@ import { faClipboard } from "@fortawesome/pro-light-svg-icons";
 import { faExclamation } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import _uniqueId from "lodash/uniqueId";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Ref, useEffect, useRef, useState } from "react";
 import { useCopyToClipboard } from "react-use";
 import { ActionType } from "../../../global/interfaces";
 import { MaybeAsyncAction } from "../../../global/types";
@@ -13,6 +13,7 @@ export type Props = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 > & {
+  inputRef?: Ref<HTMLInputElement>;
   label?: string;
   error?: string;
   errorIcon?: IconProp;
@@ -25,7 +26,7 @@ export type Props = React.DetailedHTMLProps<
 };
 
 export const TextInput: React.FC<Props> = ({
-  ref,
+  inputRef,
   label,
   error,
   errorIcon,
@@ -74,8 +75,8 @@ export const TextInput: React.FC<Props> = ({
           copyOnly
             ? () => {
                 copy(
-                  ((ref as { current?: { value: string } })?.current?.value ??
-                    _ref.current?.value) as string
+                  ((inputRef as { current?: { value: string } })?.current
+                    ?.value ?? _ref.current?.value) as string
                 );
               }
             : undefined
@@ -98,7 +99,7 @@ export const TextInput: React.FC<Props> = ({
         )}
         <input
           id={id}
-          ref={ref || _ref}
+          ref={inputRef || _ref}
           onChange={(event) => {
             setValue(event.target.value);
             new Promise(() => {

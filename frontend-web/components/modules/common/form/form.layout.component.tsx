@@ -31,11 +31,13 @@ export function FormLayout({
     <form
       ref={form}
       className={classNames(className, "space-y-6")}
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
         if (!isLoading) {
           if (save?.action) {
-            Promise.resolve(save.action).then(() => setLoading(false));
+            await Promise.resolve(save.action?.()).then(() =>
+              setLoading(false)
+            );
           }
         }
       }}

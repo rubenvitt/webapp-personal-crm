@@ -5,7 +5,7 @@ module.exports = {
     AUTH0_BASE_URL:
       process.env.NEXT_PUBLIC_VERCEL_URL ||
       process.env.AUTH0_BASE_URL ||
-      "http://localhost:" + (process.env.PORT ?? "3003"),
+      "http://localhost:" + (process.env.PORT ?? "3000"),
   },
   i18n: require("./next-i18next.config").i18n,
   images: {
