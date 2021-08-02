@@ -1,6 +1,3 @@
-[submodule "radicale-api"]
-	path = radicale-api
-	url = https://github.com/rubenvitt/radicale-api
 [submodule "sabre-api"]
 	path = sabre-api
 	url = https://github.com/rubenvitt/sabre-api
