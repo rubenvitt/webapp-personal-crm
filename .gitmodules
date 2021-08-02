@@ -5,3 +5,4 @@
 [submodule "radicale-api"]
 	path = radicale-api
 	url = https://github.com/rubenvitt/radicale-api
+	branch = main
