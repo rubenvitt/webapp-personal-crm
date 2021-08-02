@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import React, { useEffect, useRef, useState } from "react";
 import create from "zustand";
 import { Birthday, DateType } from "../../../global/interfaces";
@@ -18,15 +19,15 @@ interface Props {
 const labelFor = (aDateType: DateType) => {
   switch (aDateType) {
     case DateType.EXACT:
-      return "Exaktes Datum";
+      return "controls.birthday.select-label.exact";
     case DateType.MONTH_DAY:
-      return "Monat und Tag";
+      return "controls.birthday.select-label.month-day";
     case DateType.YEAR_MONTH:
-      return "Monat und Jahr";
+      return "controls.birthday.select-label.year-month";
     case DateType.AGE:
-      return "Ungefähres Alter";
+      return "controls.birthday.select-label.approx-age";
     case DateType.UNKNOWN:
-      return "Alter Unbekannt";
+      return "controls.birthday.select-label.unknown";
   }
 };
 
@@ -141,6 +142,7 @@ export const BirthdayInput: React.FC<Props> = ({
   }, [get()?.dateValue, get()?.dateType]);
 
   const [month, setMonth] = useState("JANUARY");
+  const { t } = useTranslation("common");
 
   return (
     <>
@@ -149,7 +151,7 @@ export const BirthdayInput: React.FC<Props> = ({
           htmlFor={"birthday"}
           className={classNames("block", "text-sm font-medium text-gray-700")}
         >
-          Geburtstag
+          {t("controls.birthday.label")}
           {required && <span className="text-red-500">*</span>}
         </label>
         <div className="mt-1 relative flex flex-col focus-within:z-10">
@@ -207,7 +209,7 @@ export const BirthdayInput: React.FC<Props> = ({
             {Object.keys(DateType).map((element) => {
               return (
                 <option key={element} value={element}>
-                  {labelFor(DateType[element])}
+                  {t(labelFor(DateType[element]))}
                 </option>
               );
             })}
@@ -222,7 +224,7 @@ export const BirthdayInput: React.FC<Props> = ({
             required={dateType === DateType.EXACT}
             disabled={disabled}
             autoComplete="bday"
-            placeholder="Geburtstag"
+            placeholder={t("controls.birthday.placeholder")}
             onChange={(event) => {
               set({
                 dateType: DateType.EXACT,
@@ -246,7 +248,7 @@ export const BirthdayInput: React.FC<Props> = ({
             max={(dateType === DateType.AGE && 150) || undefined}
             disabled={disabled}
             autoComplete="bday"
-            placeholder="Ungefähres Alter"
+            placeholder={t("controls.birthday.placeholder-approx-age")}
             onChange={(event) => {
               set({
                 dateType: DateType.AGE,
@@ -292,7 +294,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   const month = Month[monthName];
                   return (
                     <option key={month} value={month}>
-                      {nameFor(month)}
+                      {t(nameFor(month))}
                     </option>
                   );
                 })}
@@ -355,7 +357,7 @@ export const BirthdayInput: React.FC<Props> = ({
                   const month = Month[monthName];
                   return (
                     <option key={month} value={month}>
-                      {nameFor(month)}
+                      {t(nameFor(month))}
                     </option>
                   );
                 })}
@@ -376,7 +378,7 @@ export const BirthdayInput: React.FC<Props> = ({
               name="year"
               value={monthYear ? monthYear.split("-")[0] : ""}
               type="number"
-              placeholder="Jahr"
+              placeholder={t("controls.birthday.placeholder-year")}
               required={dateType == DateType.YEAR_MONTH}
               max={new Date().getFullYear()}
               min={new Date().getFullYear() - 150}
