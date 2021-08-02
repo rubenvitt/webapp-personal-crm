@@ -23,6 +23,7 @@ export type Props = React.DetailedHTMLProps<
   iconLeft?: IconProp;
   iconRight?: IconProp;
   inputClassName?: string;
+  title: string;
 };
 
 export const TextInput: React.FC<Props> = ({
@@ -122,6 +123,7 @@ export const TextInput: React.FC<Props> = ({
           )}
           type={rest.type ?? "text"}
           placeholder={rest.placeholder ?? (required ? "required" : "")}
+          required={required}
           {...rest}
         />
         {(error || copyOnly || iconRight) && (

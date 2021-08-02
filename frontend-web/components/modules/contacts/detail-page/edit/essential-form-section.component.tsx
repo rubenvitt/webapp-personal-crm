@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import create from "zustand";
-import { BirthdayInput } from "../../../../elements/common/birthday-input.component";
-import { TextInput } from "../../../../elements/common/input.component";
 import {
   Birthday,
   Birthdayed,
@@ -11,9 +9,11 @@ import {
   RichName,
 } from "../../../../../global/interfaces";
 import { Logger } from "../../../../../global/logging";
+import { BirthdayInput } from "../../../../elements/common/birthday-input.component";
 import { GenderInput } from "../../../../elements/common/gender.input.component";
-import { FormSection } from "../../../common/form/section.component";
+import { TextInput } from "../../../../elements/common/input.component";
 import { SelectInput } from "../../../../elements/common/select.input.component";
+import { FormSection } from "../../../common/form/section.component";
 
 interface Props {
   personDetails?: PersonDetails;
@@ -187,7 +187,8 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           }
           change={setFirstName}
           value={formValue.firstName}
-          title={"Vorname"}
+          title="Vorname"
+          label="Vorname"
           className={"col-span-4 sm:col-span-2"}
         />
         <TextInput
@@ -196,8 +197,9 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           }
           change={setLastName}
           value={formValue.lastName}
-          title={"Nachname"}
-          className={"col-span-4 sm:col-span-2"}
+          title="Nachname"
+          label="Nachname"
+          className="col-span-4 sm:col-span-2"
         />
         <TextInput
           required={
@@ -205,8 +207,9 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           }
           change={setNickName}
           value={formValue.nickName}
-          title={"Spitzname"}
-          className={"col-span-4 sm:col-span-2"}
+          title="Spitzname"
+          label="Spitzname"
+          className="col-span-4 sm:col-span-2"
         />
         <SelectInput
           title="Anzeigename"
@@ -255,18 +258,18 @@ export const EssentialFormSection: React.FC<Props> = ({ personDetails }) => {
           disabled={false}
           onChange={setGender}
           initialValue={{
-            gender: personDetails.gender,
-            anrede: personDetails.anrede,
+            gender: personDetails?.gender,
+            anrede: personDetails?.anrede,
           }}
-          className={"col-span-4 sm:col-span-4"}
+          className="col-span-4 sm:col-span-4"
         />
         <BirthdayInput
-          initialValue={personDetails.birthday}
+          initialValue={personDetails?.birthday}
           required={
             !formValue.birthday?.dateValue &&
             formValue.birthday?.dateType !== DateType.UNKNOWN
           }
-          className={"col-span-4 sm:col-span-2"}
+          className="col-span-4 sm:col-span-2"
           onChange={setBirthday}
         />
       </FormSection>

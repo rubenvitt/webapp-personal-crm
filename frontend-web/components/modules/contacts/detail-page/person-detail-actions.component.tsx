@@ -10,16 +10,19 @@ import {
   faTrash,
 } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { ActionType, PersonDetails } from "../../../../global/interfaces";
+import { Logger } from "../../../../global/logging";
+import { useAppRouter } from "../../../../global/router";
+import { usePersonMutation } from "../../../../services/person-service";
 import {
   DropDownButton,
   DropDownGroup,
   DropDownItem,
 } from "../../../elements/common/drop-down-button.component";
 import { ConfirmDialog } from "../../dialog/confirm-dialog.component";
-import { ActionType, PersonDetails } from "../../../../global/interfaces";
-import { usePersonMutation } from "../../../../services/person-service";
 
 interface Props {
   person: PersonDetails;
@@ -27,6 +30,7 @@ interface Props {
 
 export const PersonDetailActions: React.FC<Props> = ({ person }) => {
   const { push, asPath } = useRouter();
+  const { push: appPush } = useAppRouter();
   const { deletePerson } = usePersonMutation(person);
 
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>();
@@ -127,7 +131,13 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
         success={{
           label: "Löschen",
           type: ActionType.DANGER,
-          action: () => deletePerson(),
+          action: () =>
+            deletePerson()
+              .catch((e: AxiosError) => {
+                Logger.error("My error", e.response);
+                throw e;
+              })
+              .then(() => appPush("/contacts")),
         }}
       >
         <>

@@ -1,3 +1,4 @@
+import { FilterQuery, Types, UpdateWriteOpResult } from "mongoose";
 import {
   CreatePerson,
   IdOnly,
@@ -7,9 +8,8 @@ import {
   PersonPhone,
   UpdatePerson,
 } from "../global/interfaces";
-import { Contact, Person as PersonModel } from "../models/Person";
-import { FilterQuery, Types, UpdateWriteOpResult } from "mongoose";
 import { Logger } from "../global/logging";
+import { Contact, Person as PersonModel } from "../models/Person";
 
 export async function apiFindPersonDetailsFor(
   aPersonId: string
@@ -38,6 +38,7 @@ export async function apiCreatePerson(aPerson: CreatePerson): Promise<IdOnly> {
 export async function apiUpdatePerson(
   aPerson: UpdatePerson
 ): Promise<UpdateWriteOpResult> {
+  Logger.log("Setting", aPerson);
   return PersonModel.updateOne(
     { _id: Types.ObjectId(aPerson._id) },
     {

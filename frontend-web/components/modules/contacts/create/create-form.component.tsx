@@ -1,4 +1,5 @@
 import { mutate } from "swr";
+import { IdOnly } from "../../../../global/interfaces";
 import { usePersonNavigate } from "../../../../global/person-utils";
 import { URL_API_Persons } from "../../../../global/urls";
 import { createPerson } from "../../../../services/person-service";
@@ -13,8 +14,8 @@ export const CreatePersonForm: React.FC = () => {
   const { navigateTo } = usePersonNavigate();
 
   const createContact = async () => {
-    await createPerson(formValue);
-    await mutate(URL_API_Persons).then(() => navigateTo());
+    const idOnly: IdOnly = await createPerson(formValue);
+    return await mutate(URL_API_Persons).then(() => navigateTo(idOnly));
   };
 
   return (

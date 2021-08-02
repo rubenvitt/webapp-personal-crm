@@ -33,6 +33,9 @@ const PersonSchema = new mongoose.Schema({
   lastName: {
     type: String,
   },
+  nickName: {
+    type: String,
+  },
   isFavorite: {
     type: Boolean,
   },
@@ -48,16 +51,16 @@ const PersonSchema = new mongoose.Schema({
 
 PersonSchema.pre("deleteOne", { document: true }, async function () {
   Logger.log("deleting following element:", this);
-  await Contact.deleteMany({
-    _id: {
-      $in: {
-        $or: [
-          this["contact"]?.phone.map((v) => Types.ObjectId(v)),
-          this["contact"]?.mail.map((v) => Types.ObjectId(v)),
+  if (this["contact"]?.phone?.length > 0 || this["contact"]?.mail?.length > 0) {
+    await Contact.deleteMany({
+      _id: {
+        $in: [
+          ...this["contact"]?.phone.map((v) => Types.ObjectId(v)),
+          ...this["contact"]?.mail.map((v) => Types.ObjectId(v)),
         ],
       },
-    },
-  });
+    });
+  }
 });
 
 const ContactSchema = new mongoose.Schema({

@@ -1,10 +1,10 @@
-import { Listbox, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useState } from "react";
-import { TextInput } from "./input.component";
-import { Gendered } from "../../../global/interfaces";
-import { classNames } from "../../../global/utils";
 import { faCheck } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Listbox, Transition } from "@headlessui/react";
+import React, { Fragment, useEffect, useState } from "react";
+import { Gendered } from "../../../global/interfaces";
+import { classNames } from "../../../global/utils";
+import { TextInput } from "./input.component";
 
 interface Props {
   disabled: boolean;
@@ -46,9 +46,15 @@ export const GenderInput: React.FC<Props> = ({
   }, [genderValue, anredeValue]);
 
   useEffect(() => {
-    if (getShortValueFor(genderValue) === "m" && anredeValue === "Sie") {
+    if (
+      getShortValueFor(genderValue) === "m" &&
+      (anredeValue === "Sie" || anredeValue === "" || !anredeValue)
+    ) {
       setAnredeValue("Er");
-    } else if (getShortValueFor(genderValue) === "w" && anredeValue === "Er") {
+    } else if (
+      getShortValueFor(genderValue) === "w" &&
+      (anredeValue === "Er" || anredeValue === "" || !anredeValue)
+    ) {
       setAnredeValue("Sie");
     } else {
       //
@@ -74,7 +80,8 @@ export const GenderInput: React.FC<Props> = ({
             change={(aValue) => {
               setGenderValue(aValue);
             }}
-            title={"Geschlecht"}
+            title="Geschlecht"
+            label="Geschlecht"
             autoComplete="gender"
             value={genderValue}
           />
@@ -106,10 +113,11 @@ export const GenderInput: React.FC<Props> = ({
         </Listbox>
       </div>
       <TextInput
-        required={!anredeValue && required}
-        className={"col-span-4 sm:col-span-2"}
-        title={"Anrede"}
-        placeholder={"z.B.: 'Sie' geht im Wald"}
+        required={required}
+        className="col-span-4 sm:col-span-2"
+        title="Anrede"
+        label="Anrede"
+        placeholder="z.B.: 'Sie' geht im Wald"
         value={anredeValue}
         change={(aValue) => {
           setAnredeValue(aValue);

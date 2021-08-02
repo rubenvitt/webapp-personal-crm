@@ -1,3 +1,7 @@
+import { Omit } from "ast-types/types";
+import { AxiosError } from "axios";
+import useSWR, { mutate as mutateGlobal } from "swr";
+import axios from "../axios";
 import {
   CreatePerson,
   IdOnly,
@@ -7,14 +11,10 @@ import {
   PersonPhone,
   UpdatePerson,
 } from "../global/interfaces";
-import axios from "../axios";
-import useSWR, { mutate as mutateGlobal } from "swr";
-import { URL_API_Persons } from "../global/urls";
-import { AxiosError } from "axios";
-import { usePersonNavigate } from "../global/person-utils";
-import { Omit } from "ast-types/types";
-import { MaybeAsyncAction } from "../global/types";
 import { Logger } from "../global/logging";
+import { usePersonNavigate } from "../global/person-utils";
+import { AsyncAction } from "../global/types";
+import { URL_API_Persons } from "../global/urls";
 
 export const findAllPersons: () => Promise<Person[]> = async () => {
   return axios
@@ -143,14 +143,15 @@ const useCacheInvalidations = () => {
 };
 
 export function usePersonMutation(aPerson: IdOnly): {
-  deletePerson: MaybeAsyncAction;
-  updatePerson: MaybeAsyncAction<unknown>;
+  deletePerson: AsyncAction;
+  updatePerson: AsyncAction<unknown>;
 } {
   const url = URL_API_Persons + "/" + aPerson._id;
   const { mutate } = useSWR<PersonDetails>(url);
   const { invalidateFavorites, invalidatePersons } = useCacheInvalidations();
 
   const mutateDelete = async () => {
+    Logger.warning("Removing person", aPerson);
     mutate(undefined, false);
     await deletePerson(aPerson);
     invalidateFavorites();

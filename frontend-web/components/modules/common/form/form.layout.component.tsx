@@ -2,10 +2,10 @@ import { faSpinner } from "@fortawesome/pro-light-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
 import React, { Fragment, useRef, useState } from "react";
-import { classNames } from "../../../../global/utils";
-import { MaybeAsyncAction, WithForcedChildren } from "../../../../global/types";
-import { Button } from "../../../elements/common/button.component";
 import { ActionType } from "../../../../global/interfaces";
+import { MaybeAsyncAction, WithForcedChildren } from "../../../../global/types";
+import { classNames } from "../../../../global/utils";
+import { Button } from "../../../elements/common/button.component";
 
 type Props = WithForcedChildren<{
   cancel?: {
@@ -33,7 +33,7 @@ export function FormLayout({
       className={classNames(className, "space-y-6")}
       onSubmit={async (event) => {
         event.preventDefault();
-        if (!isLoading) {
+        if (!isLoading && form.current.checkValidity()) {
           if (save?.action) {
             await Promise.resolve(save.action?.()).then(() =>
               setLoading(false)
