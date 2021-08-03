@@ -1,5 +1,5 @@
-import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 import { UserProfile } from "@auth0/nextjs-auth0";
+import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 import { Role } from "auth0";
 
 export interface NavElement {
@@ -192,4 +192,15 @@ export interface AppUser extends UserProfile {
   given_name?: string;
   family_name?: string;
   roles?: Role[];
+  app_data?: {
+    onboarding?: {
+      finishedSteps?: string[];
+      currentStep?: string;
+    };
+  };
+}
+
+export interface OnboardingStep {
+  id: string;
+  name: string;
 }

@@ -42,6 +42,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
     Logger.log("Set sidebar current to", router.pathname);
     setCurrentLink(router.pathname);
   }, [router.pathname, sidebarNav]);
+
   const { t } = useTranslation("common");
 
   return (

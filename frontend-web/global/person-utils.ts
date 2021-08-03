@@ -12,3 +12,5 @@ export const usePersonNavigate: () => {
 
   return { navigateTo };
 };
+
+export const CURRENT_ONBOARD_VERSION = 0;

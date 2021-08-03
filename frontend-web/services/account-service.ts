@@ -2,12 +2,37 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import axios from "../axios";
-import { AppUser } from "../global/interfaces";
+import { AppUser, OnboardingStep } from "../global/interfaces";
+import { MaybeAsyncAction } from "../global/types";
 import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../global/urls";
 
 const updateUser = async (data: AppUser) => {
   return await axios.patch("/user", data);
 };
+
+export function useUserOnboarding(): {
+  updateCurrentStep: MaybeAsyncAction<{
+    step: string;
+    data: unknown;
+  }>;
+  finishOnboarding: MaybeAsyncAction;
+  currentStep?: string;
+  steps: OnboardingStep[];
+} {
+  const { data } =
+    useSWR<{ currentStep: string; steps: OnboardingStep[] }>("/onboarding");
+
+  function updateCurrentStep({ step, data }) {
+    return axios.post("/onboarding/step/" + step, data);
+  }
+
+  return {
+    updateCurrentStep: updateCurrentStep,
+    finishOnboarding: () => undefined,
+    currentStep: data?.currentStep,
+    steps: data?.steps,
+  };
+}
 
 export const useCurrentUser: () => {
   currentUser?: AppUser;

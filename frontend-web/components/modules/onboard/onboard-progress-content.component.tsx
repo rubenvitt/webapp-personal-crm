@@ -1,7 +1,8 @@
-import { Button } from "../../elements/common/button.component";
 import { ActionType } from "../../../global/interfaces";
-import { classNames } from "../../../global/utils";
+import { useAppRouter } from "../../../global/router";
 import { WithForcedChildren } from "../../../global/types";
+import { classNames } from "../../../global/utils";
+import { Button } from "../../elements/common/button.component";
 
 type Props = WithForcedChildren<{
   stepId: string;
@@ -24,6 +25,8 @@ export function OnboardProgressContent({
   next,
   back,
 }: Props): JSX.Element {
+  const { push } = useAppRouter();
+
   return (
     <div
       className={classNames(
@@ -41,7 +44,11 @@ export function OnboardProgressContent({
           {back?.label ?? "Zurück"}
         </Button>
         <Button
-          action={next?.onSubmit}
+          action={() => {
+            return next?.onSubmit().then(() => {
+              return push("/onboarding");
+            });
+          }}
           actionType={ActionType.PRIMARY}
           isDisabled={next?.disabled}
         >

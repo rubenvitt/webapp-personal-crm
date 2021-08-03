@@ -1,5 +1,5 @@
-import nextConnect from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
+import nextConnect from "next-connect";
 import {
   getSession,
   managementClient,
@@ -12,9 +12,14 @@ const handler = nextConnect();
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { user: sessionUser } = getSession(req, res);
 
-  const user = managementClient.getUser({
-    id: sessionUser.sub,
-  });
+  const user = managementClient
+    .getUser({
+      id: sessionUser.sub,
+    })
+    .then((user) => {
+      console.log("my current user", user);
+      return user;
+    });
 
   managementClient
     .getUserRoles({
@@ -25,6 +30,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
         res.send({
           ...user,
           roles,
+          app_metadata: undefined,
         });
       });
     });

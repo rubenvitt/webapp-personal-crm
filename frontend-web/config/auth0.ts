@@ -65,5 +65,6 @@ export const managementClient = new ManagementClient({
   domain: process.env.API_AUTH0_CLIENT_DOMAIN,
   clientId: process.env.API_AUTH0_CLIENT_ID,
   clientSecret: process.env.API_AUTH0_CLIENT_SECRET,
-  scope: "read:users update:users",
+  scope:
+    "read:users update:users create:users_app_metadata delete:users_app_metadata update:users_app_metadata read:users_app_metadata",
 });

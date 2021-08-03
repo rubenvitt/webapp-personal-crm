@@ -1,26 +1,21 @@
 import { faCheck } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { WithTypedChildren } from "../../../global/types";
+import { useAppRouter } from "../../../global/router";
+import { useUserOnboarding } from "../../../services/account-service";
 
-interface Step {
-  id: string;
-  name: string;
-  href: string;
-  status: "current" | "complete" | "upcomming";
-}
+export function OnboardProgressNav(): JSX.Element {
+  const { pathname } = useAppRouter();
+  const { steps } = useUserOnboarding();
 
-type Props = WithTypedChildren<Step[]>;
-
-export function OnboardProgressNav({ children }: Props): JSX.Element {
   return (
     <>
       <nav aria-label="Progress">
         <ol className="border shadow rounded-t-lg divide-y divide-gray-300 md:flex md:divide-y-0">
-          {children.map((step, stepIdx) => (
+          {steps?.map((step, stepIdx) => (
             <li key={step.name} className="relative md:flex-1 md:flex">
-              {step.status === "complete" ? (
-                <a href={step.href} className="group flex items-center w-full">
+              {step.id === "complete" ? (
+                <div className="group flex items-center w-full">
                   <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
                       <FontAwesomeIcon
@@ -32,10 +27,9 @@ export function OnboardProgressNav({ children }: Props): JSX.Element {
                       {step.name}
                     </span>
                   </span>
-                </a>
-              ) : step.status === "current" ? (
-                <a
-                  href={step.href}
+                </div>
+              ) : pathname.endsWith(step.id) ? (
+                <div
                   className="px-6 py-4 flex items-center text-sm font-medium"
                   aria-current="step"
                 >
@@ -45,9 +39,9 @@ export function OnboardProgressNav({ children }: Props): JSX.Element {
                   <span className="ml-4 text-sm font-medium text-indigo-600">
                     {step.name}
                   </span>
-                </a>
+                </div>
               ) : (
-                <a href={step.href} className="group flex items-center">
+                <div className="group flex items-center">
                   <span className="px-6 py-4 flex items-center text-sm font-medium">
                     <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
                       <span className="text-gray-500 group-hover:text-gray-900">
@@ -58,10 +52,10 @@ export function OnboardProgressNav({ children }: Props): JSX.Element {
                       {step.name}
                     </span>
                   </span>
-                </a>
+                </div>
               )}
 
-              {stepIdx !== children.length - 1 ? (
+              {stepIdx !== steps.length - 1 ? (
                 <>
                   {/* Arrow separator for lg screens and up */}
                   <div
