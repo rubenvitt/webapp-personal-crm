@@ -1,4 +1,6 @@
 import create from "zustand";
+import { AvailableOnboardingStep } from "../global/interfaces";
+import { LAST_AGB_VERSION, LAST_PRIVACY_VERSION } from "../global/onboarding";
 
 interface FormLayout {
   privacy: {
@@ -8,6 +10,21 @@ interface FormLayout {
     updateAgb: (value: boolean) => void;
     valid: () => boolean;
   };
+}
+
+export function checkDataForStep(
+  step: AvailableOnboardingStep,
+  data: unknown
+): boolean {
+  switch (step) {
+    case "consent":
+      return (
+        (data as { privacy: string }).privacy === LAST_PRIVACY_VERSION &&
+        (data as { agb: string }).agb === LAST_AGB_VERSION
+      );
+    default:
+      return true;
+  }
 }
 
 export const useFormStore = create<FormLayout>((set, get) => ({

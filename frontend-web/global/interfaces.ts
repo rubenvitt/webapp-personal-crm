@@ -1,6 +1,6 @@
 import { UserProfile } from "@auth0/nextjs-auth0";
 import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
-import { Role } from "auth0";
+import { AppMetadata, Role, UserMetadata } from "auth0";
 
 export interface NavElement {
   href?: string;
@@ -17,11 +17,25 @@ export interface Navigation {
   footerNav: NavElement[];
 }
 
-export interface User {
-  _id: string;
-  name: string;
-  hashedMail: string;
-  imageUrl?: string;
+export type AvailableOnboardingStep = "setup" | "plans" | "general" | "consent";
+
+export interface OnboardingStep {
+  step: AvailableOnboardingStep;
+  dateTime: string;
+  data: unknown;
+}
+
+export interface UserAppMetadata extends AppMetadata {
+  onboarding: {
+    completed: OnboardingStep[];
+  };
+}
+
+export interface UserUserMetadata extends UserMetadata {
+  dav: {
+    user: { iv: string; content: string };
+    pass: { iv: string; content: string };
+  };
 }
 
 export enum PhoneType {

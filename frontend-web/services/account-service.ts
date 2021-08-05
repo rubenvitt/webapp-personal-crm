@@ -2,7 +2,11 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import axios from "../axios";
-import { AppUser, OnboardingStep } from "../global/interfaces";
+import {
+  AppUser,
+  AvailableOnboardingStep,
+  OnboardingStep,
+} from "../global/interfaces";
 import { MaybeAsyncAction } from "../global/types";
 import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../global/urls";
 
@@ -22,7 +26,13 @@ export function useUserOnboarding(): {
   const { data } =
     useSWR<{ currentStep: string; steps: OnboardingStep[] }>("/onboarding");
 
-  function updateCurrentStep({ step, data }) {
+  function updateCurrentStep({
+    step,
+    data,
+  }: {
+    step: AvailableOnboardingStep;
+    data: unknown;
+  }) {
     return axios.post("/onboarding/step/" + step, data);
   }
 

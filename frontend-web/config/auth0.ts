@@ -14,6 +14,7 @@ import { getLoginUrl } from "@auth0/nextjs-auth0/dist/config";
 import { withPageAuthRequiredFactory } from "@auth0/nextjs-auth0/dist/helpers";
 import { SignInWithAuth0 } from "@auth0/nextjs-auth0/dist/instance";
 import { ManagementClient } from "auth0";
+import { UserAppMetadata, UserUserMetadata } from "../global/interfaces";
 
 export const getBaseUrl = (): string => {
   switch (process.env.VERCEL_ENV) {
@@ -61,7 +62,10 @@ export const handleProfile: HandleProfile = (...args) =>
 export const handleAuth: HandleAuth = (...args) =>
   getInstance().handleAuth(...args);
 
-export const managementClient = new ManagementClient({
+export const managementClient = new ManagementClient<
+  UserAppMetadata,
+  UserUserMetadata
+>({
   domain: process.env.API_AUTH0_CLIENT_DOMAIN,
   clientId: process.env.API_AUTH0_CLIENT_ID,
   clientSecret: process.env.API_AUTH0_CLIENT_SECRET,

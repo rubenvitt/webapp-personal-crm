@@ -1,11 +1,14 @@
 import React, { useRef } from "react";
 import useSWR from "swr";
+import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
 import { AcceptableDocument } from "../../../components/elements/common/acceptable-document.component";
 import { OnboardProgressContent } from "../../../components/modules/onboard/onboard-progress-content.component";
 import { OnboardProgressNav } from "../../../components/modules/onboard/onboard-progress-nav.component";
 import { Logger } from "../../../global/logging";
 import { useFormStore } from "../../../hooks/onboarding";
 import { useUserOnboarding } from "../../../services/account-service";
+
+export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
 
 export default function Consent(): JSX.Element {
   const { privacy } = useFormStore();

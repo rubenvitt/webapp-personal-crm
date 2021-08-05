@@ -90,7 +90,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                     )}
                     aria-hidden="true"
                   />
-                  <span className="mt-2">{item.name}</span>
+                  <span className="mt-2">{t(item.name)}</span>
                 </a>
               </Link>
             ))}
@@ -190,7 +190,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                               )}
                               aria-hidden="true"
                             />
-                            <span>{item.name}</span>
+                            <span>{t(item.name)}</span>
                           </a>
                         </Link>
                       ))}
@@ -295,7 +295,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
-                                    {item.name}
+                                    {t(item.name)}
                                   </a>
                                 </Link>
                               )}
@@ -346,7 +346,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
-                                    {item.name}
+                                    {t(item.name)}
                                   </a>
                                 </Link>
                               )}

@@ -1,19 +1,21 @@
+import { AxiosError } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import { decryptText } from "../../../../config/sabre.api";
 import {
   getSession,
   managementClient,
   withApiAuthRequired,
 } from "../../../../config/auth0";
+import { decryptText } from "../../../../config/sabre.api";
 import { Logger } from "../../../../global/logging";
-import { AxiosError } from "axios";
 
 const handler = nextConnect();
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { user: sessionUser } = getSession(req, res);
-  const user = await managementClient.getUser({ id: sessionUser.sub });
+  const user = await managementClient.getUser({
+    id: sessionUser.sub,
+  });
 
   const userPromise = decryptText(user.user_metadata.dav.user).catch(
     (error: AxiosError) =>
