@@ -22,6 +22,8 @@ import { useCurrentUser } from "../../services/account-service";
 declare module "react" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface MetaHTMLAttributes<T> extends HTMLAttributes<T> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     media: string;
   }
 }
