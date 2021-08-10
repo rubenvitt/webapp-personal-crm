@@ -9,13 +9,7 @@ import { InputProps } from "./edit-input.component";
 
 type Props = Omit<InputProps<PersonAddress>, "isEdit">;
 
-export function EditAddress({
-  initialElement,
-  inputOptions,
-  element,
-  inputRef,
-  onChange,
-}: Props): JSX.Element {
+export function EditAddress({ initialElement, onChange }: Props): JSX.Element {
   const [state, setState] = useState<CreateElement<PersonAddress>>(
     initialElement ?? {
       value: {
@@ -56,7 +50,7 @@ export function EditAddress({
         autoComplete="postal-code"
         type="text"
         className="col-span-2 pr-2"
-        title="Postleitzahls"
+        title="Postleitzahl"
         placeholder="PLZ"
         value={state?.value.zip}
         change={(val) => {
@@ -72,6 +66,7 @@ export function EditAddress({
       <TextInput
         autoComplete="address-level2"
         type="text"
+        required
         className="col-span-4"
         title="Ort"
         placeholder="Ort"

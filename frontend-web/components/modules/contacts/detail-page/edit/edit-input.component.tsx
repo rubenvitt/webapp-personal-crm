@@ -13,6 +13,7 @@ import {
   CreateElement,
   PersonCommunicationChannel,
 } from "../../../../../global/interfaces";
+import { Logger } from "../../../../../global/logging";
 import { AsyncAction, MaybeAsyncAction } from "../../../../../global/types";
 import { classNames } from "../../../../../global/utils";
 import { Button } from "../../../../elements/common/button.component";
@@ -147,9 +148,7 @@ interface ItemProps<T extends PersonCommunicationChannel> {
   inputOptions?: InputOptions;
 }
 
-const InputListItem: <T extends PersonCommunicationChannel>(
-  props: React.PropsWithoutRef<ItemProps<T>>
-) => JSX.Element = ({
+function InputListItem<T extends PersonCommunicationChannel>({
   element,
   isEdit,
   selectedId,
@@ -157,9 +156,9 @@ const InputListItem: <T extends PersonCommunicationChannel>(
   updateItem,
   CustomEditInput,
   inputOptions,
-}) => {
+}: ItemProps<T>): JSX.Element {
   const [touched, setTouched] = useState<boolean>();
-  const [currentValue, setCurrentValue] = useState<string>();
+  const [currentValue, setCurrentValue] = useState<string | T>();
 
   const currentSelected = element._id === selectedId;
   return (
@@ -176,6 +175,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
         onSubmit={async (event) => {
           event.preventDefault();
           setTouched(false);
+          Logger.log("my value is", currentValue);
           await updateItem({
             ...element,
             value: currentValue,
@@ -202,6 +202,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
             onChange={(aValue) => {
               if (aValue !== element?.value) setTouched(true);
               else setTouched(false);
+              setCurrentValue(aValue as T);
             }}
             initialElement={element}
             inputOptions={inputOptions}
@@ -255,7 +256,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
       </form>
     </li>
   );
-};
+}
 
 const EditInput: <T extends PersonCommunicationChannel>(
   props: React.PropsWithChildren<InputProps<T>>

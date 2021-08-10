@@ -3,9 +3,11 @@ import { AxiosError } from "axios";
 import useSWR, { mutate as mutateGlobal } from "swr";
 import axios from "../axios";
 import {
+  CreateElement,
   CreatePerson,
   IdOnly,
   Person,
+  PersonAddress,
   PersonDetails,
   PersonMail,
   PersonPhone,
@@ -129,9 +131,41 @@ export const deleteMailAddress: (
 ) => Promise<void> = async ({ _id: aPerson }, { _id: aMail }) => {
   return axios
     .delete<void>("/persons/" + aPerson + "/contact/mail/" + aMail)
-    .then((value) => value.data)
-    .catch(() => undefined);
+    .then((value) => value.data);
 };
+
+export function addAddress(
+  aPerson: IdOnly,
+  address: CreateElement<PersonAddress>
+): Promise<void> {
+  return axios
+    .post<void>(`/persons/${aPerson._id}/contact/address/add`, address)
+    .then((value) => value.data);
+}
+
+export function updateAddress(
+  aPerson: IdOnly,
+  address: PersonAddress | unknown
+): Promise<void> {
+  Logger.log("updating address with data:", address);
+  return axios
+    .put<void>(
+      `/persons/${aPerson._id}/contact/address/${
+        (address as PersonAddress)._id
+      }`,
+      address
+    )
+    .then((value) => value.data);
+}
+
+export function deleteAddress(
+  { _id: aPerson }: IdOnly,
+  { _id: anAddress }: IdOnly
+): Promise<void> {
+  return axios
+    .delete<void>(`/persons/${aPerson}/contact/address/${anAddress}`)
+    .then((value) => value.data);
+}
 
 // API
 const useCacheInvalidations = () => {

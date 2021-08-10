@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { mutate } from "swr";
 import {
+  Address,
   MailType,
   PersonAddress,
   PersonDetails,
@@ -8,13 +9,15 @@ import {
   PersonPhone,
   PhoneType,
 } from "../../../../global/interfaces";
-import { Logger } from "../../../../global/logging";
 import { URL_API_Persons } from "../../../../global/urls";
 import {
+  addAddress,
   addMailAddress,
   addPhoneNumber,
+  deleteAddress,
   deleteMailAddress,
   deletePhoneNumber,
+  updateAddress,
   updateMailAddress,
   updatePhoneNumber,
 } from "../../../../services/person-service";
@@ -24,6 +27,18 @@ import { EditRadio } from "./edit/edit-input.component";
 
 interface Props {
   person: PersonDetails;
+}
+
+function displayPersonAddress(value: Address): string {
+  return (
+    value.street +
+    (value.street ? ", " : "") +
+    value.zip +
+    (value.zip ? " " : "") +
+    value.city +
+    (value.city && value.country ? ", " : "") +
+    value.country
+  );
 }
 
 export const PersonContactBox: React.FC<Props> = ({ person }) => {
@@ -201,8 +216,59 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
             isEdit={isEdit}
             values={person.contact?.address}
             label={"Adressen:"}
-            addItem={(value) => {
-              Logger.log("address", value);
+            addItem={async (value) => {
+              mutate(`${URL_API_Persons}/${person._id}`, {
+                ...person,
+                contact: {
+                  address: [...(person.contact.address ?? []), value],
+                  ...person.contact,
+                },
+              });
+              await addAddress(person, value as PersonAddress);
+              mutate(`${URL_API_Persons}/${person._id}`);
+              return Promise.resolve();
+            }}
+            updateItem={async (value) => {
+              mutate(
+                `${URL_API_Persons}/${person._id}`,
+                {
+                  ...person,
+                  contact: {
+                    address: [
+                      ...person.contact.address.map((elem) => {
+                        if (elem._id === value._id) {
+                          return { ...elem, value: value.value };
+                        }
+                        return elem;
+                      }),
+                    ],
+                    ...person.contact,
+                  },
+                },
+                false
+              );
+              await updateAddress(person, value.value);
+              mutate(`${URL_API_Persons}/${person._id}`);
+            }}
+            deleteItem={async (element) => {
+              mutate(
+                `${URL_API_Persons}/${person._id}`,
+                {
+                  ...person,
+                  contact: {
+                    address: [
+                      ...person.contact.address.filter(
+                        (value) => value._id !== element._id
+                      ),
+                    ],
+                    ...person.contact,
+                  },
+                },
+                false
+              );
+
+              await deleteAddress(person, element);
+              mutate(`${URL_API_Persons}/${person._id}`);
               return Promise.resolve();
             }}
             CustomEditInput={({ isEdit, initialElement, ...rest }) => {
@@ -211,7 +277,10 @@ export const PersonContactBox: React.FC<Props> = ({ person }) => {
                   {isEdit ? (
                     <EditAddress initialElement={initialElement} {...rest} />
                   ) : (
-                    <p className="col-span-4">{initialElement?.value.city}</p>
+                    <p className="col-span-4">
+                      {initialElement &&
+                        displayPersonAddress(initialElement.value)}
+                    </p>
                   )}
                 </div>
               );

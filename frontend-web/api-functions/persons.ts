@@ -3,6 +3,7 @@ import {
   CreatePerson,
   IdOnly,
   Person,
+  PersonAddress,
   PersonDetails,
   PersonMail,
   PersonPhone,
@@ -18,6 +19,7 @@ export async function apiFindPersonDetailsFor(
     return PersonModel.findById(Types.ObjectId(aPersonId)).populate([
       "contact.phone",
       "contact.mail",
+      "contact.address",
     ]);
   } catch (e) {
     Logger.error("Unable to find person details for", aPersonId, e);
@@ -156,6 +158,55 @@ export async function apiDeleteMailForPerson(
     {
       $pull: {
         "contact.mail": Types.ObjectId(aMailId),
+      },
+    }
+  );
+  return any;
+}
+
+export async function apiAddAddressForPerson(
+  aPersonId: string,
+  value: string
+): Promise<UpdateWriteOpResult> {
+  return await Contact.create(value).then((doc) => {
+    return PersonModel.updateOne(
+      {
+        _id: Types.ObjectId(aPersonId),
+      },
+      {
+        $addToSet: {
+          "contact.address": doc.id,
+        },
+      }
+    );
+  });
+}
+
+export async function apiUpdateAddressForPerson(
+  aPersonId: string,
+  anAddressId: string,
+  anAddress: PersonAddress
+): Promise<UpdateWriteOpResult> {
+  return Contact.updateOne(
+    { _id: Types.ObjectId(anAddressId) },
+    {
+      $set: anAddress,
+    }
+  );
+}
+
+export async function apiDeleteAddressForPerson(
+  aPersonId: string,
+  anAddressId: string
+): Promise<{ deletedCount?: number }> {
+  const any = await Contact.deleteOne({ _id: Types.ObjectId(anAddressId) });
+  await PersonModel.updateOne(
+    {
+      _id: Types.ObjectId(aPersonId),
+    },
+    {
+      $pull: {
+        "contact.address": Types.ObjectId(anAddressId),
       },
     }
   );

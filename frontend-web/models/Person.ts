@@ -46,17 +46,25 @@ const PersonSchema = new mongoose.Schema({
     mail: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
     },
+    address: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
+    },
   },
 });
 
 PersonSchema.pre("deleteOne", { document: true }, async function () {
   Logger.log("deleting following element:", this);
-  if (this["contact"]?.phone?.length > 0 || this["contact"]?.mail?.length > 0) {
+  if (
+    this["contact"]?.phone?.length > 0 ||
+    this["contact"]?.mail?.length > 0 ||
+    this["contact"]?.address?.length > 0
+  ) {
     await Contact.deleteMany({
       _id: {
         $in: [
           ...this["contact"]?.phone.map((v) => Types.ObjectId(v)),
           ...this["contact"]?.mail.map((v) => Types.ObjectId(v)),
+          ...this["contact"]?.address.map((v) => Types.ObjectId(v)),
         ],
       },
     });
