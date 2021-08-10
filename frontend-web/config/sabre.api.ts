@@ -1,10 +1,10 @@
 import axios from "axios";
-import { Logger } from "../global/logging";
 import {
   AccessToken,
   ClientCredentials,
   ClientCredentialTokenConfig,
 } from "simple-oauth2";
+import { Logger } from "../global/logging";
 
 const tokenConfig: ClientCredentialTokenConfig = {
   audience: "https://dav.rubeen.dev",
@@ -72,8 +72,10 @@ export const findAllSabreUser = () => {
   return fetcher("/users").catch((e) => e);
 };
 
-export const encryptText = (body: { secret: string }) => {
-  return mutator("/secrets/encrypt", body);
+export const encryptText = (body: {
+  secret: string;
+}): Promise<{ iv: string; content: string }> => {
+  return mutator<{ iv: string; content: string }>("/secrets/encrypt", body);
 };
 
 export const decryptText = (body: { iv: string; content: string }) => {
