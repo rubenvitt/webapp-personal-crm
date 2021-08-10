@@ -8,14 +8,15 @@ import { faCrown as fasCrown } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RadioGroup } from "@headlessui/react";
 import React, { Ref, useEffect, useRef, useState } from "react";
-import { Button } from "../../../../elements/common/button.component";
-import { TextInput } from "../../../../elements/common/input.component";
 import {
   ActionType,
-  IsLoadingAction,
+  CreateElement,
   PersonCommunicationChannel,
 } from "../../../../../global/interfaces";
+import { AsyncAction, MaybeAsyncAction } from "../../../../../global/types";
 import { classNames } from "../../../../../global/utils";
+import { Button } from "../../../../elements/common/button.component";
+import { TextInput } from "../../../../elements/common/input.component";
 
 interface InputOptions {
   title?: string;
@@ -24,12 +25,13 @@ interface InputOptions {
   placeholder?: string;
 }
 
-interface InputProps<T> {
+export interface InputProps<T> {
   initialElement?: T;
   inputRef?: Ref<HTMLInputElement>;
-  onChange?: (aValue: string) => void;
+  onChange?: MaybeAsyncAction<CreateElement<T> | string>;
   isEdit: boolean;
   inputOptions?: InputOptions;
+  element?: T;
 }
 
 interface RadioProps<T> {
@@ -39,14 +41,12 @@ interface RadioProps<T> {
   CustomEditInput?: React.FC<InputProps<T>>;
   inputOptions?: InputOptions;
   onChange?: (value: T) => void;
-  addItem?: IsLoadingAction<string>;
-  deleteItem?: IsLoadingAction<T>;
-  updateItem?: IsLoadingAction<T>;
+  addItem?: AsyncAction<string | T>;
+  deleteItem?: AsyncAction<T>;
+  updateItem?: AsyncAction<T>;
 }
 
-export const EditRadio: <T extends PersonCommunicationChannel>(
-  props: React.PropsWithChildren<RadioProps<T>>
-) => JSX.Element = ({
+export function EditRadio<T extends PersonCommunicationChannel>({
   values,
   isEdit,
   label,
@@ -56,10 +56,11 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
   addItem,
   deleteItem,
   updateItem,
-}) => {
+}: React.PropsWithChildren<RadioProps<T>>): JSX.Element {
   const [selectedId, setSelectedId] = useState(values?.[0]?._id);
   const [isAdding, setAdding] = useState(false);
-  const addReference = useRef<HTMLInputElement>();
+  const addReference = useRef<HTMLInputElement | null>(null);
+  const [addInputValue, setAddInputValue] = useState<T>();
 
   const onChangeValue = (value) => {
     onChange?.(value);
@@ -99,20 +100,30 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
             setAdding(true);
             event.preventDefault();
             if (event.currentTarget.reportValidity()) {
-              await addItem.action?.(addReference.current.value);
-              addReference.current.value = "";
+              if (addReference?.current) {
+                await addItem?.(addReference.current.value);
+                addReference.current.value = "";
+              } else {
+                await addItem?.(addInputValue);
+              }
               setAdding(false);
             }
           }}
         >
-          <EditInput
-            isEdit={isEdit}
-            inputRef={addReference}
-            inputOptions={{
-              ...inputOptions,
-              placeholder: "Neu anlegen",
-            }}
-          />
+          {CustomEditInput ? (
+            <CustomEditInput
+              isEdit={isEdit}
+              inputOptions={{ ...inputOptions, placeholder: "Neu anlegen" }}
+              onChange={(value) => setAddInputValue(value as T)}
+              element={addInputValue}
+            />
+          ) : (
+            <EditInput
+              isEdit={isEdit}
+              inputRef={addReference}
+              inputOptions={{ ...inputOptions, placeholder: "Neu anlegen" }}
+            />
+          )}
           <Button
             isLoading={isAdding}
             className={classNames(isEdit ? "block" : "hidden")}
@@ -124,14 +135,14 @@ export const EditRadio: <T extends PersonCommunicationChannel>(
       )}
     </>
   );
-};
+}
 
 interface ItemProps<T extends PersonCommunicationChannel> {
   element: T;
   isEdit: boolean;
   selectedId: string;
-  deleteItem?: IsLoadingAction<T>;
-  updateItem?: IsLoadingAction<T>;
+  deleteItem?: AsyncAction<T>;
+  updateItem?: AsyncAction<T>;
   CustomEditInput?: React.FC<InputProps<T>>;
   inputOptions?: InputOptions;
 }
@@ -165,7 +176,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
         onSubmit={async (event) => {
           event.preventDefault();
           setTouched(false);
-          await updateItem.action({
+          await updateItem({
             ...element,
             value: currentValue,
           });
@@ -177,7 +188,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
         {isEdit && deleteItem && (
           <Button
             action={() => {
-              return deleteItem.action(element);
+              return deleteItem(element);
             }}
             actionType={ActionType.DANGER}
             className="self-center rounded-full "
@@ -201,7 +212,7 @@ const InputListItem: <T extends PersonCommunicationChannel>(
             onChange={(aValue) => {
               if (aValue !== element?.value) setTouched(true);
               else setTouched(false);
-              setCurrentValue(aValue);
+              setCurrentValue(aValue as string);
             }}
             isEdit={isEdit && Boolean(updateItem)}
             inputOptions={inputOptions}

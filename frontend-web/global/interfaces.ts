@@ -67,6 +67,8 @@ export interface PersonCommunicationChannel {
   type: PhoneType | MailType | AddressType | unknown;
 }
 
+export type CreateElement<T> = Omit<T, "_id">;
+
 export interface PersonPhone extends PersonCommunicationChannel {
   type: PhoneType;
 }
@@ -195,10 +197,6 @@ export interface Note {
   date: string;
   imageId?: string;
   body: string;
-}
-
-export interface IsLoadingAction<T> {
-  action: (payload: T) => Promise<void>;
 }
 
 export interface AppUser extends UserProfile {

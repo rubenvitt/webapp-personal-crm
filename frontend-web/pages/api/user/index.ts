@@ -17,7 +17,6 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       id: sessionUser.sub,
     })
     .then((user) => {
-      console.log("my current user", user);
       return user;
     });
 

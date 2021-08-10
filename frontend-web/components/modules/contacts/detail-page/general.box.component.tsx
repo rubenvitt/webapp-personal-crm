@@ -1,4 +1,8 @@
-import { faBirthdayCake, faUsers } from "@fortawesome/pro-regular-svg-icons";
+import {
+  faBirthdayCake,
+  faSignature,
+  faUsers,
+} from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import {
@@ -64,6 +68,15 @@ export const PersonDetailGeneralBox: React.FC<Props> = ({ person }) => {
       subTitle={"Allgemeines zu " + person.displayName}
     >
       <dl>
+        <dt>
+          <FontAwesomeIcon
+            icon={faSignature}
+            className="inline pr-2"
+            size="lg"
+          />
+          {person.firstName} {person.lastName}{" "}
+          {person.nickName && `(${person.nickName})`}
+        </dt>
         <dt>
           <FontAwesomeIcon
             icon={faBirthdayCake}
