@@ -150,4 +150,17 @@ export function givenOrNull(s?: string): string | null {
 
 let _isProd;
 export const isProduction =
-  _isProd ?? (_isProd = process.env.NODE_ENV === "production");
+  _isProd ?? (_isProd = loadEnvironmentVar("NODE_ENV") === "production");
+
+export function loadEnvironmentVar(name: string, required = false): string {
+  if (required)
+    return (
+      process.env[name] ??
+      (() => {
+        throw new Error("Environment variable '" + name + "' is mandatory");
+      })()
+    );
+  else {
+    return process.env[name];
+  }
+}

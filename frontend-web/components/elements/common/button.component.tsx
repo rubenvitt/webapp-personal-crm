@@ -54,9 +54,13 @@ export function Button({
     <button
       onClick={() => {
         setLoading(true);
-        Promise.resolve(action?.()).finally(() => {
-          setLoading(false);
-        });
+        Promise.resolve(action?.())
+          .catch(() => {
+            setColor(getItemColorForType(ActionType.ERROR));
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }}
       disabled={isLoading || _isLoading || isDisabled || rest?.disabled}
       className={classNames(

@@ -5,6 +5,7 @@ import {
   ClientCredentialTokenConfig,
 } from "simple-oauth2";
 import { Logger } from "../global/logging";
+import { loadEnvironmentVar } from "../global/utils";
 
 const tokenConfig: ClientCredentialTokenConfig = {
   audience: "https://dav.rubeen.dev",
@@ -22,11 +23,14 @@ const accessToken = async () => {
   } else {
     const client = new ClientCredentials({
       client: {
-        id: process.env.API_AUTH0_CLIENT_ID,
-        secret: process.env.API_AUTH0_CLIENT_SECRET,
+        id: loadEnvironmentVar("API_AUTH0_CLIENT_ID", true),
+        secret: loadEnvironmentVar("API_AUTH0_CLIENT_SECRET", true),
       },
       auth: {
-        tokenHost: `https://${process.env.API_AUTH0_CLIENT_DOMAIN}`,
+        tokenHost: `https://${loadEnvironmentVar(
+          "API_AUTH0_CLIENT_DOMAIN",
+          true
+        )}`,
       },
       options: {
         authorizationMethod: "header",
@@ -44,7 +48,7 @@ const fetcher = async <T>(...args: [url: string]): Promise<T> => {
   const authorization = `${token.token_type} ${token.access_token}`;
   return axios
     .get<T>(...args, {
-      baseURL: process.env.SABRE_API_URL,
+      baseURL: loadEnvironmentVar("SABRE_API_URL", true),
       headers: {
         Authorization: authorization,
       },
@@ -60,7 +64,7 @@ const mutator = async <T>(
   const authorization = `${token.token_type} ${token.access_token}`;
   return axios
     .post<T>(...args, {
-      baseURL: process.env.SABRE_API_URL,
+      baseURL: loadEnvironmentVar("SABRE_API_URL", true),
       headers: {
         Authorization: authorization,
       },

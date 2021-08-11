@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
 import { TextInput } from "../../../components/elements/common/input.component";
 import { FormSection } from "../../../components/modules/common/form/section.component";
 import { OnboardProgressContent } from "../../../components/modules/onboard/onboard-progress-content.component";
 import { OnboardProgressNav } from "../../../components/modules/onboard/onboard-progress-nav.component";
+import { Logger } from "../../../global/logging";
 import {
   useCurrentUser,
   useUserOnboarding,
@@ -14,9 +15,11 @@ export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
 export default function General(): JSX.Element {
   const form = useRef<HTMLFormElement>();
   const { currentUser } = useCurrentUser();
-  const givenNameRef = useRef<HTMLInputElement>();
-  const familyNameRef = useRef<HTMLInputElement>();
-  const pictureRef = useRef<HTMLInputElement>();
+  const [formValue, setFormValue] = useState({
+    givenName: currentUser.given_name,
+    familyName: currentUser.family_name,
+    picture: currentUser.picture,
+  });
   const { updateCurrentStep } = useUserOnboarding();
 
   return (
@@ -27,12 +30,13 @@ export default function General(): JSX.Element {
         next={{
           onSubmit: () => {
             const valid = form.current.reportValidity();
+            Logger.log("given Name", formValue.givenName);
             if (valid) {
               updateCurrentStep({
                 data: {
-                  givenName: givenNameRef.current.value,
-                  familyName: familyNameRef.current.value,
-                  pictureRef: pictureRef.current.value,
+                  givenName: formValue.givenName,
+                  familyName: formValue.familyName,
+                  pictureRef: formValue.picture,
                 },
                 step: "general",
               });
@@ -50,24 +54,25 @@ export default function General(): JSX.Element {
             description="Check your name and personal information"
           >
             <TextInput
-              ref={givenNameRef}
-              change={(s) => undefined}
+              change={(s) =>
+                setFormValue((prev) => ({ ...prev, givenName: s }))
+              }
               title="Vorname"
               label="Vorname"
               className="col-span-4 sm:col-span-2"
               value={currentUser?.given_name ?? currentUser?.name}
             />
             <TextInput
-              ref={familyNameRef}
-              change={(s) => undefined}
+              change={(s) =>
+                setFormValue((prev) => ({ ...prev, familyName: s }))
+              }
               title="Nachname"
               label="Nachname"
               className="col-span-4 sm:col-span-2"
               value={currentUser?.family_name}
             />
             <TextInput
-              ref={pictureRef}
-              change={(s) => undefined}
+              change={(s) => setFormValue((prev) => ({ ...prev, picture: s }))}
               className={"col-span-4"}
               value={currentUser?.picture}
               title="Profilbild"

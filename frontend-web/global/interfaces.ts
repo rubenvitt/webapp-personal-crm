@@ -216,3 +216,9 @@ export interface OnboardingStep {
   id: string;
   name: string;
 }
+
+export enum PaymentPlan {
+  FREE,
+  PRO,
+  PREMIUM,
+}

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { loadEnvironmentVar } from "../global/utils";
 
-const MONGO_URI = process.env.MONGO_DB_CONNECTION;
+const MONGO_URI = loadEnvironmentVar("MONGO_DB_CONNECTION", true);
 
 if (!MONGO_URI) {
   throw new Error("Please define the MONGO_DB_CONNECTION environment variable");
