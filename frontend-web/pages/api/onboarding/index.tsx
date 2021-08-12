@@ -40,18 +40,18 @@ handler.get(async (req, res) => {
   userPromise.then((user) => {
     const nextStep: AvailableOnboardingStep = stepForIndex(
       orderForStep(
-        user.app_metadata.onboarding.completed
-          .filter((value) => {
+        user.app_metadata?.onboarding?.completed
+          ?.filter((value) => {
             return checkDataForStep(value.step, value.data);
           })
           .sort((a, b) => orderForStep(a.step) - orderForStep(b.step))?.[0].step
-      ) - 1 ?? 0
+      ) - 1 ?? 1
     );
 
     console.log(
       "currentStep",
       orderForStep(
-        user.app_metadata.onboarding.completed
+        user.app_metadata?.onboarding?.completed
           .filter((value) => {
             return checkDataForStep(value.step, value.data);
           })
