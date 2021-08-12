@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import { getSession, managementClient } from "../../../config/auth0";
+import { apiGetCurrentUser } from "../../../api-functions/defaults";
 import { AvailableOnboardingStep } from "../../../global/interfaces";
 import { checkDataForStep } from "../../../hooks/onboarding";
 
@@ -21,6 +21,8 @@ function orderForStep(step: AvailableOnboardingStep) {
 
 function stepForIndex(index: number) {
   switch (index) {
+    case 0:
+      return "none";
     case 1:
       return "setup";
     case 2:
@@ -33,55 +35,53 @@ function stepForIndex(index: number) {
 }
 
 handler.get(async (req, res) => {
-  const { user: sessionUser } = getSession(req, res);
+  const { userPromise } = apiGetCurrentUser(req, res);
 
-  const user = await managementClient.getUser({
-    id: sessionUser.sub,
-  });
+  userPromise.then((user) => {
+    const nextStep: AvailableOnboardingStep = stepForIndex(
+      orderForStep(
+        user.app_metadata.onboarding.completed
+          .filter((value) => {
+            return checkDataForStep(value.step, value.data);
+          })
+          .sort((a, b) => orderForStep(a.step) - orderForStep(b.step))?.[0].step
+      ) - 1 ?? 0
+    );
 
-  const nextStep: AvailableOnboardingStep = stepForIndex(
-    orderForStep(
-      user.app_metadata.onboarding.completed
-        .filter((value) => {
-          return checkDataForStep(value.step, value.data);
-        })
-        .sort((a, b) => orderForStep(a.step) - orderForStep(b.step))?.[0].step
-    ) - 1 ?? 0
-  );
+    console.log(
+      "currentStep",
+      orderForStep(
+        user.app_metadata.onboarding.completed
+          .filter((value) => {
+            return checkDataForStep(value.step, value.data);
+          })
+          .sort((a, b) => orderForStep(b.step) - orderForStep(a.step))?.[0].step
+      )
+    );
 
-  console.log(
-    "currentStep",
-    orderForStep(
-      user.app_metadata.onboarding.completed
-        .filter((value) => {
-          return checkDataForStep(value.step, value.data);
-        })
-        .sort((a, b) => orderForStep(b.step) - orderForStep(a.step))?.[0].step
-    )
-  );
-
-  res.send({
-    currentStep: nextStep,
-    steps: (
-      [
-        {
-          id: "consent",
-          name: "Privacy Policy & Terms of Service",
-        },
-        {
-          id: "general",
-          name: "Allgemein",
-        },
-        {
-          id: "plans",
-          name: "Plans & Payment",
-        },
-        {
-          id: "setup",
-          name: "App Setup",
-        },
-      ] as { id: AvailableOnboardingStep; name: string }[]
-    ).sort((a, b) => orderForStep(b.id) - orderForStep(a.id)),
+    res.send({
+      currentStep: nextStep,
+      steps: (
+        [
+          {
+            id: "consent",
+            name: "Privacy Policy & Terms of Service",
+          },
+          {
+            id: "general",
+            name: "Allgemein",
+          },
+          {
+            id: "plans",
+            name: "Plans & Payment",
+          },
+          {
+            id: "setup",
+            name: "App Setup",
+          },
+        ] as { id: AvailableOnboardingStep; name: string }[]
+      ).sort((a, b) => orderForStep(b.id) - orderForStep(a.id)),
+    });
   });
 });
 

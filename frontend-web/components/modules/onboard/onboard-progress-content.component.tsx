@@ -1,6 +1,6 @@
 import { ActionType } from "../../../global/interfaces";
 import { useAppRouter } from "../../../global/router";
-import { WithForcedChildren } from "../../../global/types";
+import { MaybeAsyncAction, WithForcedChildren } from "../../../global/types";
 import { classNames } from "../../../global/utils";
 import { Button } from "../../elements/common/button.component";
 
@@ -8,7 +8,7 @@ type Props = WithForcedChildren<{
   stepId: string;
   className?: string;
   next?: {
-    onSubmit?: () => Promise<void>;
+    onSubmit?: MaybeAsyncAction;
     label?: string;
     disabled?: boolean;
   };
@@ -45,7 +45,7 @@ export function OnboardProgressContent({
         </Button>
         <Button
           action={() => {
-            return next?.onSubmit().then(() => {
+            return Promise.resolve(next?.onSubmit()).then(() => {
               return push("/onboarding");
             });
           }}

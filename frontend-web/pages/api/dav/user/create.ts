@@ -2,8 +2,8 @@ import { AxiosError } from "axios";
 import * as crypto from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
+import { apiGetCurrentUser } from "../../../../api-functions/defaults";
 import {
-  getSession,
   managementClient,
   withApiAuthRequired,
 } from "../../../../config/auth0";
@@ -14,10 +14,10 @@ import { loadEnvironmentVar } from "../../../../global/utils";
 const handler = nextConnect();
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user } = getSession(req, res);
+  const { userId, userPromise } = apiGetCurrentUser(req, res);
   const userHash = crypto
     .createHmac("md5", loadEnvironmentVar("CRYPTO_SECRET_KEY_1", true))
-    .update(user.sub)
+    .update(userId)
     .digest()
     .toString("hex");
   const passwordHash = crypto
@@ -34,7 +34,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const passEncrypted = await encryptText({ secret: passwordHash });
     await managementClient.updateUserMetadata(
       {
-        id: user.sub,
+        id: userId,
       },
       {
         dav: {
@@ -48,8 +48,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   await createNewUser({
     username: userHash,
     password: passwordHash,
-    displayName: user.name,
-    email: user.email,
+    displayName: (await userPromise).name,
+    email: (await userPromise).email,
   }).catch((err: AxiosError) => {
     Logger.error(
       "cannot create user",

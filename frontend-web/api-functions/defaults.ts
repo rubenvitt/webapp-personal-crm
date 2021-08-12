@@ -1,7 +1,17 @@
-import { PageRoute } from "@auth0/nextjs-auth0";
-import { GetServerSidePropsContext } from "next";
+import { PageRoute, Session } from "@auth0/nextjs-auth0";
+import { User } from "auth0";
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { withPageAuthRequired } from "../config/auth0";
+import {
+  getSession,
+  managementClient,
+  withPageAuthRequired,
+} from "../config/auth0";
+import { UserAppMetadata, UserUserMetadata } from "../global/interfaces";
 
 export function withAuthenticatedTranslatedServerSideProps(props?: {
   additionalProps?: (context: GetServerSidePropsContext) => unknown;
@@ -22,4 +32,29 @@ export function withAuthenticatedTranslatedServerSideProps(props?: {
       };
     },
   });
+}
+
+export function apiGetCurrentUser(
+  req: NextApiRequest,
+  res: NextApiResponse
+): {
+  userPromise: Promise<User<UserAppMetadata, UserUserMetadata>>;
+  userId: string;
+} {
+  const { user: sessionUser }: Session = getSession(req, res);
+
+  async function getCurrentUser() {
+    return await managementClient
+      .getUser({
+        id: sessionUser.sub,
+      })
+      .then((user) => {
+        return user;
+      });
+  }
+
+  return {
+    userPromise: getCurrentUser(),
+    userId: sessionUser.sub as string,
+  };
 }

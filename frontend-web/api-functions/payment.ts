@@ -1,9 +1,9 @@
-import { PaymentPlan } from "../global/interfaces";
+import { SubscriptionType } from "../global/interfaces";
 
 export function apiGetPriceIdsForPaymentPlan(
   plan: number
 ): { price: string; quantity: 1 }[] {
-  switch (PaymentPlan[plan].toLocaleLowerCase()) {
+  switch (SubscriptionType[plan].toLocaleLowerCase()) {
     case "pro":
       return [
         {

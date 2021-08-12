@@ -17,7 +17,12 @@ export interface Navigation {
   footerNav: NavElement[];
 }
 
-export type AvailableOnboardingStep = "setup" | "plans" | "general" | "consent";
+export type AvailableOnboardingStep =
+  | "setup"
+  | "plans"
+  | "general"
+  | "consent"
+  | "none";
 
 export interface OnboardingStep {
   step: AvailableOnboardingStep;
@@ -25,9 +30,21 @@ export interface OnboardingStep {
   data: unknown;
 }
 
+export enum PaymentStatus {
+  NOT_PAID,
+  PAID,
+}
+
 export interface UserAppMetadata extends AppMetadata {
-  onboarding: {
+  onboarding?: {
     completed: OnboardingStep[];
+  };
+  payment?: {
+    customerId: string;
+    status?: PaymentStatus;
+  };
+  subscription?: {
+    type: string;
   };
 }
 
@@ -217,7 +234,7 @@ export interface OnboardingStep {
   name: string;
 }
 
-export enum PaymentPlan {
+export enum SubscriptionType {
   FREE,
   PRO,
   PREMIUM,

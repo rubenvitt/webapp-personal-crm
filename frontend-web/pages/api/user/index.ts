@@ -1,31 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import {
-  getSession,
-  managementClient,
-  withApiAuthRequired,
-} from "../../../config/auth0";
+import { apiGetCurrentUser } from "../../../api-functions/defaults";
+import { managementClient, withApiAuthRequired } from "../../../config/auth0";
 import { givenOrNull } from "../../../global/utils";
 
 const handler = nextConnect();
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user: sessionUser } = getSession(req, res);
-
-  const user = managementClient
-    .getUser({
-      id: sessionUser.sub,
-    })
-    .then((user) => {
-      return user;
-    });
+  const { userPromise: currentUser, userId } = apiGetCurrentUser(req, res);
 
   managementClient
     .getUserRoles({
-      id: sessionUser.sub,
+      id: userId,
     })
     .then((roles) => {
-      user.then((user) => {
+      currentUser.then((user) => {
         res.send({
           ...user,
           roles,
@@ -36,7 +25,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 handler.patch(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user } = getSession(req, res);
+  const { userPromise, userId } = apiGetCurrentUser(req, res);
   if (!givenOrNull(req.body.given_name + req.body.family_name)) {
     res.status(400).send({
       message: "given_name or family_name is mandatory",
@@ -45,7 +34,7 @@ handler.patch(async (req: NextApiRequest, res: NextApiResponse) => {
   await managementClient
     .updateUser(
       {
-        id: user.sub,
+        id: userId,
       },
       {
         given_name: givenOrNull(req.body.given_name),
