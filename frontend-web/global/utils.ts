@@ -150,4 +150,5 @@ export function givenOrNull(s?: string): string | null {
 }
 
 let _isProd;
+// noinspection JSUnusedAssignment
 export const isProduction = _isProd ?? (_isProd = apiNode.env === "production");
