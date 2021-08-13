@@ -1,14 +1,16 @@
 // noinspection DuplicatedCode
 
 import React from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../../../api-functions/defaults";
 import { EditPersonForm } from "../../../../components/modules/contacts/detail-page/edit/edit-form.component";
+import { withPageAuthRequired } from "../../../../config/auth0";
 import { usePerson } from "../../../../services/person-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps({
-  additionalProps: (context) => {
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(context) {
     return {
-      id: context.params.id,
+      props: {
+        id: context.params.id,
+      },
     };
   },
 });

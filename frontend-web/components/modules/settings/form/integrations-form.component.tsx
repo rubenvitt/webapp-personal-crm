@@ -1,12 +1,12 @@
 import { AxiosError } from "axios";
 import React from "react";
 import useSWR from "swr";
-import { TextInput } from "../../../elements/common/input.component";
 import { classNames } from "../../../../global/utils";
+import { TextInput } from "../../../elements/common/input.component";
 import { FormLayout } from "../../common/form/form.layout.component";
 import { FormSection } from "../../common/form/section.component";
 
-export const IntegrationsForm: React.FC = ({ children }) => {
+export function IntegrationsForm(): JSX.Element {
   const { data } = useSWR<{ username: string; password: string }, AxiosError>(
     "/dav/user/credentials"
   );
@@ -50,4 +50,4 @@ export const IntegrationsForm: React.FC = ({ children }) => {
       </FormSection>
     </FormLayout>
   );
-};
+}

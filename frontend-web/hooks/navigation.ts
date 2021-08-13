@@ -5,11 +5,9 @@ import {
   faTachometer,
   faUsers,
 } from "@fortawesome/pro-regular-svg-icons";
-import { TFunction, useTranslation } from "next-i18next";
-import { useRouter } from "next/dist/client/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import create from "zustand";
-import { NavElement, Navigation } from "../global/interfaces";
+import { Navigation } from "../global/interfaces";
 
 const useNavigationStore = create<Navigation>(() => ({
   userNav: [
@@ -36,39 +34,12 @@ const useNavigationStore = create<Navigation>(() => ({
   ],
 }));
 
-function translateNav(addItemsNav: NavElement[], t: TFunction): NavElement[] {
-  return addItemsNav.map((e) => {
-    return {
-      ...e,
-      name: t("menu." + e.name),
-    };
-  });
-}
-
 export function useNavigation(): Navigation {
   const { addItemsNav, userNav, sidebarNav, footerNav } = useNavigationStore();
-  const [_addItemsNav, setAddItemsNav] = useState(addItemsNav);
-  const [_userNav, setUserNAv] = useState(userNav);
-  const [_sidebarNav, setSidebarNav] = useState(sidebarNav);
-  const [_footerNav, setFooterNav] = useState(footerNav);
-  const { t } = useTranslation("common");
-  const { locale } = useRouter();
-
-  useEffect(() => {
-    setAddItemsNav(translateNav(addItemsNav, t));
-  }, [addItemsNav, locale]);
-
-  useEffect(() => {
-    setUserNAv(translateNav(userNav, t));
-  }, [userNav, locale]);
-
-  useEffect(() => {
-    setSidebarNav(translateNav(sidebarNav, t));
-  }, [sidebarNav, locale]);
-
-  useEffect(() => {
-    setFooterNav(translateNav(footerNav, t));
-  }, [footerNav, locale]);
+  const [_addItemsNav] = useState(addItemsNav);
+  const [_userNav] = useState(userNav);
+  const [_sidebarNav] = useState(sidebarNav);
+  const [_footerNav] = useState(footerNav);
 
   return {
     addItemsNav: _addItemsNav,

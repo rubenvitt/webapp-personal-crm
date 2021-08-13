@@ -1,16 +1,16 @@
 import React, { useRef, useState } from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
 import { TextInput } from "../../../components/elements/common/input.component";
 import { FormSection } from "../../../components/modules/common/form/section.component";
 import { OnboardProgressContent } from "../../../components/modules/onboard/onboard-progress-content.component";
 import { OnboardProgressNav } from "../../../components/modules/onboard/onboard-progress-nav.component";
+import { withPageAuthRequired } from "../../../config/auth0";
 import { Logger } from "../../../global/logging";
 import {
   useCurrentUser,
   useUserOnboarding,
 } from "../../../services/account-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 export default function General(): JSX.Element {
   const form = useRef<HTMLFormElement>();

@@ -1,7 +1,6 @@
 // noinspection JSUnusedLocalSymbols
 
 import { UserProvider } from "@auth0/nextjs-auth0";
-import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import React from "react";
 import { SWRConfig } from "swr";
@@ -33,4 +32,4 @@ const MyApp: React.ComponentType<AppProps> = ({
   );
 };
 
-export default appWithTranslation(MyApp);
+export default MyApp;

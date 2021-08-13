@@ -9,9 +9,9 @@ import {
 } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../api-functions/defaults";
 import { IntegrationsForm } from "../../components/modules/settings/form/integrations-form.component";
 import { ProfileForm } from "../../components/modules/settings/form/profile-form.component";
+import { withPageAuthRequired } from "../../config/auth0";
 
 interface NavigationItem {
   label: string;
@@ -37,7 +37,7 @@ const subNavigation: NavigationItem[] = [
   { label: "Integrationen", icon: faCodeBranch, type: FormType.INTEGRATIONS },
 ];
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

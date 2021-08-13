@@ -2,7 +2,6 @@ import { faBars, faTimes } from "@fortawesome/pro-light-svg-icons";
 import { faPlus, faSearch } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,12 +44,10 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
     setCurrentLink(router.pathname);
   }, [router.pathname, sidebarNav]);
 
-  const { t } = useTranslation("common");
-
   return (
     <div className="h-screen bg-gray-50 flex overflow-hidden">
       <Head>
-        <title key="title">Unknown • {t("app-title")}</title>
+        <title key="title">Unknown • {"Personal CRM"}</title>
         <meta
           name="theme-color"
           media="(prefers-color-scheme: light)"
@@ -92,7 +89,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                     )}
                     aria-hidden="true"
                   />
-                  <span className="mt-2">{t(item.name)}</span>
+                  <span className="mt-2">{item.name}</span>
                 </a>
               </Link>
             ))}
@@ -192,7 +189,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                               )}
                               aria-hidden="true"
                             />
-                            <span>{t(item.name)}</span>
+                            <span>{item.name}</span>
                           </a>
                         </Link>
                       ))}
@@ -229,11 +226,11 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
               <div className="flex-1 flex">
                 <form
                   className="w-full flex md:ml-0"
-                  onSubmit={(e) => {
+                  onSubmit={() => {
                     /*if (onSearch) {
-                                      e.preventDefault();
-                                      onSearch(searchInput.current.value);
-                                    }*/
+                                        e.preventDefault();
+                                        onSearch(searchInput.current.value);
+                                      }*/
                   }}
                 >
                   <label htmlFor="search-field" className="sr-only">
@@ -297,7 +294,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
-                                    {t(item.name)}
+                                    {item.name}
                                   </a>
                                 </Link>
                               )}
@@ -348,7 +345,7 @@ export function AppLayout(props: PropsWithChildren<unknown>): JSX.Element {
                                       "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
-                                    {t(item.name)}
+                                    {item.name}
                                   </a>
                                 </Link>
                               )}

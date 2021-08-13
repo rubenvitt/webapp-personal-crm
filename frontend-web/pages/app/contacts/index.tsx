@@ -1,11 +1,11 @@
 import React from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
 import { PersonListItem } from "../../../components/modules/contacts/list/person-list-item.component";
 import { PersonListItemFavorite } from "../../../components/modules/contacts/list/person-list-item.favorite.component";
 import { PersonList } from "../../../components/modules/contacts/list/person-list.component";
+import { withPageAuthRequired } from "../../../config/auth0";
 import { usePersons } from "../../../services/person-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 const Index: React.FC = () => {
   const { persons } = usePersons();
