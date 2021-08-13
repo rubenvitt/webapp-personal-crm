@@ -1,3 +1,4 @@
+import { apiNode } from "./constants";
 import {
   ActionType,
   Birthday,
@@ -149,5 +150,4 @@ export function givenOrNull(s?: string): string | null {
 }
 
 let _isProd;
-export const isProduction =
-  _isProd ?? (_isProd = process.env.NODE_ENV === "production");
+export const isProduction = _isProd ?? (_isProd = apiNode.env === "production");

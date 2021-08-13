@@ -1,8 +1,12 @@
 export const apiMongoUrl = process.env.MONGO_DB_CONNECTION;
 
+export const apiNode = {
+  env: process.env.NODE_ENV,
+  port: process.env.PORT,
+};
+
 export const apiVercel = {
   env: process.env.VERCEL_ENV,
-  port: process.env.PORT,
 };
 
 export const publicVercel = {

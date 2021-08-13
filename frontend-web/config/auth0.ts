@@ -17,6 +17,7 @@ import { ManagementClient } from "auth0";
 import {
   apiAuth0,
   apiAuth0Client,
+  apiNode,
   apiVercel,
   publicVercel,
 } from "../global/constants";
@@ -30,7 +31,7 @@ export const getBaseUrl = (): string => {
       return (
         (publicVercel.url && "https://" + publicVercel.url) ||
         apiAuth0.baseUrl ||
-        "http://localhost:" + (apiVercel.port ?? "3000")
+        "http://localhost:" + (apiNode.port ?? "3000")
       );
   }
 };

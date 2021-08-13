@@ -1,7 +1,7 @@
-import { apiVercel, publicVercel } from "./constants";
+import { apiNode, publicVercel } from "./constants";
 
 export const URL_APP =
-  publicVercel.url ?? "http://localhost:" + (apiVercel.port || 3000);
+  publicVercel.url ?? "http://localhost:" + (apiNode.port || 3000);
 
 export const URL_API_Persons = "/persons";
 export const URL_API_Auth = "/api/auth";
