@@ -3,7 +3,6 @@ import React from "react";
 import { Button } from "../components/elements/common/button.component";
 import { PublicLayout } from "../components/layouts/public-layout";
 import { URL_APP } from "../global/urls";
-import { loadEnvironmentVar } from "../global/utils";
 import { useCurrentUser } from "../services/account-service";
 
 export default function PublicHomepage(): React.ReactNode {
@@ -13,7 +12,6 @@ export default function PublicHomepage(): React.ReactNode {
     <PublicLayout>
       Public homepage
       <p>Running on url {URL_APP}</p>
-      <p>Variant 1: {loadEnvironmentVar("NEXT_PUBLIC_VERCEL_URL")}</p>
       <p>Variant 2: {process.env.NEXT_PUBLIC_VERCEL_URL}</p>
       <p>Variant 3: {process.env["NEXT_PUBLIC_VERCEL_URL"]}</p>
       {isLoggedIn ? (

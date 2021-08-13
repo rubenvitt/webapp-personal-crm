@@ -1,10 +1,6 @@
 import Stripe from "stripe";
-import { loadEnvironmentVar } from "../global/utils";
+import { apiStripe } from "../global/constants";
 
-const SECRET_KEY = loadEnvironmentVar("STRIPE_SK", true);
-
-export const webhookSecret = loadEnvironmentVar("STRIPE_ENDPOINT_SECRET");
-
-export const stripe = new Stripe(SECRET_KEY, {
+export const stripe = new Stripe(apiStripe.stripeSecretKey, {
   apiVersion: "2020-08-27",
 });

@@ -4,8 +4,8 @@ import {
   ClientCredentials,
   ClientCredentialTokenConfig,
 } from "simple-oauth2";
+import { apiAuth0Client, apiSabre } from "../global/constants";
 import { Logger } from "../global/logging";
-import { loadEnvironmentVar } from "../global/utils";
 
 const tokenConfig: ClientCredentialTokenConfig = {
   audience: "https://dav.rubeen.dev",
@@ -23,20 +23,16 @@ const accessToken = async () => {
   } else {
     const client = new ClientCredentials({
       client: {
-        id: loadEnvironmentVar("API_AUTH0_CLIENT_ID", true),
-        secret: loadEnvironmentVar("API_AUTH0_CLIENT_SECRET", true),
+        id: apiAuth0Client.id,
+        secret: apiAuth0Client.secret,
       },
       auth: {
-        tokenHost: `https://${loadEnvironmentVar(
-          "API_AUTH0_CLIENT_DOMAIN",
-          true
-        )}`,
+        tokenHost: `https://${apiAuth0Client.domain}`,
       },
       options: {
         authorizationMethod: "header",
       },
     });
-
     cachedToken = await client.getToken(tokenConfig);
     return cachedToken.token;
   }
@@ -48,7 +44,7 @@ const fetcher = async <T>(...args: [url: string]): Promise<T> => {
   const authorization = `${token.token_type} ${token.access_token}`;
   return axios
     .get<T>(...args, {
-      baseURL: loadEnvironmentVar("SABRE_API_URL", true),
+      baseURL: apiSabre.apiUrl,
       headers: {
         Authorization: authorization,
       },
@@ -64,7 +60,7 @@ const mutator = async <T>(
   const authorization = `${token.token_type} ${token.access_token}`;
   return axios
     .post<T>(...args, {
-      baseURL: loadEnvironmentVar("SABRE_API_URL", true),
+      baseURL: apiSabre.apiUrl,
       headers: {
         Authorization: authorization,
       },

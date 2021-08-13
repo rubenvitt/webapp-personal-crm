@@ -1,8 +1,7 @@
-import { loadEnvironmentVar } from "./utils";
+import { apiVercel, publicVercel } from "./constants";
 
 export const URL_APP =
-  loadEnvironmentVar("NEXT_PUBLIC_VERCEL_URL") ??
-  "http://localhost:" + (loadEnvironmentVar("PORT") || 3000);
+  publicVercel.url ?? "http://localhost:" + (apiVercel.port || 3000);
 
 export const URL_API_Persons = "/persons";
 export const URL_API_Auth = "/api/auth";

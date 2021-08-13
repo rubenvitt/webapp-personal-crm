@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
-import { loadEnvironmentVar } from "../global/utils";
-
-const MONGO_URI = loadEnvironmentVar("MONGO_DB_CONNECTION", true);
-
-if (!MONGO_URI) {
-  throw new Error("Please define the MONGO_DB_CONNECTION environment variable");
-}
+import { apiMongoUrl } from "../global/constants";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -33,7 +27,7 @@ export default async function dbConnect() {
       useCreateIndex: true,
     };
 
-    cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(apiMongoUrl, opts).then((mongoose) => {
       mongoose.set("debug", true);
       return mongoose;
     });

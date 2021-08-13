@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import { Stripe } from "stripe";
 import { managementClient } from "../../../config/auth0";
-import { stripe, webhookSecret } from "../../../config/stripe.api";
+import { stripe } from "../../../config/stripe.api";
+import { apiAuth0, apiStripe } from "../../../global/constants";
 import { Logger } from "../../../global/logging";
-import { loadEnvironmentVar } from "../../../global/utils";
 
 export const config = {
   api: {
@@ -14,20 +14,14 @@ export const config = {
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
-const stripePremium = loadEnvironmentVar("STRIPE_PLAN_PREMIUM", true);
-const stripePro = loadEnvironmentVar("STRIPE_PLAN_PRO", true);
-const auth0Free = loadEnvironmentVar("AUTH0_ROLE_FREE", true);
-const auth0Premium = loadEnvironmentVar("AUTH0_ROLE_PREMIUM", true);
-const auth0Pro = loadEnvironmentVar("AUTH0_ROLE_PRO", true);
-
 function getRoleForProductId(product: string): string {
   switch (product) {
-    case stripePro:
-      return auth0Pro;
-    case stripePremium:
-      return auth0Premium;
+    case apiStripe.planPro:
+      return apiAuth0.planPro;
+    case apiStripe.planPremium:
+      return apiAuth0.planPremium;
     default:
-      return auth0Free;
+      return apiAuth0.planFree;
   }
 }
 
@@ -38,7 +32,7 @@ handler.all((req, res) => {
     event = stripe.webhooks.constructEvent(
       (req.read() as Buffer).toString().toString(),
       signature,
-      webhookSecret
+      apiStripe.endpointSecret
     );
 
     // TODO: save account details

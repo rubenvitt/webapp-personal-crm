@@ -14,19 +14,23 @@ import { getLoginUrl } from "@auth0/nextjs-auth0/dist/config";
 import { withPageAuthRequiredFactory } from "@auth0/nextjs-auth0/dist/helpers";
 import { SignInWithAuth0 } from "@auth0/nextjs-auth0/dist/instance";
 import { ManagementClient } from "auth0";
+import {
+  apiAuth0,
+  apiAuth0Client,
+  apiVercel,
+  publicVercel,
+} from "../global/constants";
 import { UserAppMetadata, UserUserMetadata } from "../global/interfaces";
-import { loadEnvironmentVar } from "../global/utils";
 
 export const getBaseUrl = (): string => {
-  switch (loadEnvironmentVar("VERCEL_ENV")) {
+  switch (apiVercel.env) {
     case "production":
       return "https://crm.rubeen.dev";
     default:
       return (
-        (loadEnvironmentVar("NEXT_PUBLIC_VERCEL_URL") &&
-          "https://" + loadEnvironmentVar("NEXT_PUBLIC_VERCEL_URL")) ||
-        loadEnvironmentVar("AUTH0_BASE_URL") ||
-        "http://localhost:" + (loadEnvironmentVar("PORT") ?? "3000")
+        (publicVercel.url && "https://" + publicVercel.url) ||
+        apiAuth0.baseUrl ||
+        "http://localhost:" + (apiVercel.port ?? "3000")
       );
   }
 };
@@ -67,9 +71,9 @@ export const managementClient = new ManagementClient<
   UserAppMetadata,
   UserUserMetadata
 >({
-  domain: loadEnvironmentVar("API_AUTH0_CLIENT_DOMAIN", true),
-  clientId: loadEnvironmentVar("API_AUTH0_CLIENT_ID", true),
-  clientSecret: loadEnvironmentVar("API_AUTH0_CLIENT_SECRET", true),
+  domain: apiAuth0Client.domain,
+  clientId: apiAuth0Client.id,
+  clientSecret: apiAuth0Client.secret,
   scope:
     "read:users update:users create:users_app_metadata delete:users_app_metadata update:users_app_metadata read:users_app_metadata",
 });
