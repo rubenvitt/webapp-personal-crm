@@ -13,10 +13,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { usePersonMutation } from "../../../../client-http/person";
 import { ActionType, PersonDetails } from "../../../../global/interfaces";
 import { Logger } from "../../../../global/logging";
 import { useAppRouter } from "../../../../global/router";
-import { usePersonMutation } from "../../../../services/person-service";
 import {
   DropDownButton,
   DropDownGroup,

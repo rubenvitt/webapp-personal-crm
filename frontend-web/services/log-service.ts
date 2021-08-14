@@ -1,5 +1,5 @@
+import { useQuery } from "react-query";
 import { IdOnly, LogEntry, LogEntryType } from "../global/interfaces";
-import useSWR from "swr";
 
 const entries: LogEntry[] = [
   {
@@ -48,13 +48,11 @@ export const findLogItemsFor: (aPersonId: string) => Promise<LogEntry[]> = (
 export const useLogEntry: (aPerson?: IdOnly) => {
   logEntries: LogEntry[];
 } = (person) => {
-  const { data: entries } = useSWR<LogEntry[]>(
-    "/log-entries" + (person ? "/" + person._id : ""),
-    {
-      fetcher: () => {
-        if (person) return findLogItemsFor(person._id);
-        else return findAllLogItems();
-      },
+  const { data: entries } = useQuery(
+    ["/api/log-entries", person?._id].filter((value) => value),
+    () => {
+      if (person) return findLogItemsFor(person._id);
+      else return findAllLogItems();
     }
   );
 

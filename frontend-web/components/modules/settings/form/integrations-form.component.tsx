@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
 import React from "react";
-import useSWR from "swr";
 import { classNames } from "../../../../global/utils";
 import { TextInput } from "../../../elements/common/input.component";
 import { FormLayout } from "../../common/form/form.layout.component";

@@ -11,12 +11,10 @@ export default function PublicHomepage(): React.ReactNode {
   return (
     <PublicLayout>
       Public homepage
-      <p>Running on url {URL_APP}</p>
-      <p>Variant 2: {process.env.NEXT_PUBLIC_VERCEL_URL}</p>
-      <p>Variant 3: {process.env["NEXT_PUBLIC_VERCEL_URL"]}</p>
       {isLoggedIn ? (
         <div>
           You are logged in.
+          <p>Running on url {URL_APP}</p>
           <Button action={() => push("/app")}>Visit app</Button>
         </div>
       ) : (

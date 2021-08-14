@@ -1,9 +1,7 @@
 import React from "react";
-import { PersonDetails } from "../../../../../global/interfaces";
-import {
-  usePerson,
-  usePersonMutation,
-} from "../../../../../services/person-service";
+import { usePersonMutation } from "../../../../../client-http/person";
+import { PersonDetails, UpdatePerson } from "../../../../../global/interfaces";
+import { usePerson } from "../../../../../services/person-service";
 import { FormLayout } from "../../../common/form/form.layout.component";
 import {
   EssentialFormSection,
@@ -30,9 +28,9 @@ export const EditPersonForm: React.FC<Props> = ({ person }) => {
         cancel={{ action: navigateTo }}
         save={{
           action: () => {
-            return Promise.resolve(updatePerson(essentialFormValue)).then(
-              navigateTo
-            );
+            return Promise.resolve(
+              updatePerson(essentialFormValue as UpdatePerson)
+            ).then(navigateTo);
           },
         }}
       >
