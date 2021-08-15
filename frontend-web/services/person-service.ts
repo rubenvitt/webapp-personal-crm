@@ -32,10 +32,7 @@ export const findDetailsFor: (aPersonId: string) => Promise<PersonDetails> = (
 export const createPerson: (aPerson: CreatePerson) => Promise<IdOnly> = async (
   aPerson
 ) => {
-  return apiAxios
-    .post<IdOnly>("/persons", aPerson)
-    .then((value) => value.data)
-    .catch(() => undefined);
+  return apiAxios.post<IdOnly>("/persons", aPerson).then((value) => value.data);
 };
 
 export const updatePerson: (aPerson: UpdatePerson) => Promise<unknown> = async (

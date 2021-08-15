@@ -18,11 +18,14 @@ export const CreatePersonForm: React.FC = () => {
     URL_API_Persons,
     (aPerson) => {
       return createPerson(aPerson);
+    },
+    {
+      onSuccess: (idOnly) => navigateTo(idOnly),
     }
   );
 
   const createContact = async () => {
-    return await mutateAsync(formValue).then((idOnly) => navigateTo(idOnly));
+    return await mutateAsync(formValue);
   };
 
   return (

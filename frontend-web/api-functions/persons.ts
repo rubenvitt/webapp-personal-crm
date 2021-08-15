@@ -1,5 +1,6 @@
 import { Types, UpdateWriteOpResult } from "mongoose";
 import {
+  CreateElement,
   CreatePerson,
   IdOnly,
   Person,
@@ -10,7 +11,7 @@ import {
   UpdatePerson,
 } from "../global/interfaces";
 import { Logger } from "../global/logging";
-import { Contact, Person as PersonModel } from "../models/Person";
+import { Comment, Contact, Person as PersonModel } from "../models/Person";
 
 export async function apiFindPersonDetailsFor(
   aPersonId: string
@@ -20,6 +21,7 @@ export async function apiFindPersonDetailsFor(
       "contact.phone",
       "contact.mail",
       "contact.address",
+      "comments",
     ]);
   } catch (e) {
     Logger.error("Unable to find person details for", aPersonId, e);
@@ -68,6 +70,24 @@ export async function apiFavoritePerson(
       },
     }
   );
+}
+
+export async function apiAddCommentForPerson(
+  aPersonId: string,
+  comment: CreateElement<Comment>
+) {
+  return await Comment.create(comment).then((doc) => {
+    return PersonModel.updateOne(
+      {
+        _id: Types.ObjectId(aPersonId),
+      },
+      {
+        $addToSet: {
+          comments: doc.id,
+        },
+      }
+    );
+  });
 }
 
 export async function apiAddPhoneForPerson(

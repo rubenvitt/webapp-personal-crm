@@ -149,6 +149,12 @@ export interface PersonDetails extends Person, RichName, Gendered, Birthdayed {
   groups: PersonTag[];
   lastContact: string;
   contact: ContactInfos;
+  comments: Comment[];
+}
+
+export interface Comment extends IdOnly {
+  created: string;
+  content: string;
 }
 
 export enum DateType {
@@ -206,14 +212,6 @@ export interface PersonTag {
   _id: string;
   title: string;
   color: { bg: string; text: string };
-}
-
-export interface Note {
-  _id: number;
-  name?: string;
-  date: string;
-  imageId?: string;
-  body: string;
 }
 
 export interface AppUser extends UserProfile {
