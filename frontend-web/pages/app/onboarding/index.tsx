@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
+import { withPageAuthRequired } from "../../../config/auth0";
 import { useAppRouter } from "../../../global/router";
 import { useUserOnboarding } from "../../../services/account-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 export default function Onboarding(): JSX.Element {
   const { push } = useAppRouter();

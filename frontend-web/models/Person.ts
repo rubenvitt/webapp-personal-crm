@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-import mongoose, { Types } from "mongoose";
+import mongoose, { Date, Types } from "mongoose";
 import { Logger } from "../global/logging";
 
 const PersonSchema = new mongoose.Schema({
@@ -50,6 +50,7 @@ const PersonSchema = new mongoose.Schema({
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
     },
   },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 PersonSchema.pre("deleteOne", { document: true }, async function () {
@@ -84,9 +85,24 @@ const ContactSchema = new mongoose.Schema({
   },
 });
 
+const CommentSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+  },
+  created: {
+    type: Date,
+    required: true,
+  },
+});
+
 export const Contact =
   mongoose.models.Contact ||
   mongoose.model("Contact", ContactSchema, "contacts");
+
+export const Comment =
+  mongoose.models.Comment ||
+  mongoose.model("Comment", CommentSchema, "comments");
 
 export const Person =
   mongoose.models.Person || mongoose.model("Person", PersonSchema, "persons");

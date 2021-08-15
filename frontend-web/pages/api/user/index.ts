@@ -25,7 +25,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 handler.patch(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { userPromise, userId } = apiGetCurrentUser(req, res);
+  const { userId } = apiGetCurrentUser(req, res);
   if (!givenOrNull(req.body.given_name + req.body.family_name)) {
     res.status(400).send({
       message: "given_name or family_name is mandatory",

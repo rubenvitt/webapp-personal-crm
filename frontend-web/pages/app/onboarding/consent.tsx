@@ -1,22 +1,27 @@
 import React, { useRef } from "react";
-import useSWR from "swr";
-import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
+import { useQuery } from "react-query";
+import { fetchConsent } from "../../../client-http/onboarding";
 import { AcceptableDocument } from "../../../components/elements/common/acceptable-document.component";
 import { OnboardProgressContent } from "../../../components/modules/onboard/onboard-progress-content.component";
 import { OnboardProgressNav } from "../../../components/modules/onboard/onboard-progress-nav.component";
+import { withPageAuthRequired } from "../../../config/auth0";
 import { Logger } from "../../../global/logging";
 import { useFormStore } from "../../../hooks/onboarding";
 import { useUserOnboarding } from "../../../services/account-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 export default function Consent(): JSX.Element {
   const { privacy } = useFormStore();
   const form = useRef<HTMLFormElement>();
-  const { data: privacyData } = useSWR<{ text }>(
-    "/onboarding/consent?type=privacy"
+  const { data: privacyText } = useQuery(
+    ["/api/onboarding/consent", "privacy"],
+    fetchConsent
   );
-  const { data: agbData } = useSWR<{ text }>("/onboarding/consent?type=agb");
+  const { data: agbText } = useQuery(
+    ["/api/onboarding/consent", "agb"],
+    fetchConsent
+  );
   const { updateCurrentStep } = useUserOnboarding();
 
   return (
@@ -45,7 +50,7 @@ export default function Consent(): JSX.Element {
       >
         <form ref={form}>
           <AcceptableDocument
-            content={privacyData?.text}
+            content={privacyText}
             id="privacy-policy"
             label={{
               withArticle: "die Datenschutzerklärung",
@@ -58,7 +63,7 @@ export default function Consent(): JSX.Element {
             }}
           />
           <AcceptableDocument
-            content={agbData?.text}
+            content={agbText}
             className={"mt-4"}
             id="agb"
             label={{

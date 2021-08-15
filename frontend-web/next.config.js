@@ -7,7 +7,6 @@ module.exports = {
       process.env.AUTH0_BASE_URL ||
       "http://localhost:" + (process.env.PORT ?? "3000"),
   },
-  i18n: require("./next-i18next.config").i18n,
   images: {
     domains: ["images.unsplash.com", "randomuser.me"],
   },

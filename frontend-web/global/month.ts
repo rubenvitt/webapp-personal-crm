@@ -16,29 +16,29 @@ export enum Month {
 export function nameFor(aMonth: Month): string {
   switch (aMonth) {
     case Month.JANUARY:
-      return "date.month.january";
+      return "Januar";
     case Month.FEBRUARY:
-      return "date.month.february";
+      return "Februar";
     case Month.MARCH:
-      return "date.month.march";
+      return "März";
     case Month.APRIL:
-      return "date.month.april";
+      return "April";
     case Month.MAY:
-      return "date.month.may";
+      return "Mai";
     case Month.JUNE:
-      return "date.month.june";
+      return "Juni";
     case Month.JULY:
-      return "date.month.july";
+      return "Juli";
     case Month.AUGUST:
-      return "date.month.august";
+      return "August";
     case Month.SEPTEMBER:
-      return "date.month.september";
+      return "September";
     case Month.OCTOBER:
-      return "date.month.october";
+      return "Oktober";
     case Month.NOVEMBER:
-      return "date.month.november";
+      return "November";
     case Month.DECEMBER:
-      return "date.month.december";
+      return "Dezember";
   }
 }
 

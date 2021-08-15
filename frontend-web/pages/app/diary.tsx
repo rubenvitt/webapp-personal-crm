@@ -1,9 +1,9 @@
 import React from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../api-functions/defaults";
 import { DiaryList } from "../../components/modules/diary/diary-list.component";
+import { withPageAuthRequired } from "../../config/auth0";
 import { useLogEntry } from "../../services/log-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 const Diary: React.FC = () => {
   const { logEntries } = useLogEntry();

@@ -1,10 +1,10 @@
 import { faMoneyCheck } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
 import { Button } from "../../../components/elements/common/button.component";
 import { OnboardProgressContent } from "../../../components/modules/onboard/onboard-progress-content.component";
 import { OnboardProgressNav } from "../../../components/modules/onboard/onboard-progress-nav.component";
+import { withPageAuthRequired } from "../../../config/auth0";
 import { SubscriptionType } from "../../../global/interfaces";
 import { Logger } from "../../../global/logging";
 import { useAppRouter } from "../../../global/router";
@@ -14,7 +14,7 @@ import {
 } from "../../../services/account-service";
 import { usePayment } from "../../../services/payment-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 export default function Plans(): JSX.Element {
   const { updateCurrentStep } = useUserOnboarding();

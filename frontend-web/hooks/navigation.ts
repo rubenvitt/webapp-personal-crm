@@ -5,11 +5,9 @@ import {
   faTachometer,
   faUsers,
 } from "@fortawesome/pro-regular-svg-icons";
-import { TFunction, useTranslation } from "next-i18next";
-import { useRouter } from "next/dist/client/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import create from "zustand";
-import { NavElement, Navigation } from "../global/interfaces";
+import { Navigation } from "../global/interfaces";
 
 const useNavigationStore = create<Navigation>(() => ({
   userNav: [
@@ -18,57 +16,33 @@ const useNavigationStore = create<Navigation>(() => ({
   ],
   footerNav: [],
   addItemsNav: [
-    { name: "add-items.contact", href: "/app/contacts/new" },
-    { name: "add-items.appointment", href: "/app/appointments/new" },
-    { name: "add-items.reminder", href: "/app/appointments/new?type=reminder" },
-    { name: "add-items.log", href: "/app/diary/new" },
+    { name: "Kontakt hinzufügen", href: "/app/contacts/new" },
+    { name: "Termin anlegen", href: "/app/appointments/new" },
+    {
+      name: "Erinnerung hinzufügen",
+      href: "/app/appointments/new?type=reminder",
+    },
+    { name: "Eintrag anlegen", href: "/app/diary/new" },
   ],
   sidebarNav: [
-    { name: "sidebar.dashboard", href: "/app", icon: faTachometer },
-    { name: "sidebar.contacts", href: "/app/contacts", icon: faUsers },
+    { name: "Dashboard", href: "/app", icon: faTachometer },
+    { name: "Kontakte", href: "/app/contacts", icon: faUsers },
     {
-      name: "sidebar.appointments",
+      name: "Termine",
       href: "/app/appointments",
       icon: faCalendar,
     },
-    { name: "sidebar.log", href: "/app/diary", icon: faList },
-    { name: "sidebar.settings", href: "/app/settings", icon: faCog },
+    { name: "Einträge", href: "/app/diary", icon: faList },
+    { name: "Einstellungen", href: "/app/settings", icon: faCog },
   ],
 }));
 
-function translateNav(addItemsNav: NavElement[], t: TFunction): NavElement[] {
-  return addItemsNav.map((e) => {
-    return {
-      ...e,
-      name: t("menu." + e.name),
-    };
-  });
-}
-
 export function useNavigation(): Navigation {
   const { addItemsNav, userNav, sidebarNav, footerNav } = useNavigationStore();
-  const [_addItemsNav, setAddItemsNav] = useState(addItemsNav);
-  const [_userNav, setUserNAv] = useState(userNav);
-  const [_sidebarNav, setSidebarNav] = useState(sidebarNav);
-  const [_footerNav, setFooterNav] = useState(footerNav);
-  const { t } = useTranslation("common");
-  const { locale } = useRouter();
-
-  useEffect(() => {
-    setAddItemsNav(translateNav(addItemsNav, t));
-  }, [addItemsNav, locale]);
-
-  useEffect(() => {
-    setUserNAv(translateNav(userNav, t));
-  }, [userNav, locale]);
-
-  useEffect(() => {
-    setSidebarNav(translateNav(sidebarNav, t));
-  }, [sidebarNav, locale]);
-
-  useEffect(() => {
-    setFooterNav(translateNav(footerNav, t));
-  }, [footerNav, locale]);
+  const [_addItemsNav] = useState(addItemsNav);
+  const [_userNav] = useState(userNav);
+  const [_sidebarNav] = useState(sidebarNav);
+  const [_footerNav] = useState(footerNav);
 
   return {
     addItemsNav: _addItemsNav,

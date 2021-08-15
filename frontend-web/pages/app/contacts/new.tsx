@@ -1,8 +1,8 @@
 import React from "react";
-import { withAuthenticatedTranslatedServerSideProps } from "../../../api-functions/defaults";
 import { CreatePersonForm } from "../../../components/modules/contacts/create/create-form.component";
+import { withPageAuthRequired } from "../../../config/auth0";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps();
+export const getServerSideProps = withPageAuthRequired();
 
 const NewContactPage: React.FC = () => {
   return <CreatePersonForm />;

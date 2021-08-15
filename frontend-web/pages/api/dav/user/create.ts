@@ -8,25 +8,21 @@ import {
   withApiAuthRequired,
 } from "../../../../config/auth0";
 import { createNewUser, encryptText } from "../../../../config/sabre.api";
+import { apiSabre } from "../../../../global/constants";
 import { Logger } from "../../../../global/logging";
-import { loadEnvironmentVar } from "../../../../global/utils";
 
 const handler = nextConnect();
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId, userPromise } = apiGetCurrentUser(req, res);
   const userHash = crypto
-    .createHmac("md5", loadEnvironmentVar("CRYPTO_SECRET_KEY_1", true))
+    .createHmac("md5", apiSabre.cryptoSecret1)
     .update(userId)
     .digest()
     .toString("hex");
   const passwordHash = crypto
-    .createHmac("md5", loadEnvironmentVar("CRYPTO_SECRET_KEY_2", true))
-    .update(
-      userHash +
-        loadEnvironmentVar("CRYPTO_SECRET_KEY_2", true) +
-        crypto.randomBytes(16)
-    )
+    .createHmac("md5", apiSabre.cryptoSecret2)
+    .update(userHash + apiSabre.cryptoSecret2 + crypto.randomBytes(16))
     .digest()
     .toString("hex");
 

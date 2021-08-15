@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import axios from "../axios";
+import { apiAxios } from "../axios";
 import { SubscriptionType } from "../global/interfaces";
 import { AsyncAction } from "../global/types";
 
@@ -10,7 +10,7 @@ export function usePayment(): {
 
   return {
     createPayment: async (plan: SubscriptionType) => {
-      await axios
+      await apiAxios
         .post<{ url: string }>("/payment", {
           plan: plan,
         })

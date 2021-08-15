@@ -1,16 +1,20 @@
-import { AxiosError } from "axios";
 import React from "react";
-import useSWR from "swr";
-import { TextInput } from "../../../elements/common/input.component";
+import { useQuery } from "react-query";
+import { apiAxios } from "../../../../axios";
 import { classNames } from "../../../../global/utils";
+import { TextInput } from "../../../elements/common/input.component";
 import { FormLayout } from "../../common/form/form.layout.component";
 import { FormSection } from "../../common/form/section.component";
 
-export const IntegrationsForm: React.FC = ({ children }) => {
-  const { data } = useSWR<{ username: string; password: string }, AxiosError>(
-    "/dav/user/credentials"
-  );
-  const { data: url } = useSWR<{ url: string }>("/dav");
+export function IntegrationsForm(): JSX.Element {
+  const { data } = useQuery("/api/dav/user/credentials", () => {
+    return apiAxios
+      .get<{ username: string; password: string }>("/dav/user/credentials")
+      .then((value) => value.data);
+  });
+  const { data: url } = useQuery("/api/dav", () => {
+    return apiAxios.get<{ url: string }>("/dav").then((value) => value.data);
+  });
 
   return (
     <FormLayout className={classNames("lg:col-span-9")}>
@@ -50,4 +54,4 @@ export const IntegrationsForm: React.FC = ({ children }) => {
       </FormSection>
     </FormLayout>
   );
-};
+}

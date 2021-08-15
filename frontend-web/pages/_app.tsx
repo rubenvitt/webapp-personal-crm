@@ -1,14 +1,24 @@
 // noinspection JSUnusedLocalSymbols
 
 import { UserProvider } from "@auth0/nextjs-auth0";
-import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import React from "react";
-import { SWRConfig } from "swr";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { AppLayout } from "../components/layouts/app-layout";
 import { PublicLayout } from "../components/layouts/public-layout";
-import { fetcher } from "../config/swr.utils";
 import "../styles/globals.css";
+
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      //
+    },
+    mutations: {
+      //
+    },
+  },
+});
 
 const MyApp: React.ComponentType<AppProps> = ({
   Component,
@@ -20,17 +30,14 @@ const MyApp: React.ComponentType<AppProps> = ({
     : PublicLayout;
   return (
     <UserProvider profileUrl={"/api/user"}>
-      <SWRConfig
-        value={{
-          fetcher: fetcher,
-        }}
-      >
+      <QueryClientProvider client={client}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </SWRConfig>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </UserProvider>
   );
 };
 
-export default appWithTranslation(MyApp);
+export default MyApp;

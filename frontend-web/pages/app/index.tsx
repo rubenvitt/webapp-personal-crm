@@ -1,32 +1,28 @@
-import { useTranslation } from "next-i18next";
 import React from "react";
 import Avatar from "react-avatar";
-import { withAuthenticatedTranslatedServerSideProps } from "../../api-functions/defaults";
-import axios from "../../axios";
+import { apiAxios } from "../../axios";
 import { Button } from "../../components/elements/common/button.component";
 import { RequireRoles } from "../../components/modules/common/require-roles.component";
+import { withPageAuthRequired } from "../../config/auth0";
 import { ActionType } from "../../global/interfaces";
 import { useCurrentUser } from "../../services/account-service";
 
-export const getServerSideProps = withAuthenticatedTranslatedServerSideProps({
-  translations: ["pages.dashboard"],
-});
+export const getServerSideProps = withPageAuthRequired();
 
 export default function Dashboard(): JSX.Element {
   const { login, logout, currentUser, isLoading, error } = useCurrentUser();
-  const { t } = useTranslation("pages.dashboard");
 
   if (isLoading) return <>Loading</>;
   if (error) return <div>{error.message}</div>;
   if (currentUser)
     return (
       <div>
-        {t("welcome-message", { displayname: currentUser.name })}
+        Willkommen, {currentUser.name}!
         <RequireRoles role="full-admin">
           <Button
             actionType={ActionType.INFO}
             action={() =>
-              axios.post("/dav/user/create", {
+              apiAxios.post("/dav/user/create", {
                 secret: "Hallo junger Mann. :D",
               })
             }
