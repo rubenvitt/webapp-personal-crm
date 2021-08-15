@@ -1,16 +1,9 @@
-import { AxiosError } from "axios";
 import React, { useRef } from "react";
-import { useMutation } from "react-query";
-import { apiAxios } from "../../../../axios";
-import {
-  Comment,
-  CreateElement,
-  PersonDetails,
-  TimespanType,
-} from "../../../../global/interfaces";
-import { calculateTimespanSince } from "../../../../global/utils";
+import { useCommentsMutation } from "../../../../client-http/comments";
+import { PersonDetails } from "../../../../global/interfaces";
 import { Button } from "../../../elements/common/button.component";
 import { ContentBox } from "../../common/content-box.component";
+import { Note } from "./note.component";
 
 interface Props {
   person: PersonDetails;
@@ -18,17 +11,7 @@ interface Props {
 
 export const PersonDetailNotesBox: React.FC<Props> = ({ person }) => {
   const commentBoxRef = useRef<HTMLTextAreaElement>();
-  const { mutateAsync } = useMutation<void, AxiosError, CreateElement<Comment>>(
-    ["/persons/comment", person._id],
-    (data) => {
-      return apiAxios.post("/persons/" + person._id + "/comment", data);
-    },
-    {
-      onSuccess: () => {
-        //invalidate cache, optimistic update
-      },
-    }
-  );
+  const { createComment, removeComment } = useCommentsMutation(person);
 
   return (
     <ContentBox
@@ -55,7 +38,7 @@ export const PersonDetailNotesBox: React.FC<Props> = ({ person }) => {
                 <div className="mt-3 grid justify-items-end">
                   <Button
                     action={() =>
-                      mutateAsync({
+                      createComment({
                         content: commentBoxRef.current.value,
                         created: new Date().toISOString(),
                       }).then(() => {
@@ -72,28 +55,9 @@ export const PersonDetailNotesBox: React.FC<Props> = ({ person }) => {
         ),
       }}
     >
-      <ul className="space-y-8">
+      <ul className="space-y-4 divide-y divide-solid -mt-5">
         {person.comments?.map((comment) => (
-          <li key={comment._id}>
-            <div className="flex space-x-3">
-              <div>
-                <div className="mt-1 text-sm text-gray-700">
-                  <p>{comment.content}</p>
-                </div>
-                <div className="mt-2 text-sm space-x-2">
-                  <span className="text-gray-500 font-medium">
-                    {calculateTimespanSince({
-                      duration: {
-                        start: comment.created,
-                      },
-                      type: TimespanType.INACCURATE,
-                      prefix: "vor ",
-                    })}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </li>
+          <Note key={comment._id} person={person} comment={comment} />
         ))}
       </ul>
     </ContentBox>

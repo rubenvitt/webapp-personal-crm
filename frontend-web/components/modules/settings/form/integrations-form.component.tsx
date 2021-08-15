@@ -7,12 +7,12 @@ import { FormLayout } from "../../common/form/form.layout.component";
 import { FormSection } from "../../common/form/section.component";
 
 export function IntegrationsForm(): JSX.Element {
-  const { data } = useQuery("/api/dav/user/credentials", () => {
+  const { data } = useQuery("/dav/user/credentials", () => {
     return apiAxios
       .get<{ username: string; password: string }>("/dav/user/credentials")
       .then((value) => value.data);
   });
-  const { data: url } = useQuery("/api/dav", () => {
+  const { data: url } = useQuery("/dav", () => {
     return apiAxios.get<{ url: string }>("/dav").then((value) => value.data);
   });
 

@@ -90,6 +90,35 @@ export async function apiAddCommentForPerson(
   });
 }
 
+export async function apiDeleteCommentForPerson(
+  aPersonId: string,
+  aCommentId: string
+) {
+  const any = await Comment.deleteOne({ _id: Types.ObjectId(aCommentId) });
+  await PersonModel.updateOne(
+    { _id: Types.ObjectId(aPersonId) },
+    {
+      $pull: {
+        comments: Types.ObjectId(aCommentId),
+      },
+    }
+  );
+  return any;
+}
+
+export async function apiUpdateCommentForPerson(
+  aPersonId: string,
+  aCommentId: string,
+  aComment: Comment
+): Promise<UpdateWriteOpResult> {
+  return Comment.updateOne(
+    { _id: Types.ObjectId(aCommentId) },
+    {
+      $set: aComment,
+    }
+  );
+}
+
 export async function apiAddPhoneForPerson(
   aPersonId: string,
   value: Omit<PersonPhone, "_id">

@@ -49,7 +49,7 @@ export const useLogEntry: (aPerson?: IdOnly) => {
   logEntries: LogEntry[];
 } = (person) => {
   const { data: entries } = useQuery(
-    ["/api/log-entries", person?._id].filter((value) => value),
+    ["/log-entries", person?._id].filter((value) => value),
     () => {
       if (person) return findLogItemsFor(person._id);
       else return findAllLogItems();

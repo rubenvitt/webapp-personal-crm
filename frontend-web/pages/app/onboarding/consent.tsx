@@ -15,11 +15,11 @@ export default function Consent(): JSX.Element {
   const { privacy } = useFormStore();
   const form = useRef<HTMLFormElement>();
   const { data: privacyText } = useQuery(
-    ["/api/onboarding/consent", "privacy"],
+    ["/onboarding/consent", "privacy"],
     fetchConsent
   );
   const { data: agbText } = useQuery(
-    ["/api/onboarding/consent", "agb"],
+    ["/onboarding/consent", "agb"],
     fetchConsent
   );
   const { updateCurrentStep } = useUserOnboarding();

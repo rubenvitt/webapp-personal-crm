@@ -3,22 +3,12 @@
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { AppProps } from "next/app";
 import React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { AppLayout } from "../components/layouts/app-layout";
 import { PublicLayout } from "../components/layouts/public-layout";
+import { queryClient } from "../config/react-query";
 import "../styles/globals.css";
-
-const client = new QueryClient({
-  defaultOptions: {
-    queries: {
-      //
-    },
-    mutations: {
-      //
-    },
-  },
-});
 
 const MyApp: React.ComponentType<AppProps> = ({
   Component,
@@ -30,7 +20,7 @@ const MyApp: React.ComponentType<AppProps> = ({
     : PublicLayout;
   return (
     <UserProvider profileUrl={"/api/user"}>
-      <QueryClientProvider client={client}>
+      <QueryClientProvider client={queryClient}>
         <Layout>
           <Component {...pageProps} />
         </Layout>

@@ -1,10 +1,5 @@
-import { AxiosError } from "axios";
 import React from "react";
-import { useMutation } from "react-query";
-import { CreatePerson, IdOnly } from "../../../../global/interfaces";
-import { usePersonNavigate } from "../../../../global/person-utils";
-import { URL_API_Persons } from "../../../../global/urls";
-import { createPerson } from "../../../../services/person-service";
+import { usePersonMutation } from "../../../../client-http/person";
 import { FormLayout } from "../../common/form/form.layout.component";
 import {
   EssentialFormSection,
@@ -13,25 +8,12 @@ import {
 
 export const CreatePersonForm: React.FC = () => {
   const { formValue } = useEssentialFormStore();
-  const { navigateTo } = usePersonNavigate();
-  const { mutateAsync } = useMutation<IdOnly, AxiosError, CreatePerson>(
-    URL_API_Persons,
-    (aPerson) => {
-      return createPerson(aPerson);
-    },
-    {
-      onSuccess: (idOnly) => navigateTo(idOnly),
-    }
-  );
-
-  const createContact = async () => {
-    return await mutateAsync(formValue);
-  };
+  const { createPerson } = usePersonMutation();
 
   return (
     <FormLayout
       save={{
-        action: createContact,
+        action: () => createPerson(formValue),
       }}
     >
       <EssentialFormSection />

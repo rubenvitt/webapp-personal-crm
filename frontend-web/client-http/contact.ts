@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { useMutation } from "react-query";
+import { invalidateQueries } from "../config/react-query";
 import {
   Address,
   IdOnly,
@@ -20,23 +21,39 @@ import {
 } from "../services/person-service";
 
 export function useContactMutations(person: IdOnly) {
+  function invalidatePerson() {
+    invalidateQueries({ queryKey: ["/persons", person._id] });
+  }
+
   const addPhoneMutation = useMutation<
     void,
     AxiosError,
     Omit<PersonPhone, "_id">
-  >(["/api/persons/contact/phone", person], async (variables) => {
-    await addPhoneNumber(person, variables);
-  });
+  >(
+    ["/persons/contact/phone", person],
+    async (variables) => {
+      await addPhoneNumber(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
+    }
+  );
   const deletePhoneMutation = useMutation<void, AxiosError, PersonPhone>(
-    ["/api/persons/contact/phone", person],
+    ["/persons/contact/phone", person],
     async (variables) => {
       await deletePhoneNumber(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
     }
   );
   const updatePhoneMutation = useMutation<void, AxiosError, PersonPhone>(
-    ["/api/persons/contact/phone", person],
+    ["/persons/contact/phone", person],
     async (variables) => {
       await updatePhoneNumber(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
     }
   );
 
@@ -44,19 +61,31 @@ export function useContactMutations(person: IdOnly) {
     void,
     AxiosError,
     Omit<PersonMail, "_id">
-  >(["/api/persons/contact/mail", person], async (variables) => {
-    await addMailAddress(person, variables);
-  });
+  >(
+    ["/persons/contact/mail", person],
+    async (variables) => {
+      await addMailAddress(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
+    }
+  );
   const deleteMailMutation = useMutation<void, AxiosError, PersonMail>(
-    ["/api/persons/contact/mail", person],
+    ["/persons/contact/mail", person],
     async (variables) => {
       await deleteMailAddress(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
     }
   );
   const updateMailMutation = useMutation<void, AxiosError, PersonMail>(
-    ["/api/persons/contact/mail", person],
+    ["/persons/contact/mail", person],
     async (variables) => {
       await updateMailAddress(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
     }
   );
 
@@ -64,11 +93,17 @@ export function useContactMutations(person: IdOnly) {
     void,
     AxiosError,
     Omit<PersonAddress, "_id">
-  >(["/api/persons/contact/address", person], async (variables) => {
-    await addAddress(person, variables);
-  });
+  >(
+    ["/persons/contact/address", person],
+    async (variables) => {
+      await addAddress(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
+    }
+  );
   const deleteAddressMutation = useMutation<void, AxiosError, PersonAddress>(
-    ["/api/persons/contact/address", person],
+    ["/persons/contact/address", person],
     async (variables) => {
       await deleteAddress(person, variables);
     }
@@ -77,9 +112,15 @@ export function useContactMutations(person: IdOnly) {
     void,
     AxiosError,
     PersonAddress | Address
-  >(["/api/persons/contact/address", person], async (variables) => {
-    await updateAddress(person, variables);
-  });
+  >(
+    ["/persons/contact/address", person],
+    async (variables) => {
+      await updateAddress(person, variables);
+    },
+    {
+      onSuccess: () => invalidatePerson(),
+    }
+  );
 
   return {
     mutatePhoneAdd: addPhoneMutation.mutateAsync,

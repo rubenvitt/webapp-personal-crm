@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
-import { apiAddCommentForPerson } from "../../../../api-functions/persons";
-import { withApiAuthRequired } from "../../../../config/auth0";
+import { apiAddCommentForPerson } from "../../../../../api-functions/persons";
+import { withApiAuthRequired } from "../../../../../config/auth0";
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 

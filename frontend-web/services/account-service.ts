@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
 import { apiAxios } from "../axios";
+import { invalidateQueries } from "../config/react-query";
 import {
   AppUser,
   AvailableOnboardingStep,
@@ -23,7 +24,7 @@ export function useUserOnboarding(): {
   currentStep?: string;
   steps: OnboardingStep[];
 } {
-  const { data } = useQuery("/api/onboarding", () => {
+  const { data } = useQuery("/onboarding", () => {
     return apiAxios
       .get<{ currentStep: string; steps: OnboardingStep[] }>("/onboarding")
       .then((value) => value.data);
@@ -57,15 +58,18 @@ export const useCurrentUser: () => {
   update: (data: AppUser) => Promise<void>;
 } = () => {
   const { data: currentUser, error: getError } = useQuery<AppUser, AxiosError>(
-    "/api/user",
+    "/user",
     () => {
       return apiAxios.get("/user").then((value) => value.data);
     }
   );
   const { mutate, error: mutateError } = useMutation<void, AxiosError, AppUser>(
-    "/api/user",
+    "/user",
     async (variables) => {
       await updateUser(variables);
+    },
+    {
+      onSuccess: () => invalidateQueries({ queryKey: "/user" }),
     }
   );
 
