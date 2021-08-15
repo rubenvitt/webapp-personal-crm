@@ -1,5 +1,7 @@
+import { AxiosError } from "axios";
 import React from "react";
-import { IdOnly } from "../../../../global/interfaces";
+import { useMutation } from "react-query";
+import { CreatePerson, IdOnly } from "../../../../global/interfaces";
 import { usePersonNavigate } from "../../../../global/person-utils";
 import { URL_API_Persons } from "../../../../global/urls";
 import { createPerson } from "../../../../services/person-service";
@@ -12,10 +14,15 @@ import {
 export const CreatePersonForm: React.FC = () => {
   const { formValue } = useEssentialFormStore();
   const { navigateTo } = usePersonNavigate();
+  const { mutateAsync } = useMutation<IdOnly, AxiosError, CreatePerson>(
+    URL_API_Persons,
+    (aPerson) => {
+      return createPerson(aPerson);
+    }
+  );
 
   const createContact = async () => {
-    const idOnly: IdOnly = await createPerson(formValue);
-    return await mutate(URL_API_Persons).then(() => navigateTo(idOnly));
+    return await mutateAsync(formValue).then((idOnly) => navigateTo(idOnly));
   };
 
   return (

@@ -59,7 +59,7 @@ export const useCurrentUser: () => {
   const { data: currentUser, error: getError } = useQuery<AppUser, AxiosError>(
     "/api/user",
     () => {
-      return apiAxios.get("/api/user").then((value) => value.data);
+      return apiAxios.get("/user").then((value) => value.data);
     }
   );
   const { mutate, error: mutateError } = useMutation<void, AxiosError, AppUser>(

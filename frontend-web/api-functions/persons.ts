@@ -1,4 +1,4 @@
-import { FilterQuery, Types, UpdateWriteOpResult } from "mongoose";
+import { Types, UpdateWriteOpResult } from "mongoose";
 import {
   CreatePerson,
   IdOnly,
@@ -27,9 +27,9 @@ export async function apiFindPersonDetailsFor(
   }
 }
 
-export async function apiFindAllPersons(
-  filter?: FilterQuery<typeof PersonModel>
-): Promise<Person[]> {
+export function apiFindAllPersons(filter?: {
+  isFavorite?: boolean;
+}): Promise<Person[]> {
   return PersonModel.find(filter, { displayName: 1 });
 }
 
@@ -72,7 +72,7 @@ export async function apiFavoritePerson(
 
 export async function apiAddPhoneForPerson(
   aPersonId: string,
-  value: string
+  value: Omit<PersonPhone, "_id">
 ): Promise<UpdateWriteOpResult> {
   return await Contact.create(value).then((doc) => {
     return PersonModel.updateOne(
@@ -119,7 +119,7 @@ export async function apiDeletePhoneForPerson(
 
 export async function apiAddMailForPerson(
   aPersonId: string,
-  value: string
+  value: Omit<PersonMail, "_id">
 ): Promise<UpdateWriteOpResult> {
   return await Contact.create(value).then((doc) => {
     return PersonModel.updateOne(
@@ -166,7 +166,7 @@ export async function apiDeleteMailForPerson(
 
 export async function apiAddAddressForPerson(
   aPersonId: string,
-  value: string
+  value: Omit<PersonAddress, "_id">
 ): Promise<UpdateWriteOpResult> {
   return await Contact.create(value).then((doc) => {
     return PersonModel.updateOne(

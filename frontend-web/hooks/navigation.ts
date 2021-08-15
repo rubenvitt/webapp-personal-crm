@@ -16,21 +16,24 @@ const useNavigationStore = create<Navigation>(() => ({
   ],
   footerNav: [],
   addItemsNav: [
-    { name: "add-items.contact", href: "/app/contacts/new" },
-    { name: "add-items.appointment", href: "/app/appointments/new" },
-    { name: "add-items.reminder", href: "/app/appointments/new?type=reminder" },
-    { name: "add-items.log", href: "/app/diary/new" },
+    { name: "Kontakt hinzufügen", href: "/app/contacts/new" },
+    { name: "Termin anlegen", href: "/app/appointments/new" },
+    {
+      name: "Erinnerung hinzufügen",
+      href: "/app/appointments/new?type=reminder",
+    },
+    { name: "Eintrag anlegen", href: "/app/diary/new" },
   ],
   sidebarNav: [
-    { name: "sidebar.dashboard", href: "/app", icon: faTachometer },
-    { name: "sidebar.contacts", href: "/app/contacts", icon: faUsers },
+    { name: "Dashboard", href: "/app", icon: faTachometer },
+    { name: "Kontakte", href: "/app/contacts", icon: faUsers },
     {
-      name: "sidebar.appointments",
+      name: "Termine",
       href: "/app/appointments",
       icon: faCalendar,
     },
-    { name: "sidebar.log", href: "/app/diary", icon: faList },
-    { name: "sidebar.settings", href: "/app/settings", icon: faCog },
+    { name: "Einträge", href: "/app/diary", icon: faList },
+    { name: "Einstellungen", href: "/app/settings", icon: faCog },
   ],
 }));
 

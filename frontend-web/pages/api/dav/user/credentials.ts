@@ -12,11 +12,11 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { userPromise } = apiGetCurrentUser(req, res);
 
   userPromise.then((user) => {
-    const userPromise = decryptText(user.user_metadata.dav.user).catch(
+    const userPromise = decryptText(user.user_metadata.dav?.user).catch(
       (error: AxiosError) =>
         Logger.error("error", error.isAxiosError && error.response?.data)
     );
-    const passwordPromise = decryptText(user.user_metadata.dav.pass).catch(
+    const passwordPromise = decryptText(user.user_metadata.dav?.pass).catch(
       (error: AxiosError) =>
         Logger.error("error", error.isAxiosError && error.response?.data)
     );

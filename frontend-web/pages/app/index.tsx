@@ -1,6 +1,6 @@
 import React from "react";
 import Avatar from "react-avatar";
-import axios from "../../axios";
+import { apiAxios } from "../../axios";
 import { Button } from "../../components/elements/common/button.component";
 import { RequireRoles } from "../../components/modules/common/require-roles.component";
 import { withPageAuthRequired } from "../../config/auth0";
@@ -22,7 +22,7 @@ export default function Dashboard(): JSX.Element {
           <Button
             actionType={ActionType.INFO}
             action={() =>
-              axios.post("/dav/user/create", {
+              apiAxios.post("/dav/user/create", {
                 secret: "Hallo junger Mann. :D",
               })
             }
