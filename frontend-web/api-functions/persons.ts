@@ -114,7 +114,10 @@ export async function apiUpdateCommentForPerson(
   return Comment.updateOne(
     { _id: Types.ObjectId(aCommentId) },
     {
-      $set: aComment,
+      $set: {
+        ...aComment,
+        updated: new Date(),
+      },
     }
   );
 }

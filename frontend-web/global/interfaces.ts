@@ -154,6 +154,7 @@ export interface PersonDetails extends Person, RichName, Gendered, Birthdayed {
 
 export interface Comment extends IdOnly {
   created: string;
+  updated?: string;
   content: string;
 }
 

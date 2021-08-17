@@ -75,7 +75,8 @@ export function Note({ comment, person }: Props): JSX.Element {
                 },
                 type: TimespanType.INACCURATE,
                 prefix: "vor ",
-              })}
+              })}{" "}
+              {comment.updated && "(bearbeitet)"}
             </span>
             <span>•</span>
             <button

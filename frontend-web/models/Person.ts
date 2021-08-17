@@ -94,6 +94,10 @@ const CommentSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  updated: {
+    type: Date,
+    required: false,
+  },
 });
 
 export const Contact =
