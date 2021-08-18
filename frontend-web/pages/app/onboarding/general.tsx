@@ -16,9 +16,9 @@ export default function General(): JSX.Element {
   const form = useRef<HTMLFormElement>();
   const { currentUser } = useCurrentUser();
   const [formValue, setFormValue] = useState({
-    givenName: currentUser.given_name,
-    familyName: currentUser.family_name,
-    picture: currentUser.picture,
+    givenName: currentUser?.given_name,
+    familyName: currentUser?.family_name,
+    picture: currentUser?.picture,
   });
   const { updateCurrentStep } = useUserOnboarding();
 

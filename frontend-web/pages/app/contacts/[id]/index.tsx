@@ -1,13 +1,13 @@
 // noinspection DuplicatedCode
 
 import React, { useEffect } from "react";
+import { ActivityList } from "../../../../components/modules/activities/activity-list.component";
 import { ContentBox } from "../../../../components/modules/common/content-box.component";
 import { PersonContactBox } from "../../../../components/modules/contacts/detail-page/contact.box.component";
 import { PersonDetailGeneralBox } from "../../../../components/modules/contacts/detail-page/general.box.component";
 import { PersonDetailNotesBox } from "../../../../components/modules/contacts/detail-page/notes.box.component";
 import { PersonBox } from "../../../../components/modules/contacts/detail-page/person-detail-box.component";
 import { PersonTagList } from "../../../../components/modules/contacts/person-tag-list.component";
-import { DiaryList } from "../../../../components/modules/diary/diary-list.component";
 import { withPageAuthRequired } from "../../../../config/auth0";
 import { Logger } from "../../../../global/logging";
 import { usePersonNavigate } from "../../../../global/person-utils";
@@ -50,7 +50,7 @@ const ContactDetailPage: React.ReactNode = ({ id }) => {
                 action: () => undefined,
               }}
             >
-              <DiaryList logEntries={logEntries} />
+              <ActivityList logEntries={logEntries} />
             </ContentBox>
           }
         >

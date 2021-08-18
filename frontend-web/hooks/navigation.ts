@@ -22,7 +22,7 @@ const useNavigationStore = create<Navigation>(() => ({
       name: "Erinnerung hinzufügen",
       href: "/app/appointments/new?type=reminder",
     },
-    { name: "Eintrag anlegen", href: "/app/diary/new" },
+    { name: "Eintrag anlegen", href: "/app/activity/new" },
   ],
   sidebarNav: [
     { name: "Dashboard", href: "/app", icon: faTachometer },
@@ -32,7 +32,7 @@ const useNavigationStore = create<Navigation>(() => ({
       href: "/app/appointments",
       icon: faCalendar,
     },
-    { name: "Einträge", href: "/app/diary", icon: faList },
+    { name: "Einträge", href: "/app/activities", icon: faList },
     { name: "Einstellungen", href: "/app/settings", icon: faCog },
   ],
 }));

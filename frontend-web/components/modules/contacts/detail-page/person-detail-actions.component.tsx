@@ -33,6 +33,8 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
   const { push: appPush } = useAppRouter();
   const { deletePerson } = usePersonMutation(person);
 
+  const [dialog, setDialog] = useState(false);
+
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>();
 
   return (
@@ -91,7 +93,9 @@ export const PersonDetailActions: React.FC<Props> = ({ person }) => {
             <DropDownItem action={() => undefined}>
               Eintrag hinzufügen
             </DropDownItem>
-            <DropDownItem action={() => undefined}>
+            <DropDownItem
+              action={() => document?.getElementById("comment")?.focus()}
+            >
               Notiz schreiben
             </DropDownItem>
             <DropDownItem action={() => undefined}>

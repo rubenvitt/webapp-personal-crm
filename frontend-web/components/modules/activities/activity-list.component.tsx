@@ -40,12 +40,12 @@ function getIconForType(type: LogEntryType) {
   }
 }
 
-export function DiaryList({ logEntries }: Props): JSX.Element {
+export function ActivityList({ logEntries }: Props): JSX.Element {
   return (
     <>
       <ul className="-mb-8">
         {logEntries?.map((entry, index) => (
-          <DiaryListItem
+          <ActivityListItem
             key={entry._id}
             entry={entry}
             isLast={logEntries.length - 1 === index}
@@ -56,7 +56,7 @@ export function DiaryList({ logEntries }: Props): JSX.Element {
   );
 }
 
-function DiaryListItem({ entry, isLast }: EntryProps): JSX.Element {
+function ActivityListItem({ entry, isLast }: EntryProps): JSX.Element {
   return (
     <li key={entry._id}>
       <div className="relative pb-8">
