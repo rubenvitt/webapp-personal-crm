@@ -16,6 +16,10 @@ const PersonSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userId: {
+    type: String,
+    required: true,
+  },
   birthday: {
     dateType: {
       type: String,
@@ -70,6 +74,14 @@ PersonSchema.pre("deleteOne", { document: true }, async function () {
       },
     });
   }
+});
+
+PersonSchema.post("findOne", { document: true }, async function () {
+  this["userId"] = undefined;
+});
+
+PersonSchema.post("find", { document: true }, async function () {
+  this["userId"] = undefined;
 });
 
 const ContactSchema = new mongoose.Schema({

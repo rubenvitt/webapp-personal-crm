@@ -33,7 +33,7 @@ export function usePersonMutation(aPerson?: IdOnly) {
   );
 
   const { mutateAsync: mutatePersonDelete } = useMutation<void, AxiosError>(
-    [URL_API_Persons, aPerson._id],
+    [URL_API_Persons, aPerson?._id],
     () => {
       return deletePerson(aPerson);
     },
@@ -47,7 +47,7 @@ export function usePersonMutation(aPerson?: IdOnly) {
     AxiosError,
     UpdatePerson
   >(
-    [URL_API_Persons, aPerson._id],
+    [URL_API_Persons, aPerson?._id],
     (data) => {
       return updatePerson({
         _id: aPerson._id,
@@ -64,7 +64,7 @@ export function usePersonMutation(aPerson?: IdOnly) {
     AxiosError,
     boolean
   >(
-    [URL_API_Persons, aPerson._id],
+    [URL_API_Persons, aPerson?._id],
     (state) => {
       return favoritePerson(aPerson, state);
     },

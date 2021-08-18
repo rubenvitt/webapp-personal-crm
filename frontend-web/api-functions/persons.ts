@@ -14,10 +14,14 @@ import { Logger } from "../global/logging";
 import { Comment, Contact, Person as PersonModel } from "../models/Person";
 
 export async function apiFindPersonDetailsFor(
-  aPersonId: string
+  aPersonId: string,
+  aUserId: string
 ): Promise<PersonDetails> {
   try {
-    return PersonModel.findById(Types.ObjectId(aPersonId)).populate([
+    return PersonModel.findOne({
+      _id: Types.ObjectId(aPersonId),
+      userId: aUserId,
+    }).populate([
       "contact.phone",
       "contact.mail",
       "contact.address",
@@ -30,6 +34,7 @@ export async function apiFindPersonDetailsFor(
 }
 
 export function apiFindAllPersons(filter?: {
+  userId: string;
   isFavorite?: boolean;
 }): Promise<Person[]> {
   return PersonModel.find(filter, { displayName: 1 });
@@ -40,11 +45,12 @@ export async function apiCreatePerson(aPerson: CreatePerson): Promise<IdOnly> {
 }
 
 export async function apiUpdatePerson(
-  aPerson: UpdatePerson
+  aPerson: UpdatePerson,
+  aUserId: string
 ): Promise<UpdateWriteOpResult> {
   Logger.log("Setting", aPerson);
   return PersonModel.updateOne(
-    { _id: Types.ObjectId(aPerson._id) },
+    { _id: Types.ObjectId(aPerson._id), userId: aUserId },
     {
       $set: aPerson,
     }
@@ -52,18 +58,23 @@ export async function apiUpdatePerson(
 }
 
 export async function apiDeletePerson(
-  aPersonId: string
+  aPersonId: string,
+  aUserId: string
 ): Promise<{ deletedCount?: number }> {
-  const person = await PersonModel.findById(Types.ObjectId(aPersonId));
+  const person = await PersonModel.findOne({
+    _id: Types.ObjectId(aPersonId),
+    userId: aUserId,
+  });
   return await person.deleteOne();
 }
 
 export async function apiFavoritePerson(
   aPersonId: string,
-  favorite: boolean
+  favorite: boolean,
+  aUserId: string
 ): Promise<UpdateWriteOpResult> {
   return PersonModel.updateOne(
-    { _id: Types.ObjectId(aPersonId) },
+    { _id: Types.ObjectId(aPersonId), userId: aUserId },
     {
       $set: {
         isFavorite: favorite,
