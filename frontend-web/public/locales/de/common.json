@@ -1,0 +1,53 @@
+{
+  "app-title": "Personal CRM",
+  "menu": {
+    "add-items": {
+      "appointment": "Termin",
+      "contact": "Kontakt",
+      "log": "Tagebucheintrag",
+      "reminder": "Erinnerung"
+    },
+    "sidebar": {
+      "appointments": "Termine",
+      "contacts": "Kontakte",
+      "dashboard": "Dashboard",
+      "log": "Tagebuch",
+      "settings": "Einstellungen"
+    },
+    "user": {
+      "logout": "Abmelden",
+      "profile": "Benutzerprofil"
+    }
+  },
+  "controls": {
+    "birthday": {
+      "label": "Geburtstag",
+      "select-label": {
+        "exact": "Exaktes Datum",
+        "month-day": "Monat und Tag",
+        "year-month": "Jahr und Monat",
+        "approx-age": "Ungefähres Alter",
+        "unknown": "Alter Unbekannt"
+      },
+      "placeholder": "Geburtstag",
+      "placeholder-approx-age": "Ungefähres Alter",
+      "placeholder-year": "Jahr"
+    }
+  },
+  "date": {
+    "month": {
+      "january": "Januar",
+      "february": "Februar",
+      "march": "März",
+      "april": "April",
+      "may": "Mai",
+      "june": "Juni",
+      "july": "Juli",
+      "august": "August",
+      "september": "September",
+      "october": "Oktober",
+      "november": "November",
+      "december": "Dezember"
+    }
+  }
+}

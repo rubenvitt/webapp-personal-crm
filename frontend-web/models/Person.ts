@@ -1,5 +1,7 @@
-import mongoose, { Types } from "mongoose";
-import { Logger } from "../globals/logging";
+// noinspection JSUnusedGlobalSymbols
+
+import mongoose, { Date, Types } from "mongoose";
+import { Logger } from "../global/logging";
 
 const PersonSchema = new mongoose.Schema({
   displayName: {
@@ -11,6 +13,10 @@ const PersonSchema = new mongoose.Schema({
     required: false,
   },
   anrede: {
+    type: String,
+    required: true,
+  },
+  userId: {
     type: String,
     required: true,
   },
@@ -31,6 +37,9 @@ const PersonSchema = new mongoose.Schema({
   lastName: {
     type: String,
   },
+  nickName: {
+    type: String,
+  },
   isFavorite: {
     type: Boolean,
   },
@@ -41,21 +50,38 @@ const PersonSchema = new mongoose.Schema({
     mail: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
     },
+    address: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
+    },
   },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 PersonSchema.pre("deleteOne", { document: true }, async function () {
   Logger.log("deleting following element:", this);
-  await Contact.deleteMany({
-    _id: {
-      $in: {
-        $or: [
-          this["contact"]?.phone.map((v) => Types.ObjectId(v)),
-          this["contact"]?.mail.map((v) => Types.ObjectId(v)),
+  if (
+    this["contact"]?.phone?.length > 0 ||
+    this["contact"]?.mail?.length > 0 ||
+    this["contact"]?.address?.length > 0
+  ) {
+    await Contact.deleteMany({
+      _id: {
+        $in: [
+          ...this["contact"]?.phone.map((v) => Types.ObjectId(v)),
+          ...this["contact"]?.mail.map((v) => Types.ObjectId(v)),
+          ...this["contact"]?.address.map((v) => Types.ObjectId(v)),
         ],
       },
-    },
-  });
+    });
+  }
+});
+
+PersonSchema.post("findOne", { document: true }, async function () {
+  this["userId"] = undefined;
+});
+
+PersonSchema.post("find", { document: true }, async function () {
+  this["userId"] = undefined;
 });
 
 const ContactSchema = new mongoose.Schema({
@@ -71,9 +97,28 @@ const ContactSchema = new mongoose.Schema({
   },
 });
 
+const CommentSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+  },
+  created: {
+    type: Date,
+    required: true,
+  },
+  updated: {
+    type: Date,
+    required: false,
+  },
+});
+
 export const Contact =
   mongoose.models.Contact ||
   mongoose.model("Contact", ContactSchema, "contacts");
+
+export const Comment =
+  mongoose.models.Comment ||
+  mongoose.model("Comment", CommentSchema, "comments");
 
 export const Person =
   mongoose.models.Person || mongoose.model("Person", PersonSchema, "persons");

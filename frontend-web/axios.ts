@@ -1,10 +1,6 @@
 import axios from "axios";
+import { URL_APP } from "./global/urls";
 
-const instance = axios.create({
-  baseURL:
-    (!process.env.NEXT_PUBLIC_VERCEL_URL
-      ? "http://localhost:" + (process.env.PORT || 3000)
-      : "") + "/api",
+export const apiAxios = axios.create({
+  baseURL: URL_APP + "/api",
 });
-
-export default instance;

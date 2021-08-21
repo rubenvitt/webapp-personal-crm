@@ -1,7 +1,7 @@
 import nextConnect from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
-import { findAllSabreUser } from "../../../globals/sabre.api";
-import { withApiAuthRequired } from "../../../globals/auth0";
+import { findAllSabreUser } from "../../../config/sabre.api";
+import { withApiAuthRequired } from "../../../config/auth0";
 
 const handler = nextConnect();
 

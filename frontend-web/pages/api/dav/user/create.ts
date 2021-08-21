@@ -1,27 +1,28 @@
-import nextConnect from "next-connect";
+import { AxiosError } from "axios";
+import * as crypto from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
+import nextConnect from "next-connect";
+import { apiGetCurrentUser } from "../../../../api-functions/defaults";
 import {
-  getSession,
   managementClient,
   withApiAuthRequired,
-} from "../../../../globals/auth0";
-import * as crypto from "crypto";
-import { createNewUser, encryptText } from "../../../../globals/sabre.api";
-import { Logger } from "../../../../globals/logging";
-import { AxiosError } from "axios";
+} from "../../../../config/auth0";
+import { createNewUser, encryptText } from "../../../../config/sabre.api";
+import { apiSabre } from "../../../../global/constants";
+import { Logger } from "../../../../global/logging";
 
 const handler = nextConnect();
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user } = getSession(req, res);
+  const { userId, userPromise } = apiGetCurrentUser(req, res);
   const userHash = crypto
-    .createHmac("md5", process.env.CRYPTO_SECRET_KEY_1)
-    .update(user.sub)
+    .createHmac("md5", apiSabre.cryptoSecret1)
+    .update(userId)
     .digest()
     .toString("hex");
   const passwordHash = crypto
-    .createHmac("md5", process.env.CRYPTO_SECRET_KEY_2)
-    .update(userHash + process.env.CRYPTO_SECRET_KEY_2 + crypto.randomBytes(16))
+    .createHmac("md5", apiSabre.cryptoSecret2)
+    .update(userHash + apiSabre.cryptoSecret2 + crypto.randomBytes(16))
     .digest()
     .toString("hex");
 
@@ -29,7 +30,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const passEncrypted = await encryptText({ secret: passwordHash });
     await managementClient.updateUserMetadata(
       {
-        id: user.sub,
+        id: userId,
       },
       {
         dav: {
@@ -43,8 +44,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   await createNewUser({
     username: userHash,
     password: passwordHash,
-    displayName: user.name,
-    email: user.email,
+    displayName: (await userPromise).name,
+    email: (await userPromise).email,
   }).catch((err: AxiosError) => {
     Logger.error(
       "cannot create user",

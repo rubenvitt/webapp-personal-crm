@@ -1,54 +1,25 @@
-import { Button } from "../components/common/button.component";
-import { useCurrentUser } from "../services/account-service";
-import Avatar from "react-avatar";
+import { useRouter } from "next/router";
 import React from "react";
-import { withPageAuthRequired } from "../globals/auth0";
-import { ActionType } from "../globals/interfaces";
-import axios from "../axios";
-import { RequireRoles } from "../components/common/require-roles.component";
+import { Button } from "../components/elements/common/button.component";
+import { PublicLayout } from "../components/layouts/public-layout";
+import { URL_APP } from "../global/urls";
+import { useCurrentUser } from "../services/account-service";
 
-export const getServerSideProps = withPageAuthRequired();
-
-const Dashboard: React.FC = () => {
-  const { login, logout, currentUser, isLoading, error } = useCurrentUser();
-
-  if (isLoading) return <>Loading</>;
-  if (error) return <div>{error.message}</div>;
-  if (currentUser)
-    return (
-      <div>
-        Willkommen, {currentUser.name}.
-        <RequireRoles role="full-admin">
-          <Button
-            type={ActionType.INFO}
-            asyncAction={() =>
-              axios.post("/dav/user/create", {
-                secret: "Hallo junger Mann. :D",
-              })
-            }
-          >
-            Run setup
-          </Button>
-        </RequireRoles>
-        <div>
-          <Avatar
-            className="block rounded-full m-2 mb-8"
-            size="96"
-            round
-            maxInitials={2}
-            src={currentUser?.picture}
-            name={currentUser?.name}
-            alt={"Your profile picture"}
-          />
-        </div>
-        <Button asyncAction={logout}>Logout</Button>
-      </div>
-    );
-
+export default function PublicHomepage(): React.ReactNode {
+  const { isLoggedIn } = useCurrentUser();
+  const { push } = useRouter();
   return (
-    <div>
-      <Button asyncAction={login}>Login</Button>
-    </div>
+    <PublicLayout>
+      Public homepage
+      {isLoggedIn ? (
+        <div>
+          You are logged in.
+          <p>Running on url {URL_APP}</p>
+          <Button action={() => push("/app")}>Visit app</Button>
+        </div>
+      ) : (
+        <Button action={() => push("/api/auth/login")}>Login now</Button>
+      )}
+    </PublicLayout>
   );
-};
-export default Dashboard;
+}
