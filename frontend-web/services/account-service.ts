@@ -1,13 +1,52 @@
-import { AppUser } from "../globals/interfaces";
-import useSWR from "swr";
-import { useRouter } from "next/router";
-import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../globals/urls";
-import axios from "../axios";
 import { AxiosError } from "axios";
+import { useRouter } from "next/router";
+import { useMutation, useQuery } from "react-query";
+import { apiAxios } from "../axios";
+import { invalidateQueries } from "../config/react-query";
+import {
+  AppUser,
+  AvailableOnboardingStep,
+  OnboardingStep,
+} from "../global/interfaces";
+import { MaybeAsyncAction } from "../global/types";
+import { URL_API_Auth_Login, URL_API_Auth_Logout } from "../global/urls";
 
 const updateUser = async (data: AppUser) => {
-  return await axios.patch("/user", data);
+  return await apiAxios.patch("/user", data);
 };
+
+export function useUserOnboarding(): {
+  updateCurrentStep: MaybeAsyncAction<{
+    step: string;
+    data: unknown;
+  }>;
+  finishOnboarding: MaybeAsyncAction;
+  currentStep?: string;
+  steps: OnboardingStep[];
+} {
+  const { data } = useQuery("/onboarding", () => {
+    return apiAxios
+      .get<{ currentStep: string; steps: OnboardingStep[] }>("/onboarding")
+      .then((value) => value.data);
+  });
+
+  function updateCurrentStep({
+    step,
+    data,
+  }: {
+    step: AvailableOnboardingStep;
+    data: unknown;
+  }) {
+    return apiAxios.post("/onboarding/step/" + step, data);
+  }
+
+  return {
+    updateCurrentStep: updateCurrentStep,
+    finishOnboarding: () => undefined,
+    currentStep: data?.currentStep,
+    steps: data?.steps,
+  };
+}
 
 export const useCurrentUser: () => {
   currentUser?: AppUser;
@@ -18,11 +57,22 @@ export const useCurrentUser: () => {
   login: () => Promise<void>;
   update: (data: AppUser) => Promise<void>;
 } = () => {
-  const {
-    data: currentUser,
-    mutate,
-    error,
-  } = useSWR<AppUser, AxiosError>("/user");
+  const { data: currentUser, error: getError } = useQuery<AppUser, AxiosError>(
+    "/user",
+    () => {
+      return apiAxios.get("/user").then((value) => value.data);
+    }
+  );
+  const { mutate, error: mutateError } = useMutation<void, AxiosError, AppUser>(
+    "/user",
+    async (variables) => {
+      await updateUser(variables);
+    },
+    {
+      onSuccess: () => invalidateQueries({ queryKey: "/user" }),
+    }
+  );
+
   const { push } = useRouter();
   const logout = async () => {
     await push(URL_API_Auth_Logout);
@@ -32,26 +82,22 @@ export const useCurrentUser: () => {
   };
 
   const update = async (data: AppUser) => {
-    mutate(
-      {
-        ...currentUser,
-        ...data,
-        name: [data.given_name, data.family_name]
-          .filter((a) => a && a != "")
-          .join(" "),
-      },
-      false
-    );
-    await updateUser(data).then(() => {
-      mutate();
-    });
+    await mutate(data);
   };
 
   return {
     currentUser,
     error:
-      error && error.isAxiosError && error.response.status !== 401 && error,
-    isLoading: !currentUser && !error,
+      (getError &&
+        getError.isAxiosError &&
+        getError.response?.status !== 401 &&
+        getError) ||
+      (mutateError &&
+        mutateError.isAxiosError &&
+        mutateError.response?.status !== 491 &&
+        mutateError),
+    isLoading: !currentUser && !getError,
+    isLoggedIn: Boolean(currentUser),
     logout,
     login,
     update,

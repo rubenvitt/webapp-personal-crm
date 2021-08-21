@@ -1,0 +1,3 @@
+[submodule "sabre-api"]
+	path = sabre-api
+	url = https://github.com/rubenvitt/sabre-api

@@ -1,31 +1,33 @@
 // noinspection JSUnusedLocalSymbols
 
-import "../styles/globals.css";
-import React from "react";
-import { Layout } from "../components/layout/layout.component";
 import { UserProvider } from "@auth0/nextjs-auth0";
-import { SWRConfig } from "swr";
-import { fetcher } from "../globals/swr.utils";
+import { AppProps } from "next/app";
+import React from "react";
+import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { AppLayout } from "../components/layouts/app-layout";
+import { PublicLayout } from "../components/layouts/public-layout";
+import { queryClient } from "../config/react-query";
+import "../styles/globals.css";
 
-const MyApp: React.ReactNode = ({ Component, pageProps }) => {
+const MyApp: React.ComponentType<AppProps> = ({
+  Component,
+  pageProps,
+  router,
+}) => {
+  const Layout = (router.pathname as string).startsWith("/app")
+    ? AppLayout
+    : PublicLayout;
   return (
     <UserProvider profileUrl={"/api/user"}>
-      <SWRConfig
-        value={{
-          fetcher: fetcher,
-        }}
-      >
-        <Layout {...pageProps}>
+      <QueryClientProvider client={queryClient}>
+        <Layout>
           <Component {...pageProps} />
         </Layout>
-      </SWRConfig>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </UserProvider>
   );
 };
 
 export default MyApp;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Element: React.FC = () => {
-  return <></>;
-};
